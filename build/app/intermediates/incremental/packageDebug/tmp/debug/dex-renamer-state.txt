@@ -1,0 +1,4 @@
+#Mon Jul 12 13:17:42 IST 2021
+base.0=/Users/kalpeshtita/Documents/Project/extrastaff/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

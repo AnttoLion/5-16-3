@@ -1,0 +1,10 @@
+//
+//  Release.xcconfig
+//  Runner
+//
+//  Created by Kalpesh Tita on 25/06/21.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "Generated.xcconfig"
