@@ -36,20 +36,6 @@ class IntroView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Text(
-              'How to #$title',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Container(
-              margin: EdgeInsets.fromLTRB(32, 0, 32, 0),
-              child: Text(
-                pcc.data[title]!.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-              ),
-            ),
-            Spacer(),
             Container(
               height: 74,
               width: 74,
@@ -67,6 +53,20 @@ class IntroView extends StatelessWidget {
                 onPressed: () => pcc.onChange(),
               ),
             ),
+            Text(
+              'How to #$title',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            Spacer(),
+            Container(
+              margin: EdgeInsets.fromLTRB(32, 0, 32, 0),
+              child: Text(
+                pcc.data[title]!.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+              ),
+            ),
+            Spacer(),
             Spacer(),
           ],
         ),

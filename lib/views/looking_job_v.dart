@@ -86,12 +86,6 @@ class LookingForAJob extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Question $position - ${controller.allQuestions[position]}'
-                .toUpperCase(),
-            textAlign: TextAlign.start,
-          ),
-          abSpacing(16),
           Container(
             decoration: BoxDecoration(
               color: MyColors.white,
@@ -119,6 +113,12 @@ class LookingForAJob extends StatelessWidget {
               ],
             ),
           ),
+          Text(
+            'Question $position - ${controller.allQuestions[position]}'
+                .toUpperCase(),
+            textAlign: TextAlign.start,
+          ),
+          abSpacing(16),
         ],
       ),
     );

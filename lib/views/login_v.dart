@@ -56,6 +56,27 @@ class LoginView extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
+                TextButton(
+                  onPressed: () async {
+                    // final value = await loginController.checkAuth();
+                    // print(value);
+                    Get.to(HomeView());
+                  },
+                  child: Container(
+                    color: Theme.of(context).accentColor,
+                    height: 50,
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        'Login with Biomatric',
+                        style: TextStyle(
+                          color: MyColors.white,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 GetBuilder<LoginController>(
                     init: loginController,
                     builder: (controller) {
@@ -80,27 +101,6 @@ class LoginView extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Login',
-                        style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    // final value = await loginController.checkAuth();
-                    // print(value);
-                    Get.to(HomeView());
-                  },
-                  child: Container(
-                    color: Theme.of(context).accentColor,
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        'Login with Biomatric',
                         style: TextStyle(
                           color: MyColors.white,
                           fontSize: 17,

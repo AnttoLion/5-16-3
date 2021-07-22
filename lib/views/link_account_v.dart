@@ -20,14 +20,14 @@ class LinkAccountView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               abSpacing(32),
+              Spacer(),
+              title('E - mail'),
+              abSpacing(8),
               Text(
                 "Link Account",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              Spacer(),
-              title('E - mail'),
-              abSpacing(8),
               Container(
                 decoration: BoxDecoration(
                   color: MyColors.white,
@@ -48,9 +48,6 @@ class LinkAccountView extends StatelessWidget {
                       : null,
                 ),
               ),
-              abSpacing(32),
-              title('Password'),
-              abSpacing(8),
               Container(
                 decoration: BoxDecoration(
                   color: MyColors.white,
@@ -82,8 +79,9 @@ class LinkAccountView extends StatelessWidget {
                       : null,
                 ),
               ),
-              Spacer(),
-              Spacer(),
+              abSpacing(32),
+              title('Password'),
+              abSpacing(8),
               Center(
                 child: Container(
                   width: 200,
@@ -98,6 +96,8 @@ class LinkAccountView extends StatelessWidget {
                   ),
                 ),
               ),
+              Spacer(),
+              Spacer(),
               abSpacing(64),
             ],
           ),

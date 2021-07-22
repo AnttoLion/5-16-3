@@ -62,21 +62,6 @@ class EnterCode extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  "Verification Code",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                abSpacing(16),
-                Text(
-                  "Please type the Verification Code sent to your device",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: MyColors.grey),
-                ),
-                abSpacing(32),
                 Container(
                   height: textFiledWidth,
                   width: double.infinity,
@@ -96,6 +81,21 @@ class EnterCode extends StatelessWidget {
                     },
                   ),
                 ),
+                Text(
+                  "Verification Code",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                abSpacing(16),
+                Text(
+                  "Please type the Verification Code sent to your device",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: MyColors.grey),
+                ),
+                abSpacing(32),
                 abSpacing(32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,12 +112,12 @@ class EnterCode extends StatelessWidget {
                     ),
                   ],
                 ),
-                abSpacing(32),
                 Text(
                   '* Changed your telephone number?',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: MyColors.blue),
                 ),
+                abSpacing(32),
               ],
             ),
           ),
