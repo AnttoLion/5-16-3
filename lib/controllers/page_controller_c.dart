@@ -22,6 +22,6 @@ class PageControllerController {
     }
 
     pageController.animateToPage(nextPage,
-        duration: Duration(seconds: 1), curve: Curves.easeInOutBack);
+        duration: Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 }

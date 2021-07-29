@@ -80,60 +80,6 @@ class QuickTempAdd extends StatelessWidget {
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: MyColors.black),
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: GetBuilder<QuickTempAddController>(
-                    init: quickTempAddController,
-                    builder: (controller) {
-                      return Row(
-                        children: [
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              elevation: 12,
-                              value: quickTempAddController.dropdownValue,
-                              items: quickTempAddController.dropdownItems.map(
-                                (value) {
-                                  return DropdownMenuItem(
-                                    value: value,
-                                    child: Icon(
-                                      Icons.flag,
-                                      color: value,
-                                      size: 25,
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                              onChanged: (value) =>
-                                  quickTempAddController.dropdonwlchange(value),
-                            ),
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              maxLength: 30,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                counterText: '',
-                                border: InputBorder.none,
-                              ),
-                              validator: (text) =>
-                                  text!.isEmpty || text.length < 3
-                                      ? 'Please enter valid First Name'
-                                      : null,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
                     color: MyColors.white,
                     borderRadius: BorderRadius.all(
                       Radius.circular(12),
@@ -225,6 +171,60 @@ class QuickTempAdd extends StatelessWidget {
                 abSpacing(8),
                 title('Enter your phone number'),
                 abSpacing(8),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: MyColors.black),
+                    color: MyColors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: GetBuilder<QuickTempAddController>(
+                    init: quickTempAddController,
+                    builder: (controller) {
+                      return Row(
+                        children: [
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              elevation: 12,
+                              value: quickTempAddController.dropdownValue,
+                              items: quickTempAddController.dropdownItems.map(
+                                (value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: Icon(
+                                      Icons.flag,
+                                      color: value,
+                                      size: 25,
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                              onChanged: (value) =>
+                                  quickTempAddController.dropdonwlchange(value),
+                            ),
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              maxLength: 30,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                counterText: '',
+                                border: InputBorder.none,
+                              ),
+                              validator: (text) =>
+                                  text!.isEmpty || text.length < 3
+                                      ? 'Please enter valid First Name'
+                                      : null,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 abSpacing(16),
                 Center(
                   child: Container(
