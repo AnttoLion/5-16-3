@@ -16,14 +16,15 @@ class _Question2View extends State<Question2View> {
   var finalWidth = 0.0;
   var finalHeight = 100.0;
   var selection = '';
-  final duration = Duration(milliseconds: 1000);
+  var anime = 0.0;
+  final duration = Duration(milliseconds: 300);
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
-        finalWidth = MediaQuery.of(context).size.width;
+        finalWidth = MediaQuery.of(context).size.width - 56;
         finalHeight = (MediaQuery.of(context).size.height - 100) / 2;
         left = finalWidth;
         right = -finalWidth;
@@ -123,8 +124,8 @@ class _Question2View extends State<Question2View> {
                               abSpacing(50),
                               TextButton(
                                 onPressed: () => action(true),
-                                child: questionButton('Yes',
-                                    clicked: selection == 'Yes'),
+                                child:
+                                    questionButton('Yes', selection == 'Yes'),
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero),
@@ -133,8 +134,7 @@ class _Question2View extends State<Question2View> {
                               abSpacing(15),
                               TextButton(
                                 onPressed: () => action(false),
-                                child: questionButton('No',
-                                    clicked: selection == 'No'),
+                                child: questionButton('No', selection == 'No'),
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero),
@@ -158,54 +158,67 @@ class _Question2View extends State<Question2View> {
   void action(bool isYes) {
     setState(() {
       selection = isYes ? 'Yes' : 'No';
+      anime = 5;
     });
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        opacity = 0;
-        left = -finalWidth;
-        right = finalWidth;
+        anime = 0;
       });
+    }).then((value) {
       Future.delayed(duration, () {
-        Get.to(Question3View());
         setState(() {
-          left = 0;
-          right = 0;
-          opacity = 1;
+          opacity = 0;
+          left = -finalWidth;
+          right = finalWidth;
+        });
+      }).then((value) {
+        Future.delayed(duration, () {
+          Get.to(Question3View())?.then((value) {
+            setState(() {
+              left = 0;
+              right = 0;
+              opacity = 1;
+            });
+          });
         });
       });
     });
   }
 
-  Widget questionButton(String title, {bool clicked = false}) {
-    return AnimatedContainer(
+  Widget questionButton(String title, bool clicked) {
+    return Container(
       height: 75,
-      duration: Duration(milliseconds: 1000),
-      child: Stack(
-        children: [
-          Container(
-            color: MyColors.white,
-          ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 1000),
-            color: MyColors.offBlue,
-            margin: EdgeInsets.only(left: clicked ? 500 : 5),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 30),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: AnimatedDefaultTextStyle(
-                child: Text(title),
-                duration: Duration(milliseconds: 1000),
-                style: TextStyle(
-                  color: clicked ? MyColors.offBlue : MyColors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w400,
+      child: AnimatedContainer(
+        curve: Curves.easeInOut,
+        padding: EdgeInsets.all(clicked ? anime : 0),
+        duration: duration,
+        child: Stack(
+          children: [
+            Container(
+              color: MyColors.white,
+            ),
+            AnimatedContainer(
+              duration: duration,
+              color: MyColors.offBlue,
+              margin: EdgeInsets.only(left: clicked ? finalWidth : 5),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 30),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: AnimatedDefaultTextStyle(
+                  child: Text(title),
+                  duration: duration,
+                  style: TextStyle(
+                    color: clicked ? MyColors.offBlue : MyColors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/quick_temp_add_v.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 class LookingForAJob extends StatelessWidget {
@@ -19,7 +19,7 @@ class LookingForAJob extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Text(
-                  'Start',
+                  AppLocalizations.of(context)!.key_start,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
@@ -32,7 +32,7 @@ class LookingForAJob extends StatelessWidget {
                     return ListView.builder(
                       itemCount: controller.allQuestions.length,
                       itemBuilder: (context, position) {
-                        return form(controller, position);
+                        return form(context, controller, position);
                       },
                     );
                   },
@@ -44,9 +44,9 @@ class LookingForAJob extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    buttons('Proceed'),
+                    buttons(context, AppLocalizations.of(context)!.key_proceed),
                     abSpacing(10),
-                    buttons('Go back'),
+                    buttons(context, AppLocalizations.of(context)!.key_back),
                   ],
                 ),
               ),
@@ -57,10 +57,10 @@ class LookingForAJob extends StatelessWidget {
     );
   }
 
-  Widget buttons(String title) {
+  Widget buttons(context, String title) {
     return ElevatedButton(
       onPressed: () {
-        if (title == 'Go back') {
+        if (title == AppLocalizations.of(context)!.key_back) {
           Get.back();
         } else {
           print('Proceed');
@@ -78,7 +78,7 @@ class LookingForAJob extends StatelessWidget {
     );
   }
 
-  Widget form(LookingJobController controller, int position) {
+  Widget form(context, LookingJobController controller, int position) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 4),
@@ -86,6 +86,12 @@ class LookingForAJob extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Question $position - ${controller.allQuestions[position]}'
+                .toUpperCase(),
+            textAlign: TextAlign.start,
+          ),
+          abSpacing(16),
           Container(
             decoration: BoxDecoration(
               color: MyColors.white,
@@ -102,23 +108,17 @@ class LookingForAJob extends StatelessWidget {
                   groupValue: controller.ansValue,
                   onChanged: (value) => controller.handleValueChanged(value),
                 ),
-                Text('YES'),
+                Text(AppLocalizations.of(context)!.key_yes),
                 SizedBox(width: 10),
                 Radio(
                   value: lookingJobController.no,
                   groupValue: controller.ansValue,
                   onChanged: (value) => controller.handleValueChanged(value),
                 ),
-                Text('NO'),
+                Text(AppLocalizations.of(context)!.key_no),
               ],
             ),
           ),
-          Text(
-            'Question $position - ${controller.allQuestions[position]}'
-                .toUpperCase(),
-            textAlign: TextAlign.start,
-          ),
-          abSpacing(16),
         ],
       ),
     );

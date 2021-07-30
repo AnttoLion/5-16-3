@@ -135,40 +135,6 @@ PreferredSize abQuestions(context, int current, int total) {
   );
 }
 
-Widget abQuestionButton(String title, {bool clicked = false}) {
-  return AnimatedContainer(
-    height: 75,
-    duration: Duration(milliseconds: 1000),
-    child: Stack(
-      children: [
-        Container(
-          color: MyColors.white,
-        ),
-        AnimatedContainer(
-          duration: Duration(milliseconds: 1000),
-          color: MyColors.offBlue,
-          margin: EdgeInsets.only(left: clicked ? 500 : 5),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 30),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: AnimatedDefaultTextStyle(
-              child: Text(title),
-              duration: Duration(milliseconds: 1000),
-              style: TextStyle(
-                color: clicked ? MyColors.offBlue : MyColors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 SizedBox abSpacing(double s) {
   return SizedBox(
     height: s,

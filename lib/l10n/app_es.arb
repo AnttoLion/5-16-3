@@ -1,4 +1,16 @@
 {
     "helloWorld": "Hola Mundo!",
+    "key_yes": "Yes",
+    "key_no": "No",
+    "key_first_name": "First name",
+    "key_last_name": "Last name",
+    "key_email": "Email",
+    "key_driver_worker": "Are you a driver or warehouse worker?",
+    "key_near_location": "Your nearest location",
+    "key_enter_phone": "Enter your phone number",
+    "key_proceed": "Proceed",
+    "key_unlink_account": "Unkink Account?",
+    "key_start": "Start",
+    "key_back": "Go back",
     "key_HowTo": "Cómo #"
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuickTempAdd extends StatelessWidget {
   final QuickTempAddController quickTempAddController =
@@ -30,7 +31,7 @@ class QuickTempAdd extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                title('First Name'),
+                title(AppLocalizations.of(context)!.key_first_name),
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
@@ -53,7 +54,7 @@ class QuickTempAdd extends StatelessWidget {
                   ),
                 ),
                 abSpacing(8),
-                title('Last Name'),
+                title(AppLocalizations.of(context)!.key_last_name),
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
@@ -76,7 +77,7 @@ class QuickTempAdd extends StatelessWidget {
                   ),
                 ),
                 abSpacing(8),
-                title('Email'),
+                title(AppLocalizations.of(context)!.key_email),
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
@@ -100,7 +101,7 @@ class QuickTempAdd extends StatelessWidget {
                   ),
                 ),
                 abSpacing(8),
-                title('Are you a driver or warehouse worker?'),
+                title(AppLocalizations.of(context)!.key_driver_worker),
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
@@ -123,7 +124,7 @@ class QuickTempAdd extends StatelessWidget {
                   ),
                 ),
                 abSpacing(8),
-                title('Your nearest location'),
+                title(AppLocalizations.of(context)!.key_near_location),
                 abSpacing(8),
                 Row(
                   children: [
@@ -169,7 +170,7 @@ class QuickTempAdd extends StatelessWidget {
                   ],
                 ),
                 abSpacing(8),
-                title('Enter your phone number'),
+                title(AppLocalizations.of(context)!.key_enter_phone),
                 abSpacing(8),
                 Container(
                   decoration: BoxDecoration(
@@ -233,9 +234,11 @@ class QuickTempAdd extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        buttons('Proceed'),
+                        buttons(
+                            context, AppLocalizations.of(context)!.key_proceed),
                         abSpacing(10),
-                        buttons('Unlink Account?'),
+                        buttons(context,
+                            AppLocalizations.of(context)!.key_unlink_account),
                       ],
                     ),
                   ),
@@ -249,10 +252,10 @@ class QuickTempAdd extends StatelessWidget {
     );
   }
 
-  Widget buttons(String title) {
+  Widget buttons(context, String title) {
     return ElevatedButton(
       onPressed: () {
-        if (title == 'Proceed') {
+        if (title == AppLocalizations.of(context)!.key_proceed) {
           // quickTempAddController.validateAndSave();
           Get.to(EnterCode());
         } else {
