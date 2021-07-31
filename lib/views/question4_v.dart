@@ -18,7 +18,7 @@ class _Question4View extends State<Question4View> {
   var finalHeight = 100.0;
   var selection = '';
   var anime = 0.0;
-  final duration = Duration(milliseconds: 300);
+  final duration = Duration(milliseconds: 500);
 
   @override
   void initState() {

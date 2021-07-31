@@ -55,52 +55,52 @@ class WelcomeView extends StatelessWidget {
                         padding: EdgeInsets.all(16),
                       ),
                     ),
-                    abSpacing(32),
-                    Container(
-                      height: 50,
-                      child: OverflowBox(
-                        alignment: Alignment.center,
-                        minWidth: 100,
-                        maxWidth: double.infinity,
-                        minHeight: 50,
-                        maxHeight: 100,
-                        child: SizedBox(
-                          width: 300,
-                          child: Stack(
-                            alignment: AlignmentDirectional.center,
-                            children: [
-                              Divider(
-                                thickness: 3,
-                              ),
-                              Container(
-                                color: MyColors.white,
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(
-                                  'Invite sent'.toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: MyColors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    abSpacing(32),
-                    ElevatedButton(
-                      onPressed: () => welcomeController.enterCode(),
-                      child: Text(
-                        'Enter code'.toUpperCase(),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: MyColors.blue,
-                        shape: StadiumBorder(),
-                        padding: EdgeInsets.all(16),
-                      ),
-                    ),
+                    // abSpacing(32),
+                    // Container(
+                    //   height: 50,
+                    //   child: OverflowBox(
+                    //     alignment: Alignment.center,
+                    //     minWidth: 100,
+                    //     maxWidth: double.infinity,
+                    //     minHeight: 50,
+                    //     maxHeight: 100,
+                    //     child: SizedBox(
+                    //       width: 300,
+                    //       child: Stack(
+                    //         alignment: AlignmentDirectional.center,
+                    //         children: [
+                    //           Divider(
+                    //             thickness: 3,
+                    //           ),
+                    //           Container(
+                    //             color: MyColors.white,
+                    //             padding: EdgeInsets.symmetric(horizontal: 16),
+                    //             child: Text(
+                    //               'Invite sent'.toUpperCase(),
+                    //               textAlign: TextAlign.center,
+                    //               style: TextStyle(
+                    //                 color: MyColors.grey,
+                    //                 fontWeight: FontWeight.bold,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // abSpacing(32),
+                    // ElevatedButton(
+                    //   onPressed: () => welcomeController.enterCode(),
+                    //   child: Text(
+                    //     'Enter code'.toUpperCase(),
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     primary: MyColors.blue,
+                    //     shape: StadiumBorder(),
+                    //     padding: EdgeInsets.all(16),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

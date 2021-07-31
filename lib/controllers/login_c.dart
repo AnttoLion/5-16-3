@@ -1,3 +1,4 @@
+import 'package:extra_staff/models/user_m.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
@@ -47,13 +48,13 @@ class LoginController extends GetxController {
   }
 
   login() async {
-    // final params = {
-    //   'email': 'akash@yopmail.com',
-    //   'password': '123123',
-    //   'type': isiOS ? 1 : 2
-    // };
-    // final data = await UserModel().postUser(params);
-    // print(data);
+    final params = {
+      'email': 'admin@efos.com',
+      'password': 'gip89Gih',
+      'type': isiOS ? 1 : 2
+    };
+    final data = await UserModel().postUser(params);
+    print(data);
     print(email);
     print(password);
   }

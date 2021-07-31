@@ -52,24 +52,6 @@ class ChoosePassword extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Not yet registered? ",
-                      style: TextStyle(
-                        color: MyColors.white,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => Get.to(EnterCode()),
-                      child: Text(
-                        "Click here",
-                        style: TextStyle(color: MyColors.offBlue),
-                      ),
-                    ),
-                  ],
-                ),
                 Text(
                   'Enter Passcode',
                   textAlign: TextAlign.center,
@@ -95,15 +77,6 @@ class ChoosePassword extends StatelessWidget {
                   ),
                 ),
                 abSpacing(32),
-                abSpacing(32),
-                Text(
-                  "Forgot/Reset passcode?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: MyColors.white,
-                  ),
-                ),
-                abSpacing(32),
                 Expanded(
                   child: GridView.count(
                     childAspectRatio: 1.2,
@@ -126,6 +99,33 @@ class ChoosePassword extends StatelessWidget {
                         )
                         .toList(),
                   ),
+                ),
+                abSpacing(32),
+                Text(
+                  "Forgot/Reset passcode?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MyColors.white,
+                  ),
+                ),
+                abSpacing(32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Not yet registered? ",
+                      style: TextStyle(
+                        color: MyColors.white,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Get.to(EnterCode()),
+                      child: Text(
+                        "Click here",
+                        style: TextStyle(color: MyColors.offBlue),
+                      ),
+                    ),
+                  ],
                 ),
                 abSpacing(32),
               ],

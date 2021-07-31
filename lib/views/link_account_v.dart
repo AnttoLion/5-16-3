@@ -1,3 +1,4 @@
+import 'package:extra_staff/controllers/login_c.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:get/get.dart';
 import 'enter_code_v.dart';
 
 class LinkAccountView extends StatelessWidget {
-  // const LinkAccountView({Key? key}) : super(key: key);
+  final LoginController loginController = LoginController();
   bool _passwordVisible = false;
 
   @override
@@ -20,14 +21,14 @@ class LinkAccountView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               abSpacing(32),
-              Spacer(),
-              title('E - mail'),
-              abSpacing(8),
               Text(
                 "Link Account",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
+              Spacer(),
+              title('E - mail'),
+              abSpacing(8),
               Container(
                 decoration: BoxDecoration(
                   color: MyColors.white,
@@ -48,6 +49,9 @@ class LinkAccountView extends StatelessWidget {
                       : null,
                 ),
               ),
+              abSpacing(32),
+              title('Password'),
+              abSpacing(8),
               Container(
                 decoration: BoxDecoration(
                   color: MyColors.white,
@@ -79,9 +83,8 @@ class LinkAccountView extends StatelessWidget {
                       : null,
                 ),
               ),
-              abSpacing(32),
-              title('Password'),
-              abSpacing(8),
+              Spacer(),
+              Spacer(),
               Center(
                 child: Container(
                   width: 200,
@@ -89,6 +92,8 @@ class LinkAccountView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      buttons('Log In'),
+                      abSpacing(32),
                       buttons('Reset log in details'),
                       abSpacing(32),
                       buttons('Go to Sign in'),
@@ -96,8 +101,6 @@ class LinkAccountView extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(),
-              Spacer(),
               abSpacing(64),
             ],
           ),
@@ -115,8 +118,10 @@ class LinkAccountView extends StatelessWidget {
 
   Widget buttons(String title) {
     return ElevatedButton(
-      onPressed: () {
-        if (title == 'Reset log in details') {
+      onPressed: () async {
+        if (title == 'Log In') {
+          await loginController.login();
+        } else if (title == 'Reset log in details') {
           Get.to(EnterCode());
         } else {
           Get.back();
