@@ -8,38 +8,6 @@ import 'package:get/get.dart';
 
 class Question1View extends StatefulWidget {
   @override
-<<<<<<< Updated upstream
-  _Question1View createState() => _Question1View();
-}
-
-class _Question1View extends State<Question1View> {
-  var left = 0.0;
-  var right = 0.0;
-  var opacity = 0.0;
-  var finalWidth = 0.0;
-  var finalHeight = 100.0;
-  final duration = Duration(milliseconds: 1000);
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(milliseconds: 100), () {
-      setState(() {
-        finalWidth = MediaQuery.of(context).size.width;
-        finalHeight = (MediaQuery.of(context).size.height - 100) / 2;
-        left = finalWidth;
-        right = -finalWidth;
-      });
-    }).then((value) {
-      Future.delayed(duration, () {
-        setState(() {
-          left = 0;
-          right = 0;
-          opacity = 1;
-        });
-      });
-    });
-=======
   _Question1ViewState createState() => _Question1ViewState();
 }
 
@@ -60,7 +28,6 @@ class _Question1ViewState extends State<Question1View>
   void dispose() {
     _animationController.dispose();
     super.dispose();
->>>>>>> Stashed changes
   }
 
   @override
@@ -72,65 +39,8 @@ class _Question1ViewState extends State<Question1View>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-<<<<<<< Updated upstream
-              Flexible(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 28),
-                  color: MyColors.white,
-                  child: Stack(
-                    children: [
-                      AnimatedPositioned(
-                        duration: duration,
-                        left: left,
-                        right: right,
-                        height: finalHeight,
-                        child: AnimatedOpacity(
-                          duration: duration,
-                          opacity: opacity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  text: '',
-                                  children: [
-                                    TextSpan(
-                                      text: 'Are you able to \n\n',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 28,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: 'Work in UK?',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                        color: MyColors.offBlue,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                'Eligibility',
-                                style: TextStyle(
-                                  color: MyColors.grey,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-=======
               TextWidget(
                 animationController: _animationController,
->>>>>>> Stashed changes
               ),
               Flexible(
                 child: Container(

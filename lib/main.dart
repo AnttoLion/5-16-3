@@ -1,10 +1,7 @@
-import 'package:extra_staff/views/welcome_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:get/get.dart';
 import 'package:extra_staff/views/page_controller_v.dart';
-import 'views/questions_v.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -19,7 +16,6 @@ class ExtraStaff extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       home: PageControllerView(),
-      // home: WelcomeView(),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         AppLocalizations.delegate, // Add this line

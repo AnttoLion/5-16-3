@@ -47,15 +47,30 @@ class LoginController extends GetxController {
     }
   }
 
-  login() async {
+  Future<String> login() async {
     final params = {
       'email': 'admin@efos.com',
       'password': 'gip89Gih',
       'type': isiOS ? 1 : 2
     };
     final data = await UserModel().postUser(params);
-    print(data);
-    print(email);
-    print(password);
+    // final response = {
+    //   "errorCode": 0,
+    //   "errorMessage": "",
+    //   "result": {
+    //     "session_id": "G9pFWyh6IkmNtLnjsbUc37uRJEBKr8aSfDeZ41QvH20TPXAV",
+    //     "userid": 11
+    //   }
+    // };
+    final response = data as Map<String, Object>;
+    if (response['errorCode'] == 0) {
+      print(data);
+      print(email);
+      print(password);
+      return '';
+    } else {
+      print('Handle error');
+      return response['errorMessage'] as String;
+    }
   }
 }

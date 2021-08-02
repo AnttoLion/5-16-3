@@ -1,6 +1,7 @@
 import 'package:extra_staff/controllers/login_c.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/home_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -120,7 +121,18 @@ class LinkAccountView extends StatelessWidget {
     return ElevatedButton(
       onPressed: () async {
         if (title == 'Log In') {
-          await loginController.login();
+          final message = await loginController.login();
+          if (message.isNotEmpty) {
+            Get.to(HomeView());
+          } else {
+            Get.snackbar(
+              "Extra Staff",
+              message,
+              icon: Icon(Icons.person, color: Colors.white),
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green,
+            );
+          }
         } else if (title == 'Reset log in details') {
           Get.to(EnterCode());
         } else {

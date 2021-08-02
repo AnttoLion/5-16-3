@@ -50,15 +50,14 @@ PreferredSize abPreferredSize(String title) {
   );
 }
 
-PreferredSize abQuestions(context, int current, int total) {
-  final indent =
-      ((MediaQuery.of(context).size.width - 56) / total) * (total - current);
-  print(indent);
+PreferredSize abQuestions(
+    double width, Duration duration, bool showHome, int current, int total) {
+  final indent = ((width - 56) / total) * current;
   return PreferredSize(
-    preferredSize: const Size.fromHeight(100),
+    preferredSize: Size.fromHeight(100),
     child: SafeArea(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
+        padding: EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -97,14 +96,28 @@ PreferredSize abQuestions(context, int current, int total) {
                   Container(
                     width: 40,
                     height: 40,
-                    child: TextButton(
-                      child: Icon(
+                    child: IconButton(
+                      onPressed: () => Get.back(),
+                      icon: Icon(
                         Icons.arrow_back_ios_new,
                         color: MyColors.grey,
                       ),
-                      onPressed: () => Get.back(),
                     ),
                   ),
+                  showHome
+                      ? Container(
+                          height: 40,
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.home,
+                              size: 30,
+                              color: MyColors.offBlue,
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
@@ -112,22 +125,22 @@ PreferredSize abQuestions(context, int current, int total) {
             SizedBox(
               height: 10,
               child: Stack(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.bottomLeft,
                 children: [
                   Divider(
                     height: 0,
                     thickness: 2,
                     color: MyColors.grey,
                   ),
-                  Divider(
-                    height: 0,
-                    endIndent: indent,
-                    thickness: 8,
+                  AnimatedContainer(
                     color: MyColors.blue,
+                    height: 8,
+                    width: indent,
+                    duration: duration,
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
