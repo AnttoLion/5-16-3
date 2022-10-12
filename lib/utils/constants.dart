@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'ab.dart';
@@ -17,7 +17,7 @@ final serverDateFormat = DateFormat('yyyy-MM-dd');
 bool isPhoneNo(String str) =>
     str.length == 11 && RegExp(r'[0-9]{11}$').hasMatch(str);
 
-final bool isiOS = Platform.isIOS;
+final bool isiOS = (defaultTargetPlatform == TargetPlatform.iOS);
 
 String get userName => localStorage?.getString('userName') ?? '';
 bool get isDriver => localStorage?.getBool('isDriver') ?? false;
