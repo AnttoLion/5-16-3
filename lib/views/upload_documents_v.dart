@@ -1,44 +1,210 @@
+import 'package:extra_staff/controllers/list_to_upload_c.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/list_to_upload_v.dart';
+import 'package:extra_staff/utils/resume_navigation.dart';
+import 'package:extra_staff/views/analysing_docs.v.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+import 'package:video_player/video_player.dart';
 
-class UploadDocumentsView extends StatelessWidget {
-  final duration = Duration(milliseconds: 500);
+class UploadDocumentsView extends StatefulWidget {
+  final ListToUploadController controller;
+  const UploadDocumentsView({required this.controller});
 
-  Widget button(IconData image, String title) {
-    return AnimatedContainer(
-      height: 50,
-      duration: duration,
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        border: Border.all(width: 2, color: MyColors.offBlue),
-        color: MyColors.white,
-      ),
-      child: InkWell(
-        onTap: () {},
-        child: Row(
+  @override
+  _UploadDocumentsViewState createState() =>
+      _UploadDocumentsViewState(controller: controller);
+}
+
+class _UploadDocumentsViewState extends State<UploadDocumentsView> {
+  _UploadDocumentsViewState({required this.controller});
+
+  ListToUploadController controller;
+  final scrollController = ScrollController();
+  bool isLoading = false;
+  var isCompleted = [false, false];
+  final ImagePicker picker = ImagePicker();
+  VideoPlayerController? _controller;
+  bool isVisiable = false;
+  bool isPdfOrDocSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.isCV = Get.arguments?['isCV'] ?? false;
+    controller.isForklift = Get.arguments?['isForklift'] ?? false;
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    _controller = VideoPlayerController.asset(controller.videoToPlay);
+    _controller!.initialize().then((_) {
+      initialize();
+    });
+  }
+
+  initialize() async {
+    Future.delayed(duration, () {
+      setState(() {
+        _controller!.play();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+      _controller = null;
+    }
+  }
+
+  Widget words(int index) {
+    final isDriving = controller.type.value == 'drivinglicence'.tr;
+    if (index == 0) {
+      if (isDriving) {
+        return abWords('frontDriving'.tr, 'frontDrivingH'.tr, null);
+      } else {
+        return abWords('frontVisaBrp'.tr, 'frontVisaBrpH'.tr, null);
+      }
+    } else {
+      if (isDriving) {
+        return abWords('backDriving'.tr, 'backDrivingH'.tr, null);
+      } else {
+        return abWords('backVisaBrp'.tr, 'backVisaBrpH'.tr, null);
+      }
+    }
+  }
+
+  Widget content(int index) {
+    final upload = controller.isCV
+        ? 'CV'
+        : controller.isForklift
+            ? 'Forklift licence'
+            : controller.type.value;
+    final isUploaded = isCompleted[index];
+    final backColor = isPdfOrDocSelected
+        ? null
+        : isUploaded
+            ? MyColors.green
+            : null;
+    final first = isUploaded ? 'retakePhoto'.tr : 'useCamera'.tr;
+    final second = isUploaded ? 'uploadNewPhoto'.tr : 'gallery'.tr;
+    return Column(
+      children: [
+        controller.isSingleImage()
+            ? abWords('upload'.tr + ' ' + upload, upload, null)
+            : words(index),
+        SizedBox(height: 32),
+        if (controller.isSingleImage()) SizedBox(height: 32),
+        abSimpleButton(
+          first.toUpperCase(),
+          onTap: () async => getImageFrom(ImageSource.camera, index),
+          backgroundColor: backColor,
+        ),
+        SizedBox(height: 16),
+        abSimpleButton(
+          second.toUpperCase(),
+          onTap: () async => getImageFrom(ImageSource.gallery, index),
+          backgroundColor: backColor,
+        ),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: abHeader('Upload'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              image,
-              color: MyColors.offBlue,
-            ),
-            SizedBox(width: 8),
-            Text(
-              title.toUpperCase(),
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: MyColors.offBlue,
+            Expanded(
+              child: SingleChildScrollView(
+                controller: scrollController,
+                padding: gHPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 32),
+                    controller.isCV || controller.isForklift
+                        ? Icon(
+                            Icons.upload_file_sharp,
+                            color: MyColors.darkBlue,
+                            size: 125,
+                          )
+                        : AspectRatio(
+                            aspectRatio: 192 / 108,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    setState(() => isVisiable = true);
+                                    Future.delayed(Duration(seconds: 3), () {
+                                      setState(() => isVisiable = false);
+                                    });
+                                  },
+                                  child: VideoPlayer(_controller!),
+                                ),
+                                Visibility(
+                                  visible: isVisiable,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: MyColors.black.withAlpha(50),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _controller!.value.isPlaying
+                                              ? _controller!.pause()
+                                              : _controller!.play();
+                                        });
+                                      },
+                                      icon: Icon(
+                                        _controller!.value.isPlaying
+                                            ? Icons.pause_circle
+                                            : Icons.play_circle,
+                                        color: MyColors.darkBlue,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                    SizedBox(height: 32),
+                    content(0),
+                    if (!controller.isSingleImage())
+                      Divider(thickness: 2, color: MyColors.offWhite),
+                    if (!controller.isSingleImage()) SizedBox(height: 32),
+                    if (!controller.isSingleImage()) content(1),
+                    if (controller.isCV) ...[
+                      openFilesForCV(),
+                      SizedBox(height: 32),
+                    ],
+                  ],
+                ),
               ),
             ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-              color: MyColors.offBlue,
+            abBottom(
+              top: controller.isCV || controller.isForklift ? 'skip'.tr : null,
+              onTap: (e) {
+                if (e == 0) {
+                  Get.back(result: true);
+                }
+              },
             ),
           ],
         ),
@@ -46,98 +212,61 @@ class UploadDocumentsView extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:
-          abQuestions(MediaQuery.of(context).size.width, duration, true, 1, 1),
-      body: InkWell(
-        onTap: () {
-          Get.to(ListToUploadView());
-        },
-        child: Container(
-          color: Colors.amberAccent,
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 28),
-                  color: MyColors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'You need to upload your ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 28,
-                            color: MyColors.black,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'passport',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28,
-                                color: MyColors.offBlue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem',
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: MyColors.offBlue,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 28),
-                  color: MyColors.offBlue,
-                  child: Column(
-                    children: [
-                      abSpacing(32),
-                      InkWell(
-                        onTap: () {
-                          Get.to(ListToUploadView());
-                        },
-                        child: button(Icons.camera_alt, 'Use camera'),
-                      ),
-                      abSpacing(16),
-                      RawMaterialButton(
-                        onPressed: () {},
-                        elevation: 2.0,
-                        fillColor: MyColors.blue,
-                        child: Text(
-                          'OR',
-                          style: TextStyle(color: MyColors.white),
-                        ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
-                      ),
-                      abSpacing(16),
-                      InkWell(
-                        onTap: () {
-                          Get.to(ListToUploadView());
-                        },
-                        child: button(Icons.image, 'Select document'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+  Widget openFilesForCV() {
+    return abSimpleButton(
+      'Add PDF or DOC',
+      onTap: () async {
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['pdf', 'docx'],
+        );
+        setState(() => isPdfOrDocSelected = result != null);
+        if (result != null) {
+          controller.image = XFile(result.files.single.path!);
+          await getImageFrom(ImageSource.camera, 0, isDoc: true);
+        } else {
+          print('User canceled the picker');
+        }
+      },
+      backgroundColor: isPdfOrDocSelected ? MyColors.green : null,
     );
+  }
+
+  getImageFrom(ImageSource source, int index, {bool? isDoc}) async {
+    try {
+      if (isDoc != true) {
+        controller.image = await picker.pickImage(source: source);
+      }
+      if (controller.image == null) {
+        return;
+      }
+
+      isCompleted[index] = true;
+      controller.isBack = index != 0;
+      setState(() => isLoading = true);
+      final message = await controller.uploadImages();
+      setState(() => isLoading = false);
+      if (!controller.isSingleImage() && isCompleted[index] == true) {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: duration, curve: Curves.ease);
+      }
+      if (controller.isSingleImage() && isCompleted.first ||
+          (!controller.isSingleImage() &&
+              isCompleted.first &&
+              isCompleted.last)) {
+        await Resume.shared.setDone();
+        if (controller.showAnalyzer) {
+          await Get.to(() => AnalysingDocs(seconds: Duration(seconds: 6)));
+          Future.delayed(duration * 2, () {
+            Get.back(result: message == '');
+          });
+        } else {
+          Get.back(result: message == '');
+        }
+      }
+    } catch (error) {
+      print(error.toString());
+      setState(() => isLoading = false);
+    }
   }
 }

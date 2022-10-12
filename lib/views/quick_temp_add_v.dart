@@ -3,273 +3,174 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/enter_code_v.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
-class QuickTempAdd extends StatelessWidget {
-  final QuickTempAddController quickTempAddController =
-      QuickTempAddController();
+class QuickTempAdd extends StatefulWidget {
+  const QuickTempAdd({Key? key}) : super(key: key);
 
-  Widget title(String text) {
-    return Text(
-      text,
-      style: TextStyle(color: MyColors.grey),
+  @override
+  _QuickTempAddState createState() => _QuickTempAddState();
+}
+
+class _QuickTempAddState extends State<QuickTempAdd> {
+  final controller = QuickTempAddController();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.answers = Get.arguments;
+    getUserTempData();
+  }
+
+  getUserTempData() async {
+    try {
+      setState(() => isLoading = true);
+      final message = await controller.getBranchInfo();
+      setState(() => isLoading = false);
+      if (message.isNotEmpty) abShowMessage(message);
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  Widget field(String title, {TextInputType? keyboardType}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        abTitle(title),
+        SizedBox(height: 8),
+        abTextField(title, (text) {}, keyboardType: keyboardType),
+        SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget top() {
+    return Container(
+      padding: gHPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 32),
+          abTitle('nearLocation'.tr),
+          SizedBox(height: 8),
+          if (controller.selectedLocation != null)
+            abDropDownButton(controller.selectedLocation!, controller.locations,
+                (value) async {
+              setState(() => controller.selectedLocation = value);
+            }),
+          SizedBox(height: 16),
+          abTitle('salutation'.tr),
+          SizedBox(height: 8),
+          abDropDownButton(controller.selectedSalutation, controller.salutation,
+              (value) async {
+            setState(() => controller.selectedSalutation = value);
+          }),
+          SizedBox(height: 16),
+          abTitle('firstName'.tr),
+          SizedBox(height: 8),
+          abTextField('', (text) => controller.firstName = text,
+              validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            }
+            return null;
+          }),
+          SizedBox(height: 16),
+          abTitle('lastName'.tr),
+          SizedBox(height: 8),
+          abTextField('', (text) => controller.lastName = text,
+              validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            }
+            return null;
+          }),
+          SizedBox(height: 16),
+          abTitle('enterPhone'.tr),
+          SizedBox(height: 8),
+          abTextField(
+            '',
+            (text) => controller.phoneNo = text,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'enterText'.tr;
+              } else if (!isPhoneNo(value)) {
+                return 'validPhone'.tr;
+              }
+              return null;
+            },
+            keyboardType: TextInputType.number,
+            maxLength: 11,
+          ),
+          SizedBox(height: 16),
+          abTitle('emailAddress'.tr),
+          SizedBox(height: 8),
+          abTextField('', (text) => controller.emailAddress = text,
+              keyboardType: TextInputType.emailAddress, validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            } else if (!value.isEmail) {
+              return 'validEmail'.tr;
+            }
+            return null;
+          }, onFieldSubmitted: (e) async {
+            next();
+          }),
+          SizedBox(height: 32),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: abPreferredSize('Quick Temp add'),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        child: SingleChildScrollView(
-          child: Form(
-            key: quickTempAddController.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                title(AppLocalizations.of(context)!.key_first_name),
-                abSpacing(8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    maxLength: 30,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
-                    ),
-                    validator: (text) => text!.isEmpty || text.length < 3
-                        ? 'Please enter valid First Name'
-                        : null,
-                  ),
-                ),
-                abSpacing(8),
-                title(AppLocalizations.of(context)!.key_last_name),
-                abSpacing(8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    maxLength: 30,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
-                    ),
-                    validator: (text) => text!.isEmpty || text.length < 3
-                        ? 'Please enter valid First Name'
-                        : null,
-                  ),
-                ),
-                abSpacing(8),
-                title(AppLocalizations.of(context)!.key_email),
-                abSpacing(8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    maxLength: 30,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
-                    ),
-                    validator: (text) => text!.isEmpty || text.length < 3
-                        ? 'Please enter valid First Name'
-                        : null,
-                  ),
-                ),
-                abSpacing(8),
-                title(AppLocalizations.of(context)!.key_driver_worker),
-                abSpacing(8),
-                Container(
-                  decoration: BoxDecoration(
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    maxLength: 30,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
-                    ),
-                    validator: (text) => text!.isEmpty || text.length < 3
-                        ? 'Please enter valid First Name'
-                        : null,
-                  ),
-                ),
-                abSpacing(8),
-                title(AppLocalizations.of(context)!.key_near_location),
-                abSpacing(8),
-                Row(
-                  children: [
-                    Flexible(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: MyColors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: TextFormField(
-                          maxLength: 30,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            counterText: '',
-                            border: InputBorder.none,
-                          ),
-                          validator: (text) => text!.isEmpty || text.length < 3
-                              ? 'Please enter valid First Name'
-                              : null,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        '?',
-                        style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 25,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(50, 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        primary: MyColors.blue,
-                      ),
-                    ),
-                  ],
-                ),
-                abSpacing(8),
-                title(AppLocalizations.of(context)!.key_enter_phone),
-                abSpacing(8),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: MyColors.black),
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: GetBuilder<QuickTempAddController>(
-                    init: quickTempAddController,
-                    builder: (controller) {
-                      return Row(
-                        children: [
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              elevation: 12,
-                              value: quickTempAddController.dropdownValue,
-                              items: quickTempAddController.dropdownItems.map(
-                                (value) {
-                                  return DropdownMenuItem(
-                                    value: value,
-                                    child: Icon(
-                                      Icons.flag,
-                                      color: value,
-                                      size: 25,
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                              onChanged: (value) =>
-                                  quickTempAddController.dropdonwlchange(value),
-                            ),
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              maxLength: 30,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                counterText: '',
-                                border: InputBorder.none,
-                              ),
-                              validator: (text) =>
-                                  text!.isEmpty || text.length < 3
-                                      ? 'Please enter valid First Name'
-                                      : null,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                abSpacing(16),
-                Center(
-                  child: Container(
-                    width: 200,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buttons(
-                            context, AppLocalizations.of(context)!.key_proceed),
-                        abSpacing(10),
-                        buttons(context,
-                            AppLocalizations.of(context)!.key_unlink_account),
-                      ],
-                    ),
-                  ),
-                ),
-                abSpacing(16),
-              ],
-            ),
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: abHeader('initialInfo'.tr, showHome: false),
+        body: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              Expanded(child: SingleChildScrollView(child: top())),
+              abBottom(
+                bottom: 'unlinkAccount'.tr,
+                onTap: (i) async {
+                  if (i == 0) {
+                    if (controller.validate()) {
+                      next();
+                    } else {
+                      abShowMessage('error'.tr);
+                    }
+                  } else {
+                    Get.back();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget buttons(context, String title) {
-    return ElevatedButton(
-      onPressed: () {
-        if (title == AppLocalizations.of(context)!.key_proceed) {
-          // quickTempAddController.validateAndSave();
-          Get.to(EnterCode());
-        } else {
-          Get.back();
-        }
-      },
-      child: Text(
-        title.toUpperCase(),
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: StadiumBorder(),
-        padding: EdgeInsets.all(16),
-        primary: MyColors.blue,
-      ),
-    );
+  next() async {
+    if (controller.validate()) {
+      setState(() => isLoading = true);
+      final message = await controller.addQuickTemp();
+      setState(() => isLoading = false);
+      if (message == '') {
+        await localStorage?.setString(
+            'userName', controller.firstName + ' ' + controller.lastName);
+        Get.to(() => EnterCode(), arguments: controller.result);
+      } else {
+        abShowMessage(message);
+      }
+    } else {
+      abShowMessage('error'.tr);
+    }
   }
 }

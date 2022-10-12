@@ -1,8 +1,9 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/new_info_v.dart';
+import 'package:extra_staff/views/quick_temp_add_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'onboarding_wizard_v.dart';
 
 class QuestionsView extends StatefulWidget {
   @override
@@ -16,55 +17,36 @@ class _QuestionsView extends State<QuestionsView> {
   var bottom = 0.0;
   var opacity = 0.0;
   var finalWidth = 0.0;
-  var khaasTop = 0.0;
   var finalHeight = 100.0;
   var selection = '';
   var anime = 0.0;
   var question = {};
   var counter = -1;
-  var stacks = [0, 1, 2];
-  final duration = Duration(milliseconds: 500);
-  final rippleList = GlobalKey<AnimatedListState>();
+  bool isCompleted = true;
+  List<bool?> answers = [];
 
   final data = [
-    {
-      'text': 'Are you able to Work in UK?',
-      'highlight': 'Work in UK?',
-      'key': 'Eligibility'
-    },
-    {
-      'text': 'Are you a driver with a full licence?',
-      'highlight': 'driver with a full licence?',
-      'key': 'Driver/Warehouse'
-    },
-    {
-      'text': 'Are you looking for business grow on online market?',
-      'highlight': 'business',
-      'key': 'Online business'
-    },
-    {
-      'text': 'What is your current roll in your existing company?',
-      'highlight': 'roll company?',
-      'key': 'Organization roll'
-    },
-    {
-      'text': 'Which architecture you would like to work on project?',
-      'highlight': 'architecture project?',
-      'key': 'Architecture planning'
-    },
+    {'text': 'q1'.tr, 'highlight': 'h1'.tr, 'key': 'k1'.tr},
+    {'text': 'q2'.tr, 'highlight': 'h2'.tr, 'key': 'k2'.tr},
+    {'text': 'q3'.tr, 'highlight': 'h3'.tr, 'key': 'k3'.tr},
+    {'text': 'q4'.tr, 'highlight': 'h4'.tr, 'key': 'k4'.tr},
+    {'text': 'q5'.tr, 'highlight': 'h5'.tr, 'key': 'k5'.tr},
   ];
 
   @override
   void initState() {
     super.initState();
+    for (var _ in data) {
+      answers.add(null);
+    }
     reset();
   }
 
   Widget questions() {
-    return Flexible(
+    final double size = (MediaQuery.of(context).size.width * 25) / 375;
+    return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 28),
-        color: MyColors.white,
+        padding: gHPadding,
         child: Stack(
           children: [
             AnimatedPositioned(
@@ -76,152 +58,86 @@ class _QuestionsView extends State<QuestionsView> {
               child: AnimatedOpacity(
                 duration: duration,
                 opacity: opacity,
-                child: abQuestion(),
+                child: question.isNotEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 16),
+                          abWords(question['text'], question['highlight'], null,
+                              size: size),
+                          SizedBox(height: 16),
+                          Text(
+                            question['key'],
+                            style:
+                                MyFonts.medium(size - 10, color: MyColors.grey),
+                          ),
+                          SizedBox(height: 16),
+                        ],
+                      )
+                    : Container(),
               ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget abQuestion() {
-    if (question.isNotEmpty) {
-      final key = question['key'];
-      final strs = question['text'].split(' ');
-      final words = question['highlight'].split(' ');
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Wrap(
-            children: [
-              for (var j in strs)
-                Text(
-                  j + ' ',
-                  style: words.contains(j)
-                      ? TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                          color: MyColors.offBlue,
-                        )
-                      : TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 28,
-                          color: MyColors.black,
-                        ),
-                ),
-            ],
-          ),
-          Text(
-            key,
-            style: TextStyle(
-              color: MyColors.grey,
-              fontSize: 18,
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Container();
-    }
   }
 
   Widget answer() {
-    return Flexible(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 28),
-        color: MyColors.blue,
-        child: Stack(
-          children: [
-            bottomRipples(),
-            AnimatedPositioned(
+    final t1 = counter == 0 ? 'driving'.tr : 'yes'.tr;
+    final t2 = counter == 0 ? 'industrial'.tr : 'no'.tr;
+    return Container(
+      padding: gHPadding,
+      height: (buttonHeight * 2) + (3 * 16),
+      color: MyColors.darkBlue,
+      child: Stack(
+        children: [
+          AnimatedPositioned(
+            duration: duration,
+            top: top,
+            bottom: bottom,
+            left: left,
+            right: right,
+            child: AnimatedOpacity(
               duration: duration,
-              top: top,
-              bottom: bottom,
-              left: left,
-              right: right,
-              child: AnimatedOpacity(
-                duration: duration,
-                opacity: opacity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    abSpacing(50),
-                    TextButton(
-                      onPressed: () => action(true),
-                      child: questionButton('Yes', selection == 'Yes'),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
+              opacity: opacity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextButton(
+                    onPressed: () => action(true),
+                    child: questionButton(t1, selection == 'yes'.tr),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
-                    abSpacing(15),
-                    TextButton(
-                      onPressed: () => action(false),
-                      child: questionButton('No', selection == 'No'),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      if (counter == 0) {
+                        action(false);
+                      } else {
+                        abShowAlert(context, 'pleaseSelectYes'.tr, 'yes'.tr);
+                      }
+                    },
+                    child: questionButton(t2, selection == 'no'.tr),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget bottomRipples() {
-    final size = MediaQuery.of(context).size.width - 56;
-    return AnimatedList(
-      key: rippleList,
-      initialItemCount: stacks.length,
-      itemBuilder: (context, index, animation) {
-        final f = (khaasTop * -1) / 10;
-        final fsize = size - (f >= index ? 0 : (index - f) * 56);
-        var fopa = 0.0;
-        if (data.length + 1 == index ||
-            data.length == index ||
-            data.length - 1 == index) {
-          fopa = 0.0;
-        } else if (index == stacks.length - 1) {
-          fopa = 0.3;
-        } else if (index == stacks.length - 2) {
-          fopa = 0.6;
-        } else if (index == stacks.length - 3) {
-          fopa = 0.9;
-        } else {
-          fopa = 1.0;
-        }
-        return Container(
-          height: 10,
-          width: double.infinity,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: AlignmentDirectional.center,
-            children: [
-              AnimatedPositioned(
-                duration: duration,
-                top: khaasTop,
-                height: 10,
-                width: fsize,
-                child: Container(
-                  color: MyColors.white.withOpacity(fopa),
-                ),
-              ),
-            ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
   Widget questionButton(String title, bool clicked) {
     return Container(
-      height: 75,
+      height: buttonHeight,
       child: AnimatedContainer(
         curve: Curves.easeInOut,
         padding: EdgeInsets.all(clicked ? anime : 0),
@@ -233,7 +149,7 @@ class _QuestionsView extends State<QuestionsView> {
             ),
             AnimatedContainer(
               duration: duration,
-              color: MyColors.offBlue,
+              color: MyColors.lightBlue,
               margin: EdgeInsets.only(left: clicked ? finalWidth : 5),
             ),
             Container(
@@ -243,11 +159,8 @@ class _QuestionsView extends State<QuestionsView> {
                 child: AnimatedDefaultTextStyle(
                   child: Text(title),
                   duration: duration,
-                  style: TextStyle(
-                    color: clicked ? MyColors.offBlue : MyColors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: MyFonts.regular(28,
+                      color: clicked ? MyColors.lightBlue : MyColors.white),
                 ),
               ),
             ),
@@ -259,30 +172,57 @@ class _QuestionsView extends State<QuestionsView> {
 
   @override
   Widget build(BuildContext context) {
+    final current = counter + 1;
     return Scaffold(
-      appBar: abQuestions(MediaQuery.of(context).size.width, duration, false,
-          counter + 1, data.length),
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [questions(), answer()],
-          ),
-        ),
+      appBar: abHeader(
+        '',
+        showHome: false,
+        onTap: (i) {
+          setState(() {
+            selection = '';
+            if (counter > 0) {
+              counter -= 1;
+            } else {
+              Get.back();
+            }
+            left = finalWidth;
+            right = -finalWidth;
+          });
+          Future.delayed(duration, () {
+            setState(() {
+              question = data[counter];
+              top = 0;
+              bottom = 0;
+              left = 0;
+              right = 0;
+              opacity = 1;
+            });
+          });
+        },
+        center: abCounts(current, data.length),
+        bottom: abBottomBar(context, current, data.length),
+      ),
+      body: Column(
+        children: [questions(), answer(), bottomImage()],
       ),
     );
   }
 
+  Widget bottomImage() {
+    final value = answers.isNotEmpty && answers.first == true;
+    final image = 'lib/images/${value ? 'driving' : 'warehouse'}.png';
+    return Image(image: AssetImage(image), fit: BoxFit.fitWidth);
+  }
+
   void action(bool isYes) {
-    rippleList.currentState!.insertItem(3);
+    if (!isCompleted) return;
     setState(() {
-      stacks.add(3);
       anime = 5;
-      selection = isYes ? 'Yes' : 'No';
-      khaasTop += -10;
+      isCompleted = false;
+      selection = isYes ? 'yes'.tr : 'no'.tr;
     });
-    Future.delayed(Duration(milliseconds: 250), () => setState(() => anime = 0))
-        .then((value) {
+    answers[counter] = isYes;
+    Future.delayed(duration, () => setState(() => anime = 0)).then((value) {
       Future.delayed(duration, () {
         setState(() {
           opacity = 0;
@@ -295,8 +235,26 @@ class _QuestionsView extends State<QuestionsView> {
           }
         });
       }).then((value) => reset()).then((value) {
+        Future.delayed(duration * 2, () => setState(() => isCompleted = true));
         if (counter == data.length - 1) {
-          Future.delayed(duration, () => Get.to(OnboardingWizard()));
+          Future.delayed(duration, () async {
+            await localStorage?.setBool('isDriver', answers.first!);
+            Get.bottomSheet(
+              NewInfoView(2, () {
+                Get.bottomSheet(
+                  NewInfoView(3, () {
+                    Get.to(() => QuickTempAdd(), arguments: answers);
+                  }),
+                  enableDrag: false,
+                  isDismissible: false,
+                  isScrollControlled: true,
+                );
+              }),
+              enableDrag: false,
+              isDismissible: false,
+              isScrollControlled: true,
+            );
+          });
         }
       });
     });
@@ -308,7 +266,7 @@ class _QuestionsView extends State<QuestionsView> {
         selection = '';
         counter = counter < data.length - 1 ? counter + 1 : 0;
         question = data[counter];
-        finalWidth = MediaQuery.of(context).size.width - 56;
+        finalWidth = MediaQuery.of(context).size.width - (gHPadding.left * 2);
         finalHeight = (MediaQuery.of(context).size.height - 100) / 2;
         left = finalWidth;
         right = -finalWidth;

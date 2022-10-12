@@ -1,116 +1,101 @@
 import 'package:extra_staff/controllers/login_c.dart';
-import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/home_v.dart';
-import 'package:flutter/material.dart';
-
 import 'package:extra_staff/utils/ab.dart';
+import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/choose_code_v.dart';
+import 'package:extra_staff/views/enter_code_v.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
-class LoginView extends StatelessWidget {
-  final LoginController loginController = LoginController();
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
-  TextField abTextField(String placeholder, Function(String) onChange) {
-    return TextField(
-      onChanged: (text) => onChange(text),
-      decoration: InputDecoration(
-        hintText: placeholder,
-        labelText: placeholder,
-        border: OutlineInputBorder(),
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final controller = LoginController();
+  bool isLoading = false;
+
+  @override
+  initState() {
+    super.initState();
+    if (Get.arguments != null) {
+      setState(() {
+        controller.withoutPassword = Get.arguments;
+      });
+    }
+  }
+
+  Widget top() {
+    return Container(
+      padding: gHPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 32),
+          abTitle('emailAddress'.tr),
+          SizedBox(height: 8),
+          abTextField('', (text) => controller.emailAddress = text,
+              keyboardType: TextInputType.emailAddress, validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            } else if (!value.isEmail) {
+              return 'validEmail'.tr;
+            }
+            return null;
+          }, onFieldSubmitted: (e) async {}),
+          if (!controller.withoutPassword) ...[
+            SizedBox(height: 32),
+            abTitle('enterPassword'.tr),
+            SizedBox(height: 8),
+            abPasswordField('', (text) => controller.password = text,
+                validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'enterText'.tr;
+              }
+              return null;
+            }),
+          ],
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Container(
-        child: Padding(
-          padding: EdgeInsets.all(32),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextField(
-                  onChanged: (text) {
-                    loginController.email = text;
-                    loginController.update();
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                abSpacing(16),
-                TextField(
-                  onChanged: (text) {
-                    loginController.password = text;
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                GetBuilder<LoginController>(
-                    init: loginController,
-                    builder: (controller) {
-                      return TextField(
-                        onChanged: (text) {
-                          print(controller.password);
-                        },
-                        decoration: InputDecoration(
-                          hintText: controller.email,
-                          labelText: controller.email,
-                          border: OutlineInputBorder(),
-                        ),
-                      );
-                    }),
-                abSpacing(16),
-                TextButton(
-                  onPressed: () async => await loginController.login(),
-                  child: Container(
-                    color: Theme.of(context).accentColor,
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    // final value = await loginController.checkAuth();
-                    // print(value);
-                    Get.to(HomeView());
-                  },
-                  child: Container(
-                    color: Theme.of(context).accentColor,
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        'Login with Biomatric',
-                        style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: abHeader('login'.tr, showHome: false),
+        body: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              Expanded(child: SingleChildScrollView(child: top())),
+              abBottom(
+                bottom: 'back'.tr,
+                onTap: (i) async {
+                  if (i == 0) {
+                    setState(() => isLoading = true);
+                    final message = await controller.login();
+                    setState(() => isLoading = false);
+                    if (message.isEmpty) {
+                      if (controller.withoutPassword) {
+                        Get.to(() => EnterCode(), arguments: controller.result);
+                      } else {
+                        Get.to(() => ChooseCode());
+                      }
+                    } else {
+                      abShowMessage(message);
+                    }
+                  } else {
+                    Get.back();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
