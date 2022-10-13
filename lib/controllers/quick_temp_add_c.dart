@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-
-import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 class QuickTempAddController extends GetxController {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -37,10 +36,13 @@ class QuickTempAddController extends GetxController {
     Map<String, dynamic> deviceData = <String, dynamic>{};
 
     try {
-      if (Platform.isAndroid) {
+      if (defaultTargetPlatform == TargetPlatform.android) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      } else if (Platform.isIOS) {
+      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
         deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      } else {
+        //web
+        deviceData = <String, dynamic>{'device:': 'Web Browser'};
       }
     } on PlatformException {
       deviceData = <String, dynamic>{

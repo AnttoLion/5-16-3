@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
 import 'package:extra_staff/utils/ab.dart';
@@ -8,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class LoginController extends GetxController {
   String password = '';
@@ -118,10 +118,13 @@ class LoginController extends GetxController {
     Map<String, dynamic> deviceData = <String, dynamic>{};
 
     try {
-      if (Platform.isAndroid) {
+      if (defaultTargetPlatform == TargetPlatform.android) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      } else if (Platform.isIOS) {
+      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
         deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      } else {
+        //web
+        deviceData = <String, dynamic>{'device:': 'Web Browser'};
       }
     } on PlatformException {
       deviceData = <String, dynamic>{
