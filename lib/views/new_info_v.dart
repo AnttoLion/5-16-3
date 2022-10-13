@@ -131,10 +131,18 @@ class NewInfoView extends StatelessWidget {
             ),
           ),
         ),
-        Image(
-          image: AssetImage('lib/images/${allData[index].image}.png'),
-          fit: BoxFit.fitWidth,
-        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            // minHeight: 5.0,
+            // minWidth: 5.0,
+            maxHeight: 400.0,
+            // maxWidth: 30.0,
+          ),
+          child: Image(
+              image: AssetImage('lib/images/${allData[index].image}.png'),
+              width: double.infinity,
+              fit: BoxFit.fitWidth),
+        )
       ],
     );
   }
