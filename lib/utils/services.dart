@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'dart:async';
 
 final awsUploadURL = 'https://77cllr8ym7.execute-api.eu-west-2.amazonaws.com/';
 final baseUrl = 'https://development.services.extrastaff.com/';
@@ -101,6 +102,8 @@ class Services extends GetConnect {
     log('Get:===========================API===========================');
     log('URL -> $url');
     log('Body -> $query');
+    httpClient.timeout = const Duration(seconds: 20);
+
     return super.get(url,
         headers: headers,
         contentType: contentType,
@@ -121,6 +124,7 @@ class Services extends GetConnect {
     log('Post:===========================API===========================');
     log('URL -> $url');
     log('Body -> $body');
+    httpClient.timeout = const Duration(seconds: 20);
     return super.post(url, body,
         contentType: contentType,
         headers: headers,

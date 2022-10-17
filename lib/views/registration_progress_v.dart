@@ -42,7 +42,8 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
     if (result.errorMessage.isNotEmpty) {
       abShowMessage(result.errorMessage);
     } else {
-      if (result.result['isDriver'] is bool) {
+      if (result.result.contains('isDriver') &&
+          result.result['isDriver'] is bool) {
         await localStorage?.setBool('isDriver', result.result['isDriver']);
       }
     }

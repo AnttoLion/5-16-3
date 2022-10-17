@@ -99,7 +99,8 @@ class _ChooseCode2State extends State<ChooseCode2> {
                         abShowMessage(deskInfo.errorMessage);
                       } else {
                         print(deskInfo.result);
-                        if (deskInfo.result['isDriver'] is bool) {
+                        if (deskInfo.result.contains('isDriver') &&
+                            deskInfo.result['isDriver'] is bool) {
                           await localStorage?.setBool(
                               'isDriver', deskInfo.result['isDriver']);
                         }
