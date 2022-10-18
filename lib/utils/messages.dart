@@ -278,6 +278,8 @@ class Messages extends Translations {
           'applyForaJob': 'Apply for a job',
           'alreadySignedUp': 'Already Signed Up',
           'enterCode': 'Enter code',
+          'signIn': 'Sign In',
+          'signUp': 'Sign Up',
           'howTo': 'How to #',
           'yes': 'Yes',
           'no': 'No',

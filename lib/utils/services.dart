@@ -3,10 +3,13 @@ import 'package:extra_staff/models/address_m.dart';
 import 'package:extra_staff/models/company.dart';
 import 'package:extra_staff/models/driving_test_m.dart';
 import 'package:extra_staff/models/hmrc_checklist.dart';
+import 'package:extra_staff/models/key_value_m.dart';
 import 'package:extra_staff/models/medical_history.dart';
 import 'package:extra_staff/models/user_data_m.dart';
 import 'package:extra_staff/utils/ab.dart';
+import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
+import 'package:extra_staff/views/welcome_v.dart';
 import 'package:mime/mime.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -30,12 +33,18 @@ class AWSApiResponse {
       AWSApiResponse(json['status'], json['message'], json['data']);
 }
 
-AWSApiResponse awsApi(Response value) {
+Future<AWSApiResponse> awsApi(Response value) async {
   log('URL -> ${value.request?.url}');
   log('StatusCode -> ${value.statusCode}');
   log('Response -> ${value.body}');
   try {
-    return AWSApiResponse.fromJson(value.body);
+    final response = AWSApiResponse.fromJson(value.body);
+    if (response.status == 3) {
+      await localStorage?.setString('passcode', '');
+      Get.offAll(() => WelcomeView());
+      return AWSApiResponse.fromJson({});
+    }
+    return response;
   } catch (e) {
     print(e);
     return AWSApiResponse(-1, 'error'.tr, null);
@@ -55,12 +64,18 @@ class BaseApiResponse {
       json['result']);
 }
 
-BaseApiResponse safeDecode(Response value) {
+Future<BaseApiResponse> safeDecode(Response value) async {
   log('Response -> ${value.body}');
   log('===========================API===========================');
   try {
     final json = jsonDecode(value.body);
-    return BaseApiResponse.fromJson(json);
+    final response = BaseApiResponse.fromJson(json);
+    if (response.errorCode == 3) {
+      await localStorage?.setString('passcode', '');
+      Get.offAll(() => WelcomeView());
+      return BaseApiResponse.fromJson('');
+    }
+    return response;
   } catch (e) {
     print(e);
     return BaseApiResponse(-1, 'error'.tr, null);
@@ -71,10 +86,11 @@ class Services extends GetConnect {
   Services._privateConstructor();
   static final Services shared = Services._privateConstructor();
 
-  final headers = {
+  Map<String, String> headers = {
     'X-LANG': 'english',
     'X-API-HEADER': '123abc456def789ghi',
-    'X-CLIENT-ID': '1'
+    'X-CLIENT-ID': '1',
+    'DEVICE': device
   };
 
   int tid = -1;
@@ -82,6 +98,26 @@ class Services extends GetConnect {
   int tempTid = -1;
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
+  List<KeyValue> screens = [
+    KeyValue('updateTempComplianceDocExpiry', '1'),
+    KeyValue('profileUploadUrl', '3'),
+    KeyValue('updateTempInfo', '5'),
+    KeyValue('updateTempEqualityInfo', '8'),
+    KeyValue('TempCompDoc', '11'),
+    KeyValue('updateTempEmployeeInfo', '11'),
+    KeyValue('updateTempRolesInfo', '12'),
+    KeyValue('updateTempSkillsInfo', '13'),
+    KeyValue('updateTempLicenseAdditionalInfo', '14'),
+    KeyValue('updateTempWorkInfo', '15'),
+    KeyValue('updateTempDrivingTestInfo', '16'),
+    KeyValue('updateTempCompetancyInfo', '17'),
+    KeyValue('updateTempCompetancyInfoOne', '17'),
+    KeyValue('updateTempHMRCInfo', '20'),
+    KeyValue('updateTempAgreementInfo', '21'),
+    KeyValue('putSignature', '23'),
+    KeyValue('updateTempInterviewInfo', '24'),
+    KeyValue('updateTempMedicalInfo', '27'),
+  ];
 
   setData() async {
     tid = localStorage?.getInt('tid') ?? -1;
@@ -100,6 +136,7 @@ class Services extends GetConnect {
       Map<String, dynamic>? query,
       T Function(dynamic)? decoder}) {
     log('Get:===========================API===========================');
+    log('Headers -> $headers');
     log('URL -> $url');
     log('Body -> $query');
     httpClient.timeout = const Duration(seconds: 20);
@@ -120,8 +157,13 @@ class Services extends GetConnect {
       dynamic Function(double)? uploadProgress}) {
     body['completed'] = completed;
     body['progress'] = '${Resume.shared.progress}';
-
+    final str = url?.split('/').last ?? '';
+    final index = screens.indexWhere((element) => element.id.contains(str));
+    if (index > 0) {
+      body['screen_id'] = screens[index].value;
+    }
     log('Post:===========================API===========================');
+    log('Headers -> $headers');
     log('URL -> $url');
     log('Body -> $body');
     httpClient.timeout = const Duration(seconds: 20);
@@ -346,18 +388,6 @@ class Services extends GetConnect {
         query: {
           'user_id': '$tempUserId',
           'digest': generateMd5(staticDigestKey + '$tempUserId'),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
-
-  Future<BaseApiResponse> login(String email, String password) async =>
-      await post(
-        baseUrl + 'login',
-        {
-          'email': email,
-          'password': password,
-          'type': '',
-          'digest': generateMd5(staticDigestKey + email),
         },
         headers: headers,
       ).then((value) => safeDecode(value));
@@ -984,6 +1014,30 @@ class Services extends GetConnect {
           'expiry_date': date,
           'completed': completed,
           'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+
+  Future<BaseApiResponse> verifyUserFromEmailPwd(
+          String email, String password) async =>
+      await post(
+        baseUrl + 'verifyUserFromEmailPwd',
+        {
+          'email': email,
+          'password': password,
+          'digest': generateMd5(staticDigestKey + email),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+
+  Future<BaseApiResponse> verifyUserFromEmailPhone(
+          String email, String password) async =>
+      await post(
+        baseUrl + 'verifyUserFromEmailPhone',
+        {
+          'email': email,
+          'password': password,
+          'digest': generateMd5(staticDigestKey + email),
         },
         headers: headers,
       ).then((value) => safeDecode(value));

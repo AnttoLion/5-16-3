@@ -37,13 +37,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                         children: [
                           SizedBox(height: 32),
                           abSimpleButton(
-                            'alreadySignedUp'.tr.toUpperCase(),
+                            'signIn'.tr.toUpperCase(),
                             onTap: () =>
                                 Get.to(() => LoginView(), arguments: true),
                           ),
                           SizedBox(height: 32),
                           abSimpleButton(
-                            'enterCode'.tr.toUpperCase(),
+                            'signUp'.tr.toUpperCase(),
                             onTap: () =>
                                 Get.to(() => LoginView(), arguments: true),
                           ),
@@ -74,12 +74,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                 children: [
                   SizedBox(height: 32),
                   abSimpleButton(
-                    'alreadySignedUp'.tr.toUpperCase(),
+                    'signIn'.tr.toUpperCase(),
                     onTap: () => Get.to(() => LoginView(), arguments: true),
                   ),
                   SizedBox(height: 32),
                   abSimpleButton(
-                    'enterCode'.tr.toUpperCase(),
+                    'signUp'.tr.toUpperCase(),
                     onTap: () => Get.to(() => LoginView(), arguments: true),
                   ),
                 ],

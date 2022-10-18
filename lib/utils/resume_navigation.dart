@@ -131,4 +131,22 @@ class Resume {
       Get.to(() => ListToUploadView());
     }
   }
+
+  Future completedProgress(int index) async {
+    if (index > 0) {
+      allClasses.sublist(0, index).forEach((element) {
+        element.done = true;
+      });
+      if (index != 27) allClasses[3].done = false;
+      List<String> sections = [];
+      if (index >= 8) sections.add('isAboutYouCompleted');
+      if (index >= 11) sections.add('isEmploymentHistoryCompleted');
+      if (index >= 17) sections.add('isCompetencyTestCompleted');
+      if (index >= 20) sections.add('isHMRCCompleted');
+      if (index >= 27) sections.add('isAgreementsCompleted');
+      for (final element in sections) {
+        await localStorage?.setBool(element, true);
+      }
+    }
+  }
 }

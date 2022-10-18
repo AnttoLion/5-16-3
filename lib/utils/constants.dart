@@ -26,6 +26,8 @@ bool is35T = false;
 bool isQuizTest = false;
 final bool isWebApp = (defaultTargetPlatform != TargetPlatform.android &&
     defaultTargetPlatform != TargetPlatform.iOS);
+String get device => localStorage?.getString('device') ?? '';
+
 DateTime? stringToDate(String dateTime, bool isServer) {
   try {
     if (isServer) {

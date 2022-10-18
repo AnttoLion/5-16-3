@@ -41,11 +41,6 @@ class RegistrationController extends GetxController {
     return response.errorMessage;
   }
 
-  Future<String> login() async {
-    final response = await Services.shared.login('admin@efos.com', 'gip89Gih');
-    return response.errorMessage;
-  }
-
   bool onTheFlow(int index) => index == 0 ? true : completedValues[index - 1];
 
   getCompletedValues() async {

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
 import 'package:extra_staff/utils/ab.dart';
@@ -98,8 +99,10 @@ class LoginController extends GetxController {
     if (withoutPassword) {
       response = await Services.shared.tempVerificationByEmail(emailAddress);
     } else {
-      response = await Services.shared
-          .postLogin(emailAddress, password, (isiOS ? 1 : 2));
+      // response = await Services.shared
+      //     .postLogin(emailAddress, password, (isiOS ? 1 : 2));
+      response =
+          await Services.shared.verifyUserFromEmailPwd(emailAddress, password);
     }
     if (response.errorMessage.isEmpty) {
       result = QuickAddTempAdd.fromJson(response.result);
@@ -108,8 +111,11 @@ class LoginController extends GetxController {
       await Services.shared.setData();
 
       await initPlatformState();
-      response = await Services.shared
-          .addDeviceDetails(emailAddress, _deviceData.toString());
+      // response = await Services.shared
+      //     .addDeviceDetails(emailAddress, _deviceData.toString());
+      localStorage?.setString('device', _deviceData['device']);
+      Services.shared.headers['device'] = device;
+      response = await Services.shared.addDeviceDetails(emailAddress, device);
     }
     return response.errorMessage;
   }
@@ -119,9 +125,11 @@ class LoginController extends GetxController {
 
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
-        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+        deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};
       } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-        deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+        deviceData = {
+          'device': (await deviceInfoPlugin.iosInfo).identifierForVendor
+        };
       } else {
         //web
         deviceData = <String, dynamic>{'device:': 'Web Browser'};
@@ -133,54 +141,5 @@ class LoginController extends GetxController {
     }
 
     _deviceData = deviceData;
-  }
-
-  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
-    return <String, dynamic>{
-      'version.securityPatch': build.version.securityPatch,
-      'version.sdkInt': build.version.sdkInt,
-      'version.release': build.version.release,
-      'version.previewSdkInt': build.version.previewSdkInt,
-      'version.incremental': build.version.incremental,
-      'version.codename': build.version.codename,
-      'version.baseOS': build.version.baseOS,
-      'board': build.board,
-      'bootloader': build.bootloader,
-      'brand': build.brand,
-      'device': build.device,
-      'display': build.display,
-      'fingerprint': build.fingerprint,
-      'hardware': build.hardware,
-      'host': build.host,
-      'id': build.id,
-      'manufacturer': build.manufacturer,
-      'model': build.model,
-      'product': build.product,
-      'supported32BitAbis': build.supported32BitAbis,
-      'supported64BitAbis': build.supported64BitAbis,
-      'supportedAbis': build.supportedAbis,
-      'tags': build.tags,
-      'type': build.type,
-      'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId,
-      'systemFeatures': build.systemFeatures,
-    };
-  }
-
-  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
-    return <String, dynamic>{
-      'name': data.name,
-      'systemName': data.systemName,
-      'systemVersion': data.systemVersion,
-      'model': data.model,
-      'localizedModel': data.localizedModel,
-      'identifierForVendor': data.identifierForVendor,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'utsname.sysname:': data.utsname.sysname,
-      'utsname.nodename:': data.utsname.nodename,
-      'utsname.release:': data.utsname.release,
-      'utsname.version:': data.utsname.version,
-      'utsname.machine:': data.utsname.machine,
-    };
   }
 }

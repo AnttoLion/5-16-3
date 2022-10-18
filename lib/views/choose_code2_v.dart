@@ -1,6 +1,7 @@
 import 'package:extra_staff/models/user_data_m.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/biometric_v.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,9 @@ class _ChooseCode2State extends State<ChooseCode2> {
                     setState(() => isLoading = true);
                     final name = userName;
                     final post = isDriver;
+                    final storedDevice = device;
                     await removeAllSharedPref();
+                    await localStorage?.setString('device', storedDevice);
                     await localStorage?.setString('userName', name);
                     await localStorage?.setBool('isDriver', post);
                     await localStorage?.setInt(
@@ -105,6 +108,8 @@ class _ChooseCode2State extends State<ChooseCode2> {
                               'isDriver', deskInfo.result['isDriver']);
                         }
                       }
+                      await Resume.shared
+                          .completedProgress(message3.result['screen_id']);
                       await localStorage?.setString(
                           'completed', message3.result['completed']);
                       await Services.shared.setData();

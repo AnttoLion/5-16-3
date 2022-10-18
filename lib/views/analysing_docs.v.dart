@@ -29,21 +29,6 @@ class AnalysingDocs extends StatelessWidget {
     }
   }
 
-  Widget box(bool isFilled) {
-    return SizedBox(
-      width: 50,
-      height: 50,
-      child: Card(
-        elevation: 12,
-        color: isFilled ? MyColors.darkBlue : MyColors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: MyColors.darkBlue, width: 4),
-        ),
-      ),
-    );
-  }
-
   Widget topImage() {
     final image = 'lib/images/${isDriver ? 'driving' : 'warehouse'}.png';
     return Image(image: AssetImage(image), fit: BoxFit.fitWidth);
@@ -60,15 +45,12 @@ class AnalysingDocs extends StatelessWidget {
             children: [
               if (seconds != null) topImage(),
               Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  box(false),
-                  SizedBox(width: 8),
-                  box(false),
-                  SizedBox(width: 8),
-                  box(true),
-                ],
+              Image.asset(
+                'lib/images/EFOS-Analysing-standard.gif',
+                gaplessPlayback: true,
+                repeat: ImageRepeat.repeat,
+                fit: BoxFit.fitWidth,
+                height: 100,
               ),
               SizedBox(height: 50),
               Container(
