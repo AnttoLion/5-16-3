@@ -503,19 +503,19 @@ PreferredSize abHeaderForWeb(
   return PreferredSize(
     preferredSize: Size.fromHeight(80),
     child: SafeArea(
-      child: Row(
-        children: [
-          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-          Flexible(
-            fit: FlexFit.loose,
-            flex: 2,
-            child: Container(
-              height: double.infinity,
-              padding: gHPadding,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomCenter,
+      child: Container(
+        height: double.infinity,
+        padding: gHPadding,
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Positioned.fill(
+              child: Row(
                 children: [
-                  Positioned.fill(
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -563,13 +563,13 @@ PreferredSize abHeaderForWeb(
                       ],
                     ),
                   ),
-                  bottom ?? Divider(height: 3, color: MyColors.grey),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
                 ],
               ),
             ),
-          ),
-          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-        ],
+            bottom ?? Divider(height: 3, color: MyColors.grey),
+          ],
+        ),
       ),
     ),
   );
@@ -684,7 +684,10 @@ Widget abAnimatedButtonWithFixedWidth(String title, IconData? rightImage,
 }
 
 Widget abRoundButtonWithFixedWidth(String title,
-    {bool disabled = false, double buttonWidth = 200, Function()? onTap}) {
+    {bool disabled = false,
+    double buttonWidth = 200,
+    double btnHeight = 56,
+    Function()? onTap}) {
   final color = MyColors.white.withAlpha(disabled ? 127 : 255);
   return InkWell(
     onTap: onTap,
@@ -692,7 +695,7 @@ Widget abRoundButtonWithFixedWidth(String title,
     //   width: buttonWidth,
     // color: MyColors.white,
     child: Container(
-      height: buttonHeight,
+      height: btnHeight,
       width: buttonWidth,
       decoration: BoxDecoration(
         color: MyColors.lightBlue,
@@ -701,7 +704,7 @@ Widget abRoundButtonWithFixedWidth(String title,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title, style: MyFonts.regular(24, color: color)),
+          Text(title, style: MyFonts.regular(18, color: color)),
         ],
       ),
     ),

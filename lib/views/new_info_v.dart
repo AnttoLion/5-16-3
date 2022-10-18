@@ -195,15 +195,9 @@ class NewInfoView extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 44),
             child: abRoundButtonWithFixedWidth(
               'next'.tr,
+              btnHeight: 32,
               onTap: onTap,
             )),
-        // TextButton(
-        //   onPressed: onTap,
-        //   child: Text(
-        //     index == 0 ? 'skip'.tr : 'start'.tr,
-        //     style: MyFonts.regular(24, color: MyColors.grey),
-        //   ),
-        // ),
       ],
     );
   }

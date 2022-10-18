@@ -273,7 +273,7 @@ class Messages extends Translations {
           'registration': 'Registration',
           'resume': 'Resume',
           'dashboard': 'Dashboard',
-          'howCanWeHelp': 'How can we help?',
+          'welcome': 'Welcome',
           'lookingForAJob': 'Looking for a job',
           'applyForaJob': 'Apply for a job',
           'alreadySignedUp': 'Already Signed Up',

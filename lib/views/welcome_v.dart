@@ -16,7 +16,7 @@ class _WelcomeViewState extends State<WelcomeView> {
   Widget build(BuildContext context) {
     if (isWebApp) {
       return Scaffold(
-        appBar: abHeaderForWeb(context, 'howCanWeHelp'.tr, showHome: false),
+        appBar: abHeaderForWeb(context, 'welcome'.tr, showHome: false),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -35,7 +35,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 32),
                           abSimpleButton(
                             'signIn'.tr.toUpperCase(),
                             onTap: () =>
