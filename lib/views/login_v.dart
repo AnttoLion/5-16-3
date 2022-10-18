@@ -74,27 +74,51 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             children: [
               Expanded(child: SingleChildScrollView(child: top())),
-              abBottom(
-                bottom: 'back'.tr,
-                onTap: (i) async {
-                  if (i == 0) {
-                    setState(() => isLoading = true);
-                    final message = await controller.login();
-                    setState(() => isLoading = false);
-                    if (message.isEmpty) {
-                      if (controller.withoutPassword) {
-                        Get.to(() => EnterCode(), arguments: controller.result);
-                      } else {
-                        Get.to(() => ChooseCode());
-                      }
-                    } else {
-                      abShowMessage(message);
-                    }
-                  } else {
-                    Get.back();
-                  }
-                },
-              ),
+              isWebApp
+                  ? abBottomRow(
+                      bottom: 'back'.tr,
+                      onTap: (i) async {
+                        if (i == 0) {
+                          setState(() => isLoading = true);
+                          final message = await controller.login();
+                          setState(() => isLoading = false);
+                          if (message.isEmpty) {
+                            if (controller.withoutPassword) {
+                              Get.to(() => EnterCode(),
+                                  arguments: controller.result);
+                            } else {
+                              Get.to(() => ChooseCode());
+                            }
+                          } else {
+                            abShowMessage(message);
+                          }
+                        } else {
+                          Get.back();
+                        }
+                      },
+                    )
+                  : abBottom(
+                      bottom: 'back'.tr,
+                      onTap: (i) async {
+                        if (i == 0) {
+                          setState(() => isLoading = true);
+                          final message = await controller.login();
+                          setState(() => isLoading = false);
+                          if (message.isEmpty) {
+                            if (controller.withoutPassword) {
+                              Get.to(() => EnterCode(),
+                                  arguments: controller.result);
+                            } else {
+                              Get.to(() => ChooseCode());
+                            }
+                          } else {
+                            abShowMessage(message);
+                          }
+                        } else {
+                          Get.back();
+                        }
+                      },
+                    ),
             ],
           ),
         ),

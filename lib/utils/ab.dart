@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/models/key_value_m.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:extra_staff/views/registration_progress_v.dart';
+import 'package:extra_staff/utils/constants.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -573,6 +574,31 @@ Widget abAnimatedButton(String title, IconData? rightImage,
   );
 }
 
+Widget abAnimatedButtonWithFixedWidth(String title, IconData? rightImage,
+    {bool disabled = false, double buttonWidth = 200, Function()? onTap}) {
+  final color = MyColors.white.withAlpha(disabled ? 127 : 255);
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      height: buttonHeight,
+      width: buttonWidth,
+      padding: EdgeInsets.only(left: 4),
+      color: MyColors.white,
+      child: Container(
+        color: MyColors.lightBlue,
+        padding: gHPadding,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: MyFonts.regular(24, color: color)),
+            Icon(rightImage, color: color, size: 30),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 Widget abBottom({
   String? top = '',
   String? bottom = '',
@@ -627,6 +653,77 @@ Widget abBottom({
             if (!isSingleButton) SizedBox(height: 16),
             if (bottom != null)
               abAnimatedButton(
+                title2,
+                bottomArrow,
+                disabled: bottomDisabled,
+                onTap: () async {
+                  bottomDisabled
+                      ? null
+                      : bottom.isEmpty
+                          ? Get.back()
+                          : onTap!(1);
+                },
+              ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget abBottomRow({
+  String? top = '',
+  String? bottom = '',
+  bool? onlyTopDisabled,
+  List<String>? multiple,
+  Function(int)? onTap,
+}) {
+  final isSingleButton = top == null || bottom == null;
+  final bottomArrow = (bottom ?? '').isEmpty || bottom == 'back'.tr
+      ? Icons.arrow_back_ios_new
+      : Icons.arrow_forward_ios;
+  final title1 = (top ?? '').isEmpty ? 'proceed'.tr : top!;
+  final title2 = (bottom ?? '').isEmpty ? 'back'.tr : bottom!;
+  final bottomDisabled = !(onlyTopDisabled ?? true);
+  final length = multiple != null
+      ? multiple.length + 1
+      : isSingleButton
+          ? 1
+          : 2;
+  return GetBuilder(
+    init: objABBottom,
+    builder: (b) {
+      if (objABBottom.hideBottom) {
+        return Container();
+      }
+      return Container(
+        height: buttonHeight * 1.5,
+        width: double.infinity,
+        color: MyColors.darkBlue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (multiple != null)
+              for (var i in multiple)
+                Column(
+                  children: [
+                    abAnimatedButtonWithFixedWidth(i, null, onTap: () async {
+                      onTap!(multiple.indexOf(i) + 2);
+                    }),
+                    SizedBox(width: 16),
+                  ],
+                ),
+            if (top != null)
+              abAnimatedButtonWithFixedWidth(
+                title1,
+                Icons.arrow_forward_ios,
+                disabled: onlyTopDisabled ?? false,
+                onTap: () async {
+                  onTap!(0);
+                },
+              ),
+            if (bottom != null)
+              abAnimatedButtonWithFixedWidth(
                 title2,
                 bottomArrow,
                 disabled: bottomDisabled,
