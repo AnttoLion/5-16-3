@@ -29,21 +29,7 @@ class _PageControllerViewState extends State<PageControllerView> {
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          PageView(
-            onPageChanged: (e) => setState(() => currentPage = e.toDouble()),
-            controller: controller.pageController,
-            children: [
-              // viewToShow(0),
-              viewToShow(1),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: DotsIndicator(
-              position: currentPage,
-              dotsCount: 2,
-            ),
-          ),
+          viewToShow(1),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:extra_staff/models/info_m.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/utils/ab.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,9 +68,13 @@ class NewInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: (index == 0 || index == 1)
-            ? SafeArea(bottom: false, child: startInfoWindow())
-            : normalInfoWindow());
+        body: isWebApp
+            ? (index == 0 || index == 1)
+                ? startInfoWindowForWeb()
+                : normalInfoWindow()
+            : (index == 0 || index == 1)
+                ? SafeArea(bottom: false, child: startInfoWindow())
+                : normalInfoWindow());
   }
 
   Widget startInfoWindow() {
@@ -143,6 +148,70 @@ class NewInfoView extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.fitWidth),
         )
+      ],
+    );
+  }
+
+  Widget startInfoWindowForWeb() {
+    return Column(
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: 300.0,
+          ),
+          child: Image(
+              image: AssetImage('lib/images/${allData[index].image}.png'),
+              width: double.infinity,
+              fit: BoxFit.fitWidth),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 44),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  allData[index].title,
+                  textAlign: TextAlign.center,
+                  style: MyFonts.regular(30, color: MyColors.darkBlue),
+                ),
+                Text(
+                  allData[index].details,
+                  textAlign: TextAlign.center,
+                  style: MyFonts.regular(20, color: MyColors.grey),
+                ),
+                if (index == 1)
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      textStyle: MyFonts.semiBold(17),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () async {
+                      if (!await launchUrl(url,
+                          mode: LaunchMode.externalApplication)) {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    child: Text('www.extrastaff.com'),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(bottom: 44),
+            child: abRoundButtonWithFixedWidth(
+              'next'.tr,
+              onTap: onTap,
+            )),
+        // TextButton(
+        //   onPressed: onTap,
+        //   child: Text(
+        //     index == 0 ? 'skip'.tr : 'start'.tr,
+        //     style: MyFonts.regular(24, color: MyColors.grey),
+        //   ),
+        // ),
       ],
     );
   }

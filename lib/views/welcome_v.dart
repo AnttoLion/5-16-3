@@ -14,42 +14,82 @@ class WelcomeView extends StatefulWidget {
 class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: abHeader('howCanWeHelp'.tr, showHome: false),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Spacer(),
-          Container(
-            padding: gHPadding,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // abSimpleButton(
-                //   'applyForaJob'.tr.toUpperCase(),
-                //   onTap: () => Get.to(() => QuestionsView()),
-                // ),
-                SizedBox(height: 32),
-                // abSimpleButton(
-                //   'alreadySignedUp'.tr.toUpperCase(),
-                //   onTap: () => Get.to(() => AlreadySignedUp()),
-                // ),
-                abSimpleButton(
-                  'alreadySignedUp'.tr.toUpperCase(),
-                  onTap: () => Get.to(() => LoginView(), arguments: true),
-                ),
-                SizedBox(height: 32),
-                abSimpleButton(
-                  'enterCode'.tr.toUpperCase(),
-                  onTap: () => Get.to(() => LoginView(), arguments: true),
-                ),
-              ],
+    if (isWebApp) {
+      return Scaffold(
+        appBar: abHeaderForWeb(context, 'howCanWeHelp'.tr, showHome: false),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Spacer(),
+            Container(
+              padding: gHPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 100),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 32),
+                          abSimpleButton(
+                            'alreadySignedUp'.tr.toUpperCase(),
+                            onTap: () =>
+                                Get.to(() => LoginView(), arguments: true),
+                          ),
+                          SizedBox(height: 32),
+                          abSimpleButton(
+                            'enterCode'.tr.toUpperCase(),
+                            onTap: () =>
+                                Get.to(() => LoginView(), arguments: true),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                ],
+              ),
             ),
-          ),
-          Spacer(),
-          abBottom(top: null),
-        ],
-      ),
-    );
+            Spacer(),
+            abBottomForWeb(context, top: null),
+          ],
+        ),
+      );
+    } else {
+      return Scaffold(
+        appBar: abHeader('howCanWeHelp'.tr, showHome: false),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Spacer(),
+            Container(
+              padding: gHPadding,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 32),
+                  abSimpleButton(
+                    'alreadySignedUp'.tr.toUpperCase(),
+                    onTap: () => Get.to(() => LoginView(), arguments: true),
+                  ),
+                  SizedBox(height: 32),
+                  abSimpleButton(
+                    'enterCode'.tr.toUpperCase(),
+                    onTap: () => Get.to(() => LoginView(), arguments: true),
+                  ),
+                ],
+              ),
+            ),
+            Spacer(),
+            abBottom(top: null),
+          ],
+        ),
+      );
+    }
   }
 }

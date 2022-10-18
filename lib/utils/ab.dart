@@ -491,6 +491,90 @@ PreferredSize abHeader(
   );
 }
 
+PreferredSize abHeaderForWeb(
+  BuildContext context,
+  String title, {
+  Function(int)? onTap,
+  Widget? center,
+  Widget? bottom,
+  bool showHome = true,
+  bool showBack = true,
+}) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(80),
+    child: SafeArea(
+      child: Row(
+        children: [
+          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 2,
+            child: Container(
+              height: double.infinity,
+              padding: gHPadding,
+              child: Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                children: [
+                  Positioned.fill(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Visibility(
+                          visible: showBack,
+                          maintainState: true,
+                          maintainAnimation: true,
+                          maintainSize: true,
+                          maintainSemantics: true,
+                          child: IconButton(
+                            onPressed: () =>
+                                onTap == null ? Get.back() : onTap(1),
+                            icon: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: MyColors.grey,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: center ??
+                              Text(
+                                title,
+                                style: MyFonts.medium(25),
+                                textAlign: TextAlign.center,
+                              ),
+                        ),
+                        Visibility(
+                          visible: showHome,
+                          maintainState: true,
+                          maintainAnimation: true,
+                          maintainSize: true,
+                          maintainSemantics: true,
+                          child: IconButton(
+                            onPressed: () => onTap == null
+                                ? Get.to(() => RegistrationProgress())
+                                : onTap(2),
+                            icon: Icon(
+                              Icons.home,
+                              size: 30,
+                              color: MyColors.lightBlue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  bottom ?? Divider(height: 3, color: MyColors.grey),
+                ],
+              ),
+            ),
+          ),
+          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+        ],
+      ),
+    ),
+  );
+}
+
 Widget abRadioButtons(bool? groupValue, Function(bool?) onChanged,
     {bool showIcon = false}) {
   return Row(
@@ -599,6 +683,31 @@ Widget abAnimatedButtonWithFixedWidth(String title, IconData? rightImage,
   );
 }
 
+Widget abRoundButtonWithFixedWidth(String title,
+    {bool disabled = false, double buttonWidth = 200, Function()? onTap}) {
+  final color = MyColors.white.withAlpha(disabled ? 127 : 255);
+  return InkWell(
+    onTap: onTap,
+    //   height: buttonHeight,
+    //   width: buttonWidth,
+    // color: MyColors.white,
+    child: Container(
+      height: buttonHeight,
+      width: buttonWidth,
+      decoration: BoxDecoration(
+        color: MyColors.lightBlue,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(title, style: MyFonts.regular(24, color: color)),
+        ],
+      ),
+    ),
+  );
+}
+
 Widget abBottom({
   String? top = '',
   String? bottom = '',
@@ -664,6 +773,93 @@ Widget abBottom({
                           : onTap!(1);
                 },
               ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget abBottomForWeb(
+  BuildContext context, {
+  String? top = '',
+  String? bottom = '',
+  bool? onlyTopDisabled,
+  List<String>? multiple,
+  Function(int)? onTap,
+}) {
+  final isSingleButton = top == null || bottom == null;
+  final bottomArrow = (bottom ?? '').isEmpty || bottom == 'back'.tr
+      ? Icons.arrow_back_ios_new
+      : Icons.arrow_forward_ios;
+  final title1 = (top ?? '').isEmpty ? 'proceed'.tr : top!;
+  final title2 = (bottom ?? '').isEmpty ? 'back'.tr : bottom!;
+  final bottomDisabled = !(onlyTopDisabled ?? true);
+  final length = multiple != null
+      ? multiple.length + 1
+      : isSingleButton
+          ? 1
+          : 2;
+  return GetBuilder(
+    init: objABBottom,
+    builder: (b) {
+      if (objABBottom.hideBottom) {
+        return Container();
+      }
+      return Container(
+        height: (2 * buttonHeight) + ((length + 1) * 16),
+        padding: gHPadding,
+        color: MyColors.darkBlue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 2,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (multiple != null)
+                      for (var i in multiple)
+                        Column(
+                          children: [
+                            abAnimatedButton(i, null, onTap: () async {
+                              onTap!(multiple.indexOf(i) + 2);
+                            }),
+                            SizedBox(height: 16),
+                          ],
+                        ),
+                    if (top != null)
+                      abAnimatedButton(
+                        title1,
+                        Icons.arrow_forward_ios,
+                        disabled: onlyTopDisabled ?? false,
+                        onTap: () async {
+                          onTap!(0);
+                        },
+                      ),
+                    if (!isSingleButton) SizedBox(height: 16),
+                    if (bottom != null)
+                      abAnimatedButton(
+                        title2,
+                        bottomArrow,
+                        disabled: bottomDisabled,
+                        onTap: () async {
+                          bottomDisabled
+                              ? null
+                              : bottom.isEmpty
+                                  ? Get.back()
+                                  : onTap!(1);
+                        },
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
           ],
         ),
       );
@@ -789,3 +985,28 @@ Future localStorageInit() async {
 }
 
 removeAllSharedPref() async => await localStorage?.clear();
+
+class ResponsiveWidget extends StatelessWidget {
+  //Large screen is any screen whose width is more than 1200 pixels
+  static bool isLargeScreen(BuildContext context) {
+    return MediaQuery.of(context).size.width > 1200;
+  }
+
+//Small screen is any screen whose width is less than 800 pixels
+  static bool isSmallScreen(BuildContext context) {
+    return MediaQuery.of(context).size.width < 800;
+  }
+
+//Medium screen is any screen whose width is less than 1200 pixels,
+  //and more than 800 pixels
+  static bool isMediumScreen(BuildContext context) {
+    return MediaQuery.of(context).size.width > 800 &&
+        MediaQuery.of(context).size.width < 1200;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
