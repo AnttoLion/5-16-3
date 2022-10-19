@@ -79,42 +79,150 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('login'.tr, showHome: false),
-        body: Form(
-          key: controller.formKey,
-          child: Column(
-            children: [
-              Expanded(child: SingleChildScrollView(child: top())),
-              abBottom(
-                bottom: 'back'.tr,
-                onTap: (i) async {
-                  if (i == 0) {
-                    setState(() => isLoading = true);
-                    final message = await controller.login();
-                    setState(() => isLoading = false);
-                    if (message.isEmpty) {
-                      if (controller.withoutPassword) {
-                        Get.to(() => EnterCode(), arguments: controller.result);
-                      } else {
-                        Get.to(() => ChooseCode());
-                      }
-                    } else {
-                      abShowMessage(message);
+  Widget topForWeb() {
+    return Container(
+      padding: gHPadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 2,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 32),
+                  abTitle('emailAddress'.tr),
+                  SizedBox(height: 8),
+                  abTextField('', (text) => controller.emailAddress = text,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'enterText'.tr;
+                    } else if (!value.isEmail) {
+                      return 'validEmail'.tr;
                     }
-                  } else {
-                    Get.back();
-                  }
-                },
+                    return null;
+                  }, onFieldSubmitted: (e) async {}),
+                  if (!controller.withoutPassword) ...[
+                    SizedBox(height: 32),
+                    abTitle('enterPassword'.tr),
+                    SizedBox(height: 8),
+                    abPasswordField('', (text) => controller.password = text,
+                        validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'enterText'.tr;
+                      }
+                      return null;
+                    }),
+                    SizedBox(height: 8),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          textStyle: MyFonts.semiBold(17),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          Get.to(() => ForgotPasscodeView(), arguments: true);
+                        },
+                        child: Text('Forgot passcode'.toUpperCase()),
+                      ),
+                    ),
+                  ],
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+        ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isWebApp) {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          appBar: abHeaderForWeb(
+              context, !controller.withoutPassword ? 'login'.tr : 'register'.tr,
+              showHome: false),
+          body: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                Expanded(child: SingleChildScrollView(child: topForWeb())),
+                abBottomForWeb(
+                  context,
+                  bottom: 'back'.tr,
+                  onTap: (i) async {
+                    if (i == 0) {
+                      setState(() => isLoading = true);
+                      final message = await controller.login();
+                      setState(() => isLoading = false);
+                      if (message.isEmpty) {
+                        if (controller.withoutPassword) {
+                          Get.to(() => EnterCode(),
+                              arguments: controller.result);
+                        } else {
+                          Get.to(() => ChooseCode());
+                        }
+                      } else {
+                        abShowMessage(message);
+                      }
+                    } else {
+                      Get.back();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          appBar: abHeader('login'.tr, showHome: false),
+          body: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                Expanded(child: SingleChildScrollView(child: top())),
+                abBottom(
+                  bottom: 'back'.tr,
+                  onTap: (i) async {
+                    if (i == 0) {
+                      setState(() => isLoading = true);
+                      final message = await controller.login();
+                      setState(() => isLoading = false);
+                      if (message.isEmpty) {
+                        if (controller.withoutPassword) {
+                          Get.to(() => EnterCode(),
+                              arguments: controller.result);
+                        } else {
+                          Get.to(() => ChooseCode());
+                        }
+                      } else {
+                        abShowMessage(message);
+                      }
+                    } else {
+                      Get.back();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

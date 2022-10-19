@@ -38,7 +38,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                           abSimpleButton(
                             'signIn'.tr.toUpperCase(),
                             onTap: () =>
-                                Get.to(() => LoginView(), arguments: true),
+                                Get.to(() => LoginView(), arguments: false),
                           ),
                           SizedBox(height: 32),
                           abSimpleButton(
@@ -61,7 +61,7 @@ class _WelcomeViewState extends State<WelcomeView> {
       );
     } else {
       return Scaffold(
-        appBar: abHeader('howCanWeHelp'.tr, showHome: false),
+        appBar: abHeader('welcome'.tr, showHome: false),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -74,7 +74,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   SizedBox(height: 32),
                   abSimpleButton(
                     'signIn'.tr.toUpperCase(),
-                    onTap: () => Get.to(() => LoginView(), arguments: true),
+                    onTap: () => Get.to(() => LoginView(), arguments: false),
                   ),
                   SizedBox(height: 32),
                   abSimpleButton(
