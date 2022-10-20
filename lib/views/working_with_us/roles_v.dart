@@ -30,69 +30,67 @@ class _RolesViewState extends State<RolesView> {
     setState(() => isLoading = false);
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        Text(
+          'topRoles'.tr,
+          style: MyFonts.regular(18, color: MyColors.lightBlue),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.roles.length,
+          padding: EdgeInsets.zero,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, position) {
+            return Column(
+              children: [
+                CheckboxListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  value: controller.isSelected(position),
+                  onChanged: (v) => setState(() {
+                    controller.addOrRemoveRole(position);
+                  }),
+                  title: abTitle(controller.roles[position].value),
+                ),
+                Divider(thickness: 2, color: MyColors.offWhite),
+              ],
+            );
+          },
+        ),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'rolesForYou'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        final message = await controller.updateTempRolesInfo();
+        if (message.isNotEmpty) {
+          abShowMessage(message);
+          return;
+        }
+        await controller.setDataInStorage();
+        await Resume.shared.setDone();
+        Get.to(() => SkillsView());
+      } else {
+        Get.back(result: true);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('rolesForYou'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 32),
-                    Text(
-                      'topRoles'.tr,
-                      style: MyFonts.regular(18, color: MyColors.lightBlue),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.roles.length,
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, position) {
-                        return Column(
-                          children: [
-                            CheckboxListTile(
-                              dense: true,
-                              contentPadding: EdgeInsets.zero,
-                              value: controller.isSelected(position),
-                              onChanged: (v) => setState(() {
-                                controller.addOrRemoveRole(position);
-                              }),
-                              title: abTitle(controller.roles[position].value),
-                            ),
-                            Divider(thickness: 2, color: MyColors.offWhite),
-                          ],
-                        );
-                      },
-                    ),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            abBottom(onTap: (i) async {
-              if (i == 0) {
-                final message = await controller.updateTempRolesInfo();
-                if (message.isNotEmpty) {
-                  abShowMessage(message);
-                  return;
-                }
-                await controller.setDataInStorage();
-                await Resume.shared.setDone();
-                Get.to(() => SkillsView());
-              } else {
-                Get.back(result: true);
-              }
-            }),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

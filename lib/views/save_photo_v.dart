@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:extra_staff/controllers/save_photo_c.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class SavePhoto extends StatefulWidget {
   const SavePhoto({Key? key}) : super(key: key);
@@ -20,71 +22,65 @@ class _SavePhotoState extends State<SavePhoto> {
   final controller = SavePhotoController();
   var isLoading = false;
 
-  Widget showImage() {
-    if (controller.image != null) {
-      return Image.file(File(controller.image!.path), fit: BoxFit.contain);
-    } else {
+  Widget getContent() {
+    if (isWebApp) {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image(
-            image: AssetImage('lib/images/face.png'),
-            height: 125,
-            width: 125,
-          ),
           SizedBox(height: 32),
-          abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
+          showImage(),
+          SizedBox(height: 32),
+          simpleButton('gallery'.tr.toUpperCase(), 'upload.png', 2),
+          SizedBox(height: 32),
+        ],
+      );
+    } else {
+      final title = controller.image == null
+          ? 'gallery'.tr.toUpperCase()
+          : 'usePhoto'.tr.toUpperCase();
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 32),
+          showImage(),
+          SizedBox(height: 32),
+          ...[
+            if (controller.image == null)
+              simpleButton('takePhoto'.tr, 'camera.png', 1),
+            if (controller.image == null) SizedBox(height: 16),
+            simpleButton(title, 'upload.png', 2),
+            if (controller.image != null) SizedBox(height: 16),
+            if (controller.image != null)
+              simpleButton('retakePhoto'.tr, 'retake.png', 3),
+          ],
+          SizedBox(height: 32),
         ],
       );
     }
   }
 
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'Upload'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: 'save'.tr,
+      bottom: null,
+      onTap: (i) async {
+        if (i == 0) {
+          await next();
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final title = controller.image == null
-        ? 'gallery'.tr.toUpperCase()
-        : 'usePhoto'.tr.toUpperCase();
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('Upload'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 32),
-                    showImage(),
-                    SizedBox(height: 32),
-                    ...[
-                      if (controller.image == null)
-                        simpleButton('takePhoto'.tr, 'camera.png', 1),
-                      if (controller.image == null) SizedBox(height: 16),
-                      simpleButton(title, 'upload.png', 2),
-                      if (controller.image != null) SizedBox(height: 16),
-                      if (controller.image != null)
-                        simpleButton('retakePhoto'.tr, 'retake.png', 3),
-                    ],
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            abBottom(
-              top: 'save'.tr,
-              bottom: null,
-              onTap: (i) async {
-                if (i == 0) {
-                  await next();
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {
@@ -99,28 +95,71 @@ class _SavePhotoState extends State<SavePhoto> {
     }
   }
 
+  Widget showImage() {
+    if (isWebApp) {
+      if (controller.imageInfoforWeb != null) {
+        return Image.memory(controller.imageInfoforWeb!.data!);
+      } else {
+        return Column(
+          children: [
+            Image(
+              image: AssetImage('lib/images/face.png'),
+              height: 125,
+              width: 125,
+            ),
+            SizedBox(height: 32),
+            abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
+          ],
+        );
+      }
+    } else {
+      if (controller.image != null) {
+        return Image.file(File(controller.image!.path), fit: BoxFit.contain);
+      } else {
+        return Column(
+          children: [
+            Image(
+              image: AssetImage('lib/images/face.png'),
+              height: 125,
+              width: 125,
+            ),
+            SizedBox(height: 32),
+            abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
+          ],
+        );
+      }
+    }
+  }
+
   Widget simpleButton(String title, String image, int index) {
     final borderWidth = 2.0;
     final backColor = controller.image == null ? null : MyColors.green;
     final frontColor = backColor != null ? MyColors.white : MyColors.darkBlue;
     return InkWell(
       onTap: () async {
-        if (index == 2) {
-          if (controller.image == null) {
-            final img = await picker.pickImage(source: ImageSource.gallery);
+        if (isWebApp) {
+          MediaInfo? imageInfoforWeb = await ImagePickerWeb.getImageInfo;
+          if (imageInfoforWeb != null) {
+            setState(() => controller.imageInfoforWeb = imageInfoforWeb);
+          }
+        } else {
+          if (index == 2) {
+            if (controller.image == null) {
+              final img = await picker.pickImage(source: ImageSource.gallery);
+              if (img != null) {
+                setState(() => controller.image = img);
+              }
+            } else {
+              await next();
+            }
+          } else {
+            final img = await picker.pickImage(
+              source: ImageSource.camera,
+              preferredCameraDevice: CameraDevice.front,
+            );
             if (img != null) {
               setState(() => controller.image = img);
             }
-          } else {
-            await next();
-          }
-        } else {
-          final img = await picker.pickImage(
-            source: ImageSource.camera,
-            preferredCameraDevice: CameraDevice.front,
-          );
-          if (img != null) {
-            setState(() => controller.image = img);
           }
         }
       },

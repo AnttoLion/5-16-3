@@ -83,7 +83,7 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
     }
   }
 
-  Widget content(int index) {
+  Widget documentContent(int index) {
     final upload = controller.isCV
         ? 'CV'
         : controller.isForklift
@@ -104,12 +104,14 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
             : words(index),
         SizedBox(height: 32),
         if (controller.isSingleImage()) SizedBox(height: 32),
-        abSimpleButton(
-          first.toUpperCase(),
-          onTap: () async => getImageFrom(ImageSource.camera, index),
-          backgroundColor: backColor,
-        ),
-        SizedBox(height: 16),
+        if (!isWebApp) ...[
+          abSimpleButton(
+            first.toUpperCase(),
+            onTap: () async => getImageFrom(ImageSource.camera, index),
+            backgroundColor: backColor,
+          ),
+          SizedBox(height: 16),
+        ],
         abSimpleButton(
           second.toUpperCase(),
           onTap: () async => getImageFrom(ImageSource.gallery, index),
@@ -120,96 +122,154 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('Upload'),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        controller.isCV || controller.isForklift
+            ? Icon(
+                Icons.upload_file_sharp,
+                color: MyColors.darkBlue,
+                size: 125,
+              )
+            : AspectRatio(
+                aspectRatio: 192 / 108,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    SizedBox(height: 32),
-                    controller.isCV || controller.isForklift
-                        ? Icon(
-                            Icons.upload_file_sharp,
+                    InkWell(
+                      onTap: () async {
+                        setState(() => isVisiable = true);
+                        Future.delayed(Duration(seconds: 3), () {
+                          setState(() => isVisiable = false);
+                        });
+                      },
+                      child: VideoPlayer(_controller!),
+                    ),
+                    Visibility(
+                      visible: isVisiable,
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: MyColors.black.withAlpha(50),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _controller!.value.isPlaying
+                                  ? _controller!.pause()
+                                  : _controller!.play();
+                            });
+                          },
+                          icon: Icon(
+                            _controller!.value.isPlaying
+                                ? Icons.pause_circle
+                                : Icons.play_circle,
                             color: MyColors.darkBlue,
-                            size: 125,
-                          )
-                        : AspectRatio(
-                            aspectRatio: 192 / 108,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () async {
-                                    setState(() => isVisiable = true);
-                                    Future.delayed(Duration(seconds: 3), () {
-                                      setState(() => isVisiable = false);
-                                    });
-                                  },
-                                  child: VideoPlayer(_controller!),
-                                ),
-                                Visibility(
-                                  visible: isVisiable,
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    color: MyColors.black.withAlpha(50),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _controller!.value.isPlaying
-                                              ? _controller!.pause()
-                                              : _controller!.play();
-                                        });
-                                      },
-                                      icon: Icon(
-                                        _controller!.value.isPlaying
-                                            ? Icons.pause_circle
-                                            : Icons.play_circle,
-                                        color: MyColors.darkBlue,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                            size: 50,
                           ),
-                    SizedBox(height: 32),
-                    content(0),
-                    if (!controller.isSingleImage())
-                      Divider(thickness: 2, color: MyColors.offWhite),
-                    if (!controller.isSingleImage()) SizedBox(height: 32),
-                    if (!controller.isSingleImage()) content(1),
-                    if (controller.isCV) ...[
-                      openFilesForCV(),
-                      SizedBox(height: 32),
-                    ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
-            ),
-            abBottom(
-              top: controller.isCV || controller.isForklift ? 'skip'.tr : null,
-              onTap: (e) {
-                if (e == 0) {
-                  Get.back(result: true);
-                }
-              },
-            ),
-          ],
-        ),
-      ),
+        SizedBox(height: 32),
+        documentContent(0),
+        if (!controller.isSingleImage()) ...[
+          Divider(thickness: 2, color: MyColors.offWhite),
+          SizedBox(height: 32),
+          documentContent(1),
+        ],
+        if (controller.isCV) ...[
+          openFilesForCV(),
+          SizedBox(height: 32),
+        ],
+      ],
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'Upload'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: controller.isCV || controller.isForklift ? 'skip'.tr : null,
+      onTap: (e) {
+        if (e == 0) {
+          Get.back(result: true);
+        }
+      },
+    );
+  }
+
+  Widget getMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+      BuildContext context, bool isLoading,
+      {required PreferredSizeWidget appBar,
+      required Widget content,
+      Widget? bottomBar}) {
+    if (isWebApp) {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          appBar: appBar,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  padding: gHPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 2,
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 100),
+                            child: content),
+                      ),
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+              if (bottomBar != null) bottomBar
+            ],
+          ),
+        ),
+      );
+    } else {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          appBar: appBar,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: gHPadding,
+                    child: content),
+              ),
+              if (bottomBar != null) bottomBar
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   Widget openFilesForCV() {

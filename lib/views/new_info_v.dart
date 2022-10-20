@@ -205,10 +205,20 @@ class NewInfoView extends StatelessWidget {
   Widget normalInfoWindow() {
     return Column(
       children: [
-        Image(
-          image: AssetImage('lib/images/${allData[index].image}.png'),
-          fit: BoxFit.fitWidth,
-        ),
+        isWebApp
+            ? ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 300.0,
+                ),
+                child: Image(
+                    image: AssetImage('lib/images/${allData[index].image}.png'),
+                    width: double.infinity,
+                    fit: BoxFit.fitWidth),
+              )
+            : Image(
+                image: AssetImage('lib/images/${allData[index].image}.png'),
+                fit: BoxFit.fitWidth,
+              ),
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 44),
@@ -236,22 +246,33 @@ class NewInfoView extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(44, 0, 44, 22),
-          child: ElevatedButton(
-            onPressed: () {
-              Get.back();
-              onTap();
-            },
-            child: Text('NEXT', style: MyFonts.regular(20)),
-            style: ElevatedButton.styleFrom(
-              fixedSize: Size(Get.size.width, 60),
-              primary: MyColors.darkBlue,
-              onPrimary: MyColors.white,
-              shape: StadiumBorder(),
-            ),
-          ),
-        ),
+        isWebApp
+            ? Padding(
+                padding: EdgeInsets.only(bottom: 44),
+                child: abRoundButtonWithFixedWidth(
+                  'next'.tr,
+                  btnHeight: 32,
+                  onTap: () {
+                    Get.back();
+                    onTap();
+                  },
+                ))
+            : Padding(
+                padding: EdgeInsets.fromLTRB(44, 0, 44, 22),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                    onTap();
+                  },
+                  child: Text('NEXT', style: MyFonts.regular(20)),
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(Get.size.width, 60),
+                    primary: MyColors.darkBlue,
+                    onPrimary: MyColors.white,
+                    shape: StadiumBorder(),
+                  ),
+                ),
+              ),
       ],
     );
   }

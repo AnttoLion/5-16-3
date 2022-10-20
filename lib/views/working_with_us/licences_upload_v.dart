@@ -63,8 +63,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget getContent() {
     final isUploadedF = controller.isUploaded(true);
     final isUploadedB = controller.isUploaded(false);
     final firstF = isUploadedF ? 'retakePhoto'.tr : 'useCamera'.tr;
@@ -73,175 +72,167 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     final secondB = isUploadedB ? 'uploadNewPhoto'.tr : 'gallery'.tr;
     final backgroundF = isUploadedF ? MyColors.green : null;
     final backgroundB = isUploadedB ? MyColors.green : null;
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader(controller.title, onTap: (i) async {
-          final isChanged = controller.changeTypeOnBack();
-          if (isChanged) await setData();
-        }),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 16),
-                    AspectRatio(
-                      aspectRatio: 192 / 108,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              setState(() => isVisiable = true);
-                              Future.delayed(Duration(seconds: 3), () {
-                                setState(() => isVisiable = false);
-                              });
-                            },
-                            child: VideoPlayer(_controller!),
-                          ),
-                          Visibility(
-                            visible: isVisiable,
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              color: MyColors.black.withAlpha(50),
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _controller!.value.isPlaying
-                                        ? _controller!.pause()
-                                        : _controller!.play();
-                                  });
-                                },
-                                icon: Icon(
-                                  _controller!.value.isPlaying
-                                      ? Icons.pause_circle
-                                      : Icons.play_circle,
-                                  color: MyColors.darkBlue,
-                                  size: 50,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    abTitle('${controller.title} - Front'),
-                    SizedBox(height: 16),
-                    abSimpleButton(firstF, onTap: () async {
-                      await getImageFrom(ImageSource.camera, 0);
-                    }, backgroundColor: backgroundF),
-                    SizedBox(height: 16),
-                    abSimpleButton(secondF, onTap: () async {
-                      await getImageFrom(ImageSource.gallery, 0);
-                    }, backgroundColor: backgroundF),
-                    SizedBox(height: 16),
-                    abTitle('${controller.title} - Back'),
-                    SizedBox(height: 16),
-                    abSimpleButton(firstB, onTap: () async {
-                      await getImageFrom(ImageSource.camera, 1);
-                    }, backgroundColor: backgroundB),
-                    SizedBox(height: 16),
-                    abSimpleButton(secondB, onTap: () async {
-                      await getImageFrom(ImageSource.gallery, 1);
-                    }, backgroundColor: backgroundB),
-                    SizedBox(height: 16),
-                    if (controller.type == LicenceType.licence) ...[
-                      SizedBox(height: 16),
-                      abTitle('Driving licence Passed date'),
-                      SizedBox(height: 16),
-                      abStatusButton(
-                          dateToString(controller.passDate, false) ??
-                              'dd/mm/yyyy',
-                          null, () async {
-                        final now = getNow;
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: controller.passDate ?? now,
-                          firstDate: DateTime(now.year - 10),
-                          lastDate: now,
-                        );
-                        setState(() {
-                          controller.passDate = picked;
-                          controller.drivingIssueDate =
-                              dateToString(picked, true) ?? '';
-                        });
-                      }, hideStatus: true),
-                      SizedBox(height: 16),
-                    ],
-                    abTitle('${controller.title} Expiry Date'),
-                    SizedBox(height: 16),
-                    abStatusButton(
-                        dateToString(controller.expDate, false) ?? 'dd/mm/yyyy',
-                        null, () async {
-                      final now = getNow;
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: controller.expDate ?? now,
-                        firstDate: now,
-                        lastDate: DateTime(now.year + 10),
-                      );
-                      setState(() {
-                        controller.expDate = picked;
-                        switch (controller.type) {
-                          case LicenceType.licence:
-                            controller.drivingDateExpiry =
-                                dateToString(picked, true) ?? '';
-                            return;
-                          case LicenceType.tacho:
-                            controller.tachoDateExpiry =
-                                dateToString(picked, true) ?? '';
-                            return;
-                          case LicenceType.qualification:
-                            controller.digicardDateExpiry =
-                                dateToString(picked, true) ?? '';
-                            return;
-                        }
-                      });
-                    }, hideStatus: true),
-                    SizedBox(height: 16),
-                    if (controller.type != LicenceType.licence) ...[
-                      abTitle('Country of Issue'),
-                      SizedBox(height: 16),
-                      abDropDownButton(
-                          controller.selectedCountry, controller.countryOptions,
-                          (e) {
-                        setState(() {
-                          controller.selectedCountry = e;
-                          switch (controller.type) {
-                            case LicenceType.licence:
-                              return;
-                            case LicenceType.tacho:
-                              controller.tachoCountry =
-                                  controller.selectedCountry.value;
-                              return;
-                            case LicenceType.qualification:
-                              controller.digicardCountry =
-                                  controller.selectedCountry.value;
-                              return;
-                          }
-                        });
-                      }),
-                      SizedBox(height: 16),
-                    ],
-                  ],
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        AspectRatio(
+          aspectRatio: 192 / 108,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              InkWell(
+                onTap: () async {
+                  setState(() => isVisiable = true);
+                  Future.delayed(Duration(seconds: 3), () {
+                    setState(() => isVisiable = false);
+                  });
+                },
+                child: VideoPlayer(_controller!),
               ),
-            ),
-            abBottom(onTap: (e) async {
-              if (e == 0) {
-                next(true);
-              }
-            }),
-          ],
+              Visibility(
+                visible: isVisiable,
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: MyColors.black.withAlpha(50),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _controller!.value.isPlaying
+                            ? _controller!.pause()
+                            : _controller!.play();
+                      });
+                    },
+                    icon: Icon(
+                      _controller!.value.isPlaying
+                          ? Icons.pause_circle
+                          : Icons.play_circle,
+                      color: MyColors.darkBlue,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+        SizedBox(height: 16),
+        abTitle('${controller.title} - Front'),
+        SizedBox(height: 16),
+        abSimpleButton(firstF, onTap: () async {
+          await getImageFrom(ImageSource.camera, 0);
+        }, backgroundColor: backgroundF),
+        SizedBox(height: 16),
+        abSimpleButton(secondF, onTap: () async {
+          await getImageFrom(ImageSource.gallery, 0);
+        }, backgroundColor: backgroundF),
+        SizedBox(height: 16),
+        abTitle('${controller.title} - Back'),
+        SizedBox(height: 16),
+        abSimpleButton(firstB, onTap: () async {
+          await getImageFrom(ImageSource.camera, 1);
+        }, backgroundColor: backgroundB),
+        SizedBox(height: 16),
+        abSimpleButton(secondB, onTap: () async {
+          await getImageFrom(ImageSource.gallery, 1);
+        }, backgroundColor: backgroundB),
+        SizedBox(height: 16),
+        if (controller.type == LicenceType.licence) ...[
+          SizedBox(height: 16),
+          abTitle('Driving licence Passed date'),
+          SizedBox(height: 16),
+          abStatusButton(
+              dateToString(controller.passDate, false) ?? 'dd/mm/yyyy', null,
+              () async {
+            final now = getNow;
+            final DateTime? picked = await showDatePicker(
+              context: context,
+              initialDate: controller.passDate ?? now,
+              firstDate: DateTime(now.year - 10),
+              lastDate: now,
+            );
+            setState(() {
+              controller.passDate = picked;
+              controller.drivingIssueDate = dateToString(picked, true) ?? '';
+            });
+          }, hideStatus: true),
+          SizedBox(height: 16),
+        ],
+        abTitle('${controller.title} Expiry Date'),
+        SizedBox(height: 16),
+        abStatusButton(
+            dateToString(controller.expDate, false) ?? 'dd/mm/yyyy', null,
+            () async {
+          final now = getNow;
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: controller.expDate ?? now,
+            firstDate: now,
+            lastDate: DateTime(now.year + 10),
+          );
+          setState(() {
+            controller.expDate = picked;
+            switch (controller.type) {
+              case LicenceType.licence:
+                controller.drivingDateExpiry = dateToString(picked, true) ?? '';
+                return;
+              case LicenceType.tacho:
+                controller.tachoDateExpiry = dateToString(picked, true) ?? '';
+                return;
+              case LicenceType.qualification:
+                controller.digicardDateExpiry =
+                    dateToString(picked, true) ?? '';
+                return;
+            }
+          });
+        }, hideStatus: true),
+        SizedBox(height: 16),
+        if (controller.type != LicenceType.licence) ...[
+          abTitle('Country of Issue'),
+          SizedBox(height: 16),
+          abDropDownButton(
+              controller.selectedCountry, controller.countryOptions, (e) {
+            setState(() {
+              controller.selectedCountry = e;
+              switch (controller.type) {
+                case LicenceType.licence:
+                  return;
+                case LicenceType.tacho:
+                  controller.tachoCountry = controller.selectedCountry.value;
+                  return;
+                case LicenceType.qualification:
+                  controller.digicardCountry = controller.selectedCountry.value;
+                  return;
+              }
+            });
+          }),
+          SizedBox(height: 16),
+        ],
+      ],
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, controller.title, onTap: (i) async {
+      final isChanged = controller.changeTypeOnBack();
+      if (isChanged) await setData();
+    });
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (e) async {
+      if (e == 0) {
+        next(true);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next(bool showError) async {

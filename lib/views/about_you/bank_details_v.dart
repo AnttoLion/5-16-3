@@ -27,98 +27,91 @@ class _BankDetails extends State<BankDetails> {
     allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
   }
 
-  Widget top() {
-    return Container(
-      padding: gHPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 16),
-          abTitle('bankName'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.bankName, (text) {
-            controller.data.bankName = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('sortCode'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.bankSortcode, (text) {
-            controller.data.bankSortcode = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            if (!RegExp(r'[0-9]{6}$').hasMatch(value)) {
-              return 'bankSortCode'.tr;
-            }
-            return null;
-          }, maxLength: 6, keyboardType: TextInputType.phone),
-          SizedBox(height: 16),
-          abTitle('bankAccountNumber'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.bankAccount, (text) {
-            controller.data.bankAccount = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            if (!RegExp(r'[0-9]{8}$').hasMatch(value)) {
-              return 'validBankAccountNumber'.tr;
-            }
-            return null;
-          }, keyboardType: TextInputType.number, maxLength: 8),
-          SizedBox(height: 16),
-          abTitle('bankHolderName'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.bankHolderName, (text) {
-            controller.data.bankHolderName = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('bankReference'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.bankReference, (text) {
-            controller.data.bankReference = text;
-          }, validator: (value) {
-            return null;
-          }, onFieldSubmitted: (e) => next()),
-          SizedBox(height: 16),
-          SizedBox(height: 8),
-        ],
-      ),
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        abTitle('bankName'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.bankName, (text) {
+          controller.data.bankName = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('sortCode'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.bankSortcode, (text) {
+          controller.data.bankSortcode = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          if (!RegExp(r'[0-9]{6}$').hasMatch(value)) {
+            return 'bankSortCode'.tr;
+          }
+          return null;
+        }, maxLength: 6, keyboardType: TextInputType.phone),
+        SizedBox(height: 16),
+        abTitle('bankAccountNumber'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.bankAccount, (text) {
+          controller.data.bankAccount = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          if (!RegExp(r'[0-9]{8}$').hasMatch(value)) {
+            return 'validBankAccountNumber'.tr;
+          }
+          return null;
+        }, keyboardType: TextInputType.number, maxLength: 8),
+        SizedBox(height: 16),
+        abTitle('bankHolderName'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.bankHolderName, (text) {
+          controller.data.bankHolderName = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('bankReference'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.bankReference, (text) {
+          controller.data.bankReference = text;
+        }, validator: (value) {
+          return null;
+        }, onFieldSubmitted: (e) => next()),
+        SizedBox(height: 16),
+        SizedBox(height: 8),
+      ],
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'payingYou'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        next();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('payingYou'.tr),
-        body: Form(
-          key: controller.formKey,
-          child: Column(
-            children: [
-              Expanded(child: SingleChildScrollView(child: top())),
-              abBottom(onTap: (i) async {
-                if (i == 0) {
-                  next();
-                }
-              }),
-            ],
-          ),
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
+        context, isLoading, controller.formKey,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {

@@ -108,7 +108,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithLoadingOverlayScaffoldFormScrollView(
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
         context, isLoading, controller.formKey,
         appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }

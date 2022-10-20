@@ -1136,7 +1136,7 @@ class ResponsiveWidget extends StatelessWidget {
   }
 }
 
-Widget abMainWidgetWithLoadingOverlayScaffoldFormScrollView(
+Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
     BuildContext context, bool isLoading, Key formKey,
     {required PreferredSizeWidget appBar,
     required Widget content,
@@ -1362,6 +1362,60 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
           children: [
             Expanded(
               child: Container(padding: gHPadding, child: content),
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: gHPadding,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          child: content),
+                    ),
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
+              ),
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(padding: gHPadding, child: content),
             ),
             if (bottomBar != null) bottomBar
           ],

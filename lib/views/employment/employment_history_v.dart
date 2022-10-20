@@ -63,76 +63,72 @@ class _EmploymentHistoryState extends State<EmploymentHistory> {
     );
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        Icon(
+          Icons.history,
+          size: 125,
+          color: MyColors.lightBlue,
+        ),
+        SizedBox(height: 32),
+        abWords('yourEmploymentHistory'.tr, 'history', WrapAlignment.start),
+        SizedBox(height: 32),
+        abTitle('company'.tr),
+        SizedBox(height: 16),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: controller.companies.length,
+          itemBuilder: (context, position) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 2),
+              child: companyButton(
+                  controller.companies[position].company, position),
+            );
+          },
+        ),
+        abSimpleButton('addCompany'.tr.toUpperCase(), onTap: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CompanyDetails()),
+          ).then((value) async {
+            Future.delayed(duration, () async {
+              await getUserTempData();
+            });
+          });
+          Get.to(() => CompanyDetails());
+        }),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'employment'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        if (controller.companies.isEmpty) {
+          abShowMessage('addCompanyMessage'.tr);
+        } else {
+          await Resume.shared.setDone();
+          Get.back(result: true);
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('employment'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 32),
-                    Icon(
-                      Icons.history,
-                      size: 125,
-                      color: MyColors.lightBlue,
-                    ),
-                    SizedBox(height: 32),
-                    abWords('yourEmploymentHistory'.tr, 'history',
-                        WrapAlignment.start),
-                    SizedBox(height: 32),
-                    abTitle('company'.tr),
-                    SizedBox(height: 16),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: controller.companies.length,
-                      itemBuilder: (context, position) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2),
-                          child: companyButton(
-                              controller.companies[position].company, position),
-                        );
-                      },
-                    ),
-                    abSimpleButton('addCompany'.tr.toUpperCase(),
-                        onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CompanyDetails()),
-                      ).then((value) async {
-                        Future.delayed(duration, () async {
-                          await getUserTempData();
-                        });
-                      });
-                      Get.to(() => CompanyDetails());
-                    }),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            if (controller.companies.isNotEmpty)
-              abBottom(onTap: (i) async {
-                if (i == 0) {
-                  if (controller.companies.isEmpty) {
-                    abShowMessage('addCompanyMessage'.tr);
-                  } else {
-                    await Resume.shared.setDone();
-                    Get.back(result: true);
-                  }
-                }
-              }),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(),
+        content: getContent(),
+        bottomBar: controller.companies.isNotEmpty ? getBottomBar() : null);
   }
 }

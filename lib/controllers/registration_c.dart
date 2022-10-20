@@ -1,6 +1,7 @@
 import 'package:extra_staff/models/drop_donws_m.dart';
 import 'package:extra_staff/models/user_data_m.dart';
 import 'package:extra_staff/utils/ab.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
 
@@ -9,6 +10,7 @@ class RegistrationController extends GetxController {
   DropDowns dropDowns = DropDowns.fromJson({});
   List<bool> completedValues = [];
   List<String> status = [];
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future<String> getTempUserData() async {
     await Services.shared.setData();

@@ -1,3 +1,4 @@
+import 'package:extra_staff/utils/constants.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +37,10 @@ class ExtraStaff extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTapDown: (e) {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (timer != null) {
-              fallBackTimer(false);
+            if (!isWebApp) {
+              if (timer != null) {
+                fallBackTimer(false);
+              }
             }
           },
           child: GetMaterialApp(

@@ -37,7 +37,7 @@ class _RegistrationView extends State<RegistrationView> {
   void initState() {
     super.initState();
     getUserTempData();
-    fallBackTimer(true);
+    if (!isWebApp) fallBackTimer(true);
   }
 
   getUserTempData() async {
@@ -71,7 +71,7 @@ class _RegistrationView extends State<RegistrationView> {
   }
 
   switchTheFlow(int index) async {
-    fallBackTimer(false);
+    if (!isWebApp) fallBackTimer(false);
     switch (index) {
       case 0:
         aboutYouNestedNavigation();
@@ -188,49 +188,45 @@ class _RegistrationView extends State<RegistrationView> {
     );
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        abTitle('aboutYou'.tr),
+        SizedBox(height: 16),
+        button('aboutYou'.tr, 0),
+        SizedBox(height: 16),
+        abTitle('yourEmploymentHistory'.tr),
+        SizedBox(height: 16),
+        button('yourEmploymentHistory'.tr, 1),
+        SizedBox(height: 16),
+        abTitle('ct'.tr),
+        SizedBox(height: 16),
+        button('ct'.tr, 2),
+        SizedBox(height: 16),
+        abTitle('lAgreementsC'.tr),
+        SizedBox(height: 16),
+        button('lAgreementsC'.tr, 3),
+        SizedBox(height: 16),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'registration'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) {
+      if (i == 0) {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('registration'.tr),
-        body: Form(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: gHPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 16),
-                      abTitle('aboutYou'.tr),
-                      SizedBox(height: 16),
-                      button('aboutYou'.tr, 0),
-                      SizedBox(height: 16),
-                      abTitle('yourEmploymentHistory'.tr),
-                      SizedBox(height: 16),
-                      button('yourEmploymentHistory'.tr, 1),
-                      SizedBox(height: 16),
-                      abTitle('ct'.tr),
-                      SizedBox(height: 16),
-                      button('ct'.tr, 2),
-                      SizedBox(height: 16),
-                      abTitle('lAgreementsC'.tr),
-                      SizedBox(height: 16),
-                      button('lAgreementsC'.tr, 3),
-                      SizedBox(height: 16),
-                    ],
-                  ),
-                ),
-              ),
-              abBottom(onTap: (i) {
-                if (i == 0) {}
-              }),
-            ],
-          ),
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
+        context, isLoading, controller.formKey,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

@@ -80,7 +80,7 @@ class _ForgotPasscodeViewState extends State<ForgotPasscodeView> {
 
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithLoadingOverlayScaffoldFormScrollView(
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
         context, isLoading, controller.formKey,
         appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }

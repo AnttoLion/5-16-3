@@ -30,34 +30,32 @@ class _EmploymentViewState extends State<EmploymentView> {
     setState(() => isLoading = false);
   }
 
+  Widget getContent() {
+    return Column(
+      children: [
+        SizedBox(height: 32),
+        abSimpleButton(
+          'Upload CV',
+          onTap: () async => await action(0),
+          backgroundColor: controller.isCVUploaded ? MyColors.green : null,
+        ),
+        SizedBox(height: 16),
+        abTitle('Or'),
+        SizedBox(height: 16),
+        abSimpleButton('Enter manually', onTap: () async => await action(1)),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'Employment'.tr);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: abHeader('Employment'),
-      body: LoadingOverlay(
-        isLoading: isLoading,
-        child: Container(
-          padding: gHPadding,
-          child: Column(
-            children: [
-              SizedBox(height: 32),
-              abSimpleButton(
-                'Upload CV',
-                onTap: () async => await action(0),
-                backgroundColor:
-                    controller.isCVUploaded ? MyColors.green : null,
-              ),
-              SizedBox(height: 16),
-              abTitle('Or'),
-              SizedBox(height: 16),
-              abSimpleButton('Enter manually',
-                  onTap: () async => await action(1)),
-              SizedBox(height: 32),
-            ],
-          ),
-        ),
-      ),
-    );
+    return abMainWidgetWithLoadingOverlayScaffoldContainer(context, isLoading,
+        appBar: getAppBar(), content: getContent());
   }
 
   action(int index) async {

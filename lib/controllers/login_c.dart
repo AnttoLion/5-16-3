@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:dart_ipify/dart_ipify.dart';
 
 class LoginController extends GetxController {
   String password = '';
@@ -109,18 +110,14 @@ class LoginController extends GetxController {
       await localStorage?.setInt('tempUserId', result!.userid);
       await localStorage?.setInt('tempTid', result!.tid);
       await Services.shared.setData();
-      print('a');
       await initPlatformState();
-      print('2');
 
       // response = await Services.shared
       //     .addDeviceDetails(emailAddress, _deviceData.toString());
       localStorage?.setString('device', _deviceData['device']);
-      Services.shared.headers['device'] = device;
-      print('3');
+      Services.shared.headers['DEVICE'] = _deviceData['device'];
 
       response = await Services.shared.addDeviceDetails(emailAddress, device);
-      print('4');
     }
     return response.errorMessage;
   }
@@ -136,8 +133,10 @@ class LoginController extends GetxController {
           'device': (await deviceInfoPlugin.iosInfo).identifierForVendor
         };
       } else {
+        final ipv4 = await Ipify.ipv4();
         //web
-        deviceData = <String, dynamic>{'device': 'Web'};
+        // deviceData = {'device': ipv4};
+        deviceData = {'device': 'WebBrowser'};
       }
     } on PlatformException {
       deviceData = <String, dynamic>{

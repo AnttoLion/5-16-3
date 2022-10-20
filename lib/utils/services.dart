@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 import 'package:extra_staff/models/address_m.dart';
 import 'package:extra_staff/models/company.dart';
 import 'package:extra_staff/models/driving_test_m.dart';
@@ -241,6 +242,17 @@ class Services extends GetConnect {
           },
           body: await image.readAsBytes())
       .then((value) => value.statusCode == 200 ? 'OK' : 'Error');
+
+  Future<String> putImageBytes(
+          String url, String imagepath, Uint8List imagebytes) async =>
+      await http
+          .put(Uri.parse(url),
+              headers: {
+                ...headers,
+                'Content-Type': lookupMimeType(imagepath)?.split('/').last ?? ''
+              },
+              body: imagebytes)
+          .then((value) => value.statusCode == 200 ? 'OK' : 'Error');
 
   Future<BaseApiResponse> tempCompDoc(
           String type, String docType, String docName, bool isBack,

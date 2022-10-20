@@ -57,188 +57,238 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        body: Form(
-          key: controller.formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              IconButton(
-                padding: EdgeInsets.fromLTRB(20, 50, 20, 16),
-                iconSize: 50,
-                onPressed: () {
-                  Get.back();
-                  Get.back();
-                },
-                color: MyColors.darkBlue,
-                icon: Icon(Icons.cancel_rounded),
-                alignment: Alignment.centerRight,
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        abTitle('companyName'.tr),
+        SizedBox(height: 16),
+        abTextField(
+            controller.company.company, (p0) => controller.company.company = p0,
+            validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('companyContact'.tr),
+        SizedBox(height: 16),
+        abTextField(controller.company.contactPersonName,
+            (p0) => controller.company.contactPersonName = p0,
+            validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }, maxLength: 250),
+        SizedBox(height: 16),
+        abTitle('companyContactEmail'.tr),
+        SizedBox(height: 16),
+        abTextField(controller.company.contactPersonEmail,
+            (p0) => controller.company.contactPersonEmail = p0,
+            validator: (value) {
+          final empty = value == null || value.isEmpty;
+          final text = value ?? '';
+          if (empty && controller.company.contactNumber.isEmpty) {
+            return 'enterText'.tr;
+          } else if (text.isNotEmpty && !text.isEmail) {
+            return 'validEmail'.tr;
+          }
+          return null;
+        }, keyboardType: TextInputType.emailAddress),
+        SizedBox(height: 16),
+        abTitle('companyTelephone'.tr),
+        SizedBox(height: 16),
+        abTextField(
+          controller.company.contactNumber,
+          (p0) => controller.company.contactNumber = p0,
+          validator: (value) {
+            final empty = value == null || value.isEmpty;
+            final text = value ?? '';
+            if (empty && controller.company.contactPersonEmail.isEmpty) {
+              return 'enterText'.tr;
+            }
+            if (text.isEmpty) return null;
+            if (!isPhoneNo(text)) {
+              return 'validPhone'.tr;
+            }
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          maxLength: 11,
+        ),
+        SizedBox(height: 16),
+        abTitle('jobTitle'.tr),
+        SizedBox(height: 16),
+        abTextField(controller.company.jobTitle,
+            (p0) => controller.company.jobTitle = p0, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('reasonForLeaving'.tr),
+        SizedBox(height: 16),
+        abTextField(controller.company.leavingReason,
+            (p0) => controller.company.leavingReason = p0, validator: (value) {
+          if (controller.endDate.isNotEmpty &&
+              (value == null || value.isEmpty)) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }, maxLines: 3),
+        SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  abTitle('startDate'.tr),
+                  SizedBox(height: 16),
+                  abStatusButton(controller.startDate, null, () async {
+                    selectDate(context, 1);
+                  }, hideStatus: true),
+                ],
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: gHPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      abTitle('companyName'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.company.company,
-                          (p0) => controller.company.company = p0,
-                          validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'enterText'.tr;
-                        }
-                        return null;
-                      }),
-                      SizedBox(height: 16),
-                      abTitle('companyContact'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.company.contactPersonName,
-                          (p0) => controller.company.contactPersonName = p0,
-                          validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'enterText'.tr;
-                        }
-                        return null;
-                      }, maxLength: 250),
-                      SizedBox(height: 16),
-                      abTitle('companyContactEmail'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.company.contactPersonEmail,
-                          (p0) => controller.company.contactPersonEmail = p0,
-                          validator: (value) {
-                        final empty = value == null || value.isEmpty;
-                        final text = value ?? '';
-                        if (empty && controller.company.contactNumber.isEmpty) {
-                          return 'enterText'.tr;
-                        } else if (text.isNotEmpty && !text.isEmail) {
-                          return 'validEmail'.tr;
-                        }
-                        return null;
-                      }, keyboardType: TextInputType.emailAddress),
-                      SizedBox(height: 16),
-                      abTitle('companyTelephone'.tr),
-                      SizedBox(height: 16),
-                      abTextField(
-                        controller.company.contactNumber,
-                        (p0) => controller.company.contactNumber = p0,
-                        validator: (value) {
-                          final empty = value == null || value.isEmpty;
-                          final text = value ?? '';
-                          if (empty &&
-                              controller.company.contactPersonEmail.isEmpty) {
-                            return 'enterText'.tr;
-                          }
-                          if (text.isEmpty) return null;
-                          if (!isPhoneNo(text)) {
-                            return 'validPhone'.tr;
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        maxLength: 11,
-                      ),
-                      SizedBox(height: 16),
-                      abTitle('jobTitle'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.company.jobTitle,
-                          (p0) => controller.company.jobTitle = p0,
-                          validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'enterText'.tr;
-                        }
-                        return null;
-                      }),
-                      SizedBox(height: 16),
-                      abTitle('reasonForLeaving'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.company.leavingReason,
-                          (p0) => controller.company.leavingReason = p0,
-                          validator: (value) {
-                        if (controller.endDate.isNotEmpty &&
-                            (value == null || value.isEmpty)) {
-                          return 'enterText'.tr;
-                        }
-                        return null;
-                      }, maxLines: 3),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                abTitle('startDate'.tr),
-                                SizedBox(height: 16),
-                                abStatusButton(controller.startDate, null,
-                                    () async {
-                                  selectDate(context, 1);
-                                }, hideStatus: true),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                abTitle('endDate'.tr),
-                                SizedBox(height: 16),
-                                abStatusButton(controller.endDate, null,
-                                    () async {
-                                  selectDate(context, 2);
-                                }, hideStatus: true),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 32),
-                    ],
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  abTitle('endDate'.tr),
+                  SizedBox(height: 16),
+                  abStatusButton(controller.endDate, null, () async {
+                    selectDate(context, 2);
+                  }, hideStatus: true),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, top: 'save'.tr, bottom: null, onTap: (i) async {
+      if (i == 0) {
+        if (!controller.formKey.currentState!.validate()) {
+          abShowMessage('error'.tr);
+          return;
+        }
+        if (controller.company.suggestedStartDate.isEmpty) {
+          abShowMessage('startDate'.tr);
+          return;
+        }
+        setState(() {
+          isLoading = true;
+        });
+        final message = await controller.updateTempEmployeeInfo();
+        setState(() {
+          isLoading = false;
+        });
+        if (message.isEmpty) {
+          await Resume.shared.setDone();
+          Get.back();
+          Get.back();
+        } else {
+          abShowMessage(message);
+        }
+      } else {
+        Get.back();
+        Get.back();
+      }
+    });
+  }
+
+  Widget getMainWidget(BuildContext context, bool isLoading,
+      {required Widget content, Widget? bottomBar}) {
+    if (isWebApp) {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          body: Form(
+            key: controller.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                IconButton(
+                  padding: EdgeInsets.fromLTRB(20, 50, 20, 16),
+                  iconSize: 50,
+                  onPressed: () {
+                    Get.back();
+                    Get.back();
+                  },
+                  color: MyColors.darkBlue,
+                  icon: Icon(Icons.cancel_rounded),
+                  alignment: Alignment.centerRight,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: gHPadding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                        Flexible(
+                          fit: FlexFit.loose,
+                          flex: 2,
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 100),
+                              child: content),
+                        ),
+                        if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              abBottom(
-                top: 'save'.tr,
-                bottom: null,
-                onTap: (i) async {
-                  if (i == 0) {
-                    if (!controller.formKey.currentState!.validate()) {
-                      abShowMessage('error'.tr);
-                      return;
-                    }
-                    if (controller.company.suggestedStartDate.isEmpty) {
-                      abShowMessage('startDate'.tr);
-                      return;
-                    }
-                    setState(() {
-                      isLoading = true;
-                    });
-                    final message = await controller.updateTempEmployeeInfo();
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (message.isEmpty) {
-                      await Resume.shared.setDone();
-                      Get.back();
-                      Get.back();
-                    } else {
-                      abShowMessage(message);
-                    }
-                  } else {
-                    Get.back();
-                    Get.back();
-                  }
-                },
-              ),
-            ],
+                if (bottomBar != null) bottomBar
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return LoadingOverlay(
+        isLoading: isLoading,
+        child: Scaffold(
+          body: Form(
+            key: controller.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                IconButton(
+                  padding: EdgeInsets.fromLTRB(20, 50, 20, 16),
+                  iconSize: 50,
+                  onPressed: () {
+                    Get.back();
+                    Get.back();
+                  },
+                  color: MyColors.darkBlue,
+                  icon: Icon(Icons.cancel_rounded),
+                  alignment: Alignment.centerRight,
+                ),
+                Expanded(
+                  child:
+                      SingleChildScrollView(padding: gHPadding, child: content),
+                ),
+                if (bottomBar != null) bottomBar
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getMainWidget(context, isLoading,
+        content: getContent(), bottomBar: getBottomBar());
   }
 }

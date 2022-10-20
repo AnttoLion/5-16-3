@@ -36,7 +36,7 @@ class ForgotPasscodeController extends GetxController {
         // response = await Services.shared
         //     .addDeviceDetails(emailAddress, _deviceData.toString());
         localStorage?.setString('device', _deviceData['device']);
-        Services.shared.headers['device'] = device;
+        Services.shared.headers['DEVICE'] = device;
         response = await Services.shared.addDeviceDetails(emailAddress, device);
       }
       return response.errorMessage;

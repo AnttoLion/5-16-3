@@ -153,31 +153,82 @@ class _AddressState extends State<Address> {
     );
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        searchAddress(),
+        SizedBox(height: 16),
+        abTitle('postcode'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.addressPostCode, (text) {
+          controller.data.addressPostCode = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('addressLine1'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.address_1, (text) {
+          controller.data.address_1 = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('addressLine2'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.address_2, (text) {
+          controller.data.address_2 = text;
+        }),
+        SizedBox(height: 16),
+        abTitle('town'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.addressTown, (text) {
+          controller.data.addressTown = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('county'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.addressCounty, (text) {
+          controller.data.addressCounty = text;
+        }, onFieldSubmitted: (e) async => await next()),
+        SizedBox(height: 16),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'aboutYou'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        if (!controller.formKey.currentState!.validate()) {
+          return 'error'.tr;
+        } else {
+          await next();
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('aboutYou'.tr),
-        body: Form(
-          key: isLoading ? null : controller.formKey,
-          child: Column(
-            children: [
-              Expanded(child: SingleChildScrollView(child: top())),
-              abBottom(onTap: (i) async {
-                if (i == 0) {
-                  if (!controller.formKey.currentState!.validate()) {
-                    return 'error'.tr;
-                  } else {
-                    await next();
-                  }
-                }
-              })
-            ],
-          ),
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
+        context, isLoading, controller.formKey,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {

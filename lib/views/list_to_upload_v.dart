@@ -28,7 +28,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
   @override
   void initState() {
     super.initState();
-    fallBackTimer(false);
+    if (!isWebApp) fallBackTimer(false);
     setData();
   }
 
@@ -96,111 +96,106 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget getContent() {
     final value = controller.data.isEmpty
         ? true
         : controller.data[1].selected.id.isNotEmpty;
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('documents'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 32),
-                    abTitle('entitledProof'.tr),
-                    SizedBox(height: 16),
-                    dropDonwButton(0),
-                    if (controller.showExpiryDate) ...[
-                      SizedBox(height: 16),
-                      abTitle(
-                          '${controller.data[0].selected.value} Expiry date'),
-                      SizedBox(height: 16),
-                      abStatusButton(
-                          controller.passportExpDate != null
-                              ? formatDate(controller.passportExpDate!)
-                              : '',
-                          null, () async {
-                        final now = getNow;
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: controller.passportExpDate ?? now,
-                          firstDate: controller.passportExpDate ?? now,
-                          lastDate: DateTime(now.year + 10),
-                        );
-                        if (picked != null &&
-                            picked != controller.passportExpDate) {
-                          setState(() {
-                            controller.passportExpDate = picked;
-                          });
-                          await controller.tempPassportExpiryInfo();
-                        }
-                      }, hideStatus: true),
-                    ],
-                    SizedBox(height: 16),
-                    abTitle('insuranceProof'.tr),
-                    SizedBox(height: 16),
-                    dropDonwButton(1),
-                    SizedBox(height: 16),
-                    CheckboxListTile(
-                      title: abTitle('notHaveNi'.tr),
-                      contentPadding: EdgeInsets.zero,
-                      value: controller.notHaveNi,
-                      onChanged: value
-                          ? null
-                          : (newValue) async {
-                              if (newValue != null) {
-                                controller.notHaveNi = newValue;
-                                setState(() {});
-                              }
-                            },
-                    ),
-                    SizedBox(height: 16),
-                    if (controller.notHaveNi) ...[
-                      abTitle('whyNotNI'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.reasonForNotHaveNi, (e) {
-                        controller.reasonForNotHaveNi = e;
-                      }),
-                      SizedBox(height: 16),
-                    ],
-                    abTitle('addressProof'.tr + ' (${'optional'.tr})'),
-                    SizedBox(height: 16),
-                    dropDonwButton(2),
-                    SizedBox(height: 16),
-                    abTitle('photoOfYou'.tr),
-                    SizedBox(height: 16),
-                    abStatusButton(
-                        'profilePicture'.tr, controller.profilePicture,
-                        () async {
-                      final value = await Get.to(() => SavePhoto());
-                      if (value == true) {
-                        await controller.getTempPhotoInfo();
-                        setState(() {});
-                      }
-                      await allDocsUploaded(false);
-                    }),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            abBottom(onTap: (i) async {
-              if (i == 0) {
-                await allDocsUploaded(true);
-              }
-            }),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 32),
+        abTitle('entitledProof'.tr),
+        SizedBox(height: 16),
+        dropDonwButton(0),
+        if (controller.showExpiryDate) ...[
+          SizedBox(height: 16),
+          abTitle('${controller.data[0].selected.value} Expiry date'),
+          SizedBox(height: 16),
+          abStatusButton(
+              controller.passportExpDate != null
+                  ? formatDate(controller.passportExpDate!)
+                  : '',
+              null, () async {
+            final now = getNow;
+            final DateTime? picked = await showDatePicker(
+              context: context,
+              initialDate: controller.passportExpDate ?? now,
+              firstDate: controller.passportExpDate ?? now,
+              lastDate: DateTime(now.year + 10),
+            );
+            if (picked != null && picked != controller.passportExpDate) {
+              setState(() {
+                controller.passportExpDate = picked;
+              });
+              await controller.tempPassportExpiryInfo();
+            }
+          }, hideStatus: true),
+        ],
+        SizedBox(height: 16),
+        abTitle('insuranceProof'.tr),
+        SizedBox(height: 16),
+        dropDonwButton(1),
+        SizedBox(height: 16),
+        CheckboxListTile(
+          title: abTitle('notHaveNi'.tr),
+          contentPadding: EdgeInsets.zero,
+          value: controller.notHaveNi,
+          onChanged: value
+              ? null
+              : (newValue) async {
+                  if (newValue != null) {
+                    controller.notHaveNi = newValue;
+                    setState(() {});
+                  }
+                },
         ),
-      ),
+        SizedBox(height: 16),
+        if (controller.notHaveNi) ...[
+          abTitle('whyNotNI'.tr),
+          SizedBox(height: 16),
+          abTextField(controller.reasonForNotHaveNi, (e) {
+            controller.reasonForNotHaveNi = e;
+          }),
+          SizedBox(height: 16),
+        ],
+        abTitle('addressProof'.tr + ' (${'optional'.tr})'),
+        SizedBox(height: 16),
+        dropDonwButton(2),
+        SizedBox(height: 16),
+        abTitle('photoOfYou'.tr),
+        SizedBox(height: 16),
+        abStatusButton('profilePicture'.tr, controller.profilePicture,
+            () async {
+          final value = await Get.to(() => SavePhoto());
+          if (value == true) {
+            await controller.getTempPhotoInfo();
+            setState(() {});
+          }
+          await allDocsUploaded(false);
+        }),
+        SizedBox(height: 32),
+      ],
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'documents'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        await allDocsUploaded(true);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   Documents fetchDoc(String id) {
