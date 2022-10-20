@@ -12,11 +12,37 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> {
+  Widget getContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (!isWebApp) SizedBox(height: 32),
+        abSimpleButton(
+          'signIn'.tr.toUpperCase(),
+          onTap: () => Get.to(() => LoginView(), arguments: false),
+        ),
+        SizedBox(height: 32),
+        abSimpleButton(
+          'signUp'.tr.toUpperCase(),
+          onTap: () => Get.to(() => LoginView(), arguments: true),
+        ),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'welcome'.tr, showHome: false);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, top: null);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isWebApp) {
       return Scaffold(
-        appBar: abHeaderForWeb(context, 'welcome'.tr, showHome: false),
+        appBar: getAppBar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -31,61 +57,28 @@ class _WelcomeViewState extends State<WelcomeView> {
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 100),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          abSimpleButton(
-                            'signIn'.tr.toUpperCase(),
-                            onTap: () =>
-                                Get.to(() => LoginView(), arguments: false),
-                          ),
-                          SizedBox(height: 32),
-                          abSimpleButton(
-                            'signUp'.tr.toUpperCase(),
-                            onTap: () =>
-                                Get.to(() => LoginView(), arguments: true),
-                          ),
-                        ],
-                      ),
-                    ),
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: getContent()),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
                 ],
               ),
             ),
             Spacer(),
-            abBottomForWeb(context, top: null),
+            getBottomBar()
           ],
         ),
       );
     } else {
       return Scaffold(
-        appBar: abHeader('welcome'.tr, showHome: false),
+        appBar: getAppBar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Spacer(),
-            Container(
-              padding: gHPadding,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 32),
-                  abSimpleButton(
-                    'signIn'.tr.toUpperCase(),
-                    onTap: () => Get.to(() => LoginView(), arguments: false),
-                  ),
-                  SizedBox(height: 32),
-                  abSimpleButton(
-                    'signUp'.tr.toUpperCase(),
-                    onTap: () => Get.to(() => LoginView(), arguments: true),
-                  ),
-                ],
-              ),
-            ),
+            Container(padding: gHPadding, child: getContent()),
             Spacer(),
-            abBottom(top: null),
+            getBottomBar()
           ],
         ),
       );

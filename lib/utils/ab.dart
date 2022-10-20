@@ -8,6 +8,8 @@ import 'package:extra_staff/models/key_value_m.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:extra_staff/views/registration_progress_v.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -27,7 +29,7 @@ fallBackTimer(bool stop) {
   }
   timer = Timer(Duration(minutes: 3), () {
     timer = null;
-    Get.offAll(() => EnterCode(isFromStart: true));
+    Get.offAll(() => EnterConfrimCode(isFromStart: true));
   });
 }
 
@@ -491,7 +493,7 @@ PreferredSize abHeader(
   );
 }
 
-PreferredSize abHeaderForWeb(
+PreferredSize abHeaderNew(
   BuildContext context,
   String title, {
   Function(int)? onTap,
@@ -500,79 +502,144 @@ PreferredSize abHeaderForWeb(
   bool showHome = true,
   bool showBack = true,
 }) {
-  return PreferredSize(
-    preferredSize: Size.fromHeight(80),
-    child: SafeArea(
-      child: Container(
-        height: double.infinity,
-        padding: gHPadding,
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            Positioned.fill(
-              child: Row(
-                children: [
-                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-                  Flexible(
-                    fit: FlexFit.loose,
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Visibility(
-                          visible: showBack,
-                          maintainState: true,
-                          maintainAnimation: true,
-                          maintainSize: true,
-                          maintainSemantics: true,
-                          child: IconButton(
-                            onPressed: () =>
-                                onTap == null ? Get.back() : onTap(1),
-                            icon: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: MyColors.grey,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: center ??
-                              Text(
-                                title,
-                                style: MyFonts.medium(25),
-                                textAlign: TextAlign.center,
+  if (isWebApp) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          height: double.infinity,
+          padding: gHPadding,
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Visibility(
+                            visible: showBack,
+                            maintainState: true,
+                            maintainAnimation: true,
+                            maintainSize: true,
+                            maintainSemantics: true,
+                            child: IconButton(
+                              onPressed: () =>
+                                  onTap == null ? Get.back() : onTap(1),
+                              icon: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: MyColors.grey,
+                                size: 30,
                               ),
-                        ),
-                        Visibility(
-                          visible: showHome,
-                          maintainState: true,
-                          maintainAnimation: true,
-                          maintainSize: true,
-                          maintainSemantics: true,
-                          child: IconButton(
-                            onPressed: () => onTap == null
-                                ? Get.to(() => RegistrationProgress())
-                                : onTap(2),
-                            icon: Icon(
-                              Icons.home,
-                              size: 30,
-                              color: MyColors.lightBlue,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: center ??
+                                Text(
+                                  title,
+                                  style: MyFonts.medium(25),
+                                  textAlign: TextAlign.center,
+                                ),
+                          ),
+                          Visibility(
+                            visible: showHome,
+                            maintainState: true,
+                            maintainAnimation: true,
+                            maintainSize: true,
+                            maintainSemantics: true,
+                            child: IconButton(
+                              onPressed: () => onTap == null
+                                  ? Get.to(() => RegistrationProgress())
+                                  : onTap(2),
+                              icon: Icon(
+                                Icons.home,
+                                size: 30,
+                                color: MyColors.lightBlue,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-                ],
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
               ),
-            ),
-            bottom ?? Divider(height: 3, color: MyColors.grey),
-          ],
+              bottom ?? Divider(height: 3, color: MyColors.grey),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  } else {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          height: double.infinity,
+          padding: gHPadding,
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Visibility(
+                      visible: showBack,
+                      maintainState: true,
+                      maintainAnimation: true,
+                      maintainSize: true,
+                      maintainSemantics: true,
+                      child: IconButton(
+                        onPressed: () => onTap == null ? Get.back() : onTap(1),
+                        icon: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: MyColors.grey,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: center ??
+                          Text(
+                            title,
+                            style: MyFonts.medium(25),
+                            textAlign: TextAlign.center,
+                          ),
+                    ),
+                    Visibility(
+                      visible: showHome,
+                      maintainState: true,
+                      maintainAnimation: true,
+                      maintainSize: true,
+                      maintainSemantics: true,
+                      child: IconButton(
+                        onPressed: () => onTap == null
+                            ? Get.to(() => RegistrationProgress())
+                            : onTap(2),
+                        icon: Icon(
+                          Icons.home,
+                          size: 30,
+                          color: MyColors.lightBlue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              bottom ?? Divider(height: 3, color: MyColors.grey),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 Widget abRadioButtons(bool? groupValue, Function(bool?) onChanged,
@@ -783,7 +850,7 @@ Widget abBottom({
   );
 }
 
-Widget abBottomForWeb(
+Widget abBottomNew(
   BuildContext context, {
   String? top = '',
   String? bottom = '',
@@ -803,71 +870,126 @@ Widget abBottomForWeb(
       : isSingleButton
           ? 1
           : 2;
-  return GetBuilder(
-    init: objABBottom,
-    builder: (b) {
-      if (objABBottom.hideBottom) {
-        return Container();
-      }
-      return Container(
-        height: (2 * buttonHeight) + ((length + 1) * 16),
-        padding: gHPadding,
-        color: MyColors.darkBlue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-            Flexible(
-              fit: FlexFit.loose,
-              flex: 2,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (multiple != null)
-                      for (var i in multiple)
-                        Column(
-                          children: [
-                            abAnimatedButton(i, null, onTap: () async {
-                              onTap!(multiple.indexOf(i) + 2);
-                            }),
-                            SizedBox(height: 16),
-                          ],
+
+  if (isWebApp) {
+    return GetBuilder(
+      init: objABBottom,
+      builder: (b) {
+        if (objABBottom.hideBottom) {
+          return Container();
+        }
+        return Container(
+          height: (2 * buttonHeight) + ((length + 1) * 16),
+          padding: gHPadding,
+          color: MyColors.darkBlue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 100),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (multiple != null)
+                        for (var i in multiple)
+                          Column(
+                            children: [
+                              abAnimatedButton(i, null, onTap: () async {
+                                onTap!(multiple.indexOf(i) + 2);
+                              }),
+                              SizedBox(height: 16),
+                            ],
+                          ),
+                      if (top != null)
+                        abAnimatedButton(
+                          title1,
+                          Icons.arrow_forward_ios,
+                          disabled: onlyTopDisabled ?? false,
+                          onTap: () async {
+                            onTap!(0);
+                          },
                         ),
-                    if (top != null)
-                      abAnimatedButton(
-                        title1,
-                        Icons.arrow_forward_ios,
-                        disabled: onlyTopDisabled ?? false,
-                        onTap: () async {
-                          onTap!(0);
-                        },
-                      ),
-                    if (!isSingleButton) SizedBox(height: 16),
-                    if (bottom != null)
-                      abAnimatedButton(
-                        title2,
-                        bottomArrow,
-                        disabled: bottomDisabled,
-                        onTap: () async {
-                          bottomDisabled
-                              ? null
-                              : bottom.isEmpty
-                                  ? Get.back()
-                                  : onTap!(1);
-                        },
-                      ),
-                  ],
+                      if (!isSingleButton) SizedBox(height: 16),
+                      if (bottom != null)
+                        abAnimatedButton(
+                          title2,
+                          bottomArrow,
+                          disabled: bottomDisabled,
+                          onTap: () async {
+                            bottomDisabled
+                                ? null
+                                : bottom.isEmpty
+                                    ? Get.back()
+                                    : onTap!(1);
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-          ],
-        ),
-      );
-    },
-  );
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            ],
+          ),
+        );
+      },
+    );
+  } else {
+    return GetBuilder(
+      init: objABBottom,
+      builder: (b) {
+        if (objABBottom.hideBottom) {
+          return Container();
+        }
+        return Container(
+          height: (length * buttonHeight) + ((length + 1) * 16),
+          padding: gHPadding,
+          color: MyColors.darkBlue,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (multiple != null)
+                for (var i in multiple)
+                  Column(
+                    children: [
+                      abAnimatedButton(i, null, onTap: () async {
+                        onTap!(multiple.indexOf(i) + 2);
+                      }),
+                      SizedBox(height: 16),
+                    ],
+                  ),
+              if (top != null)
+                abAnimatedButton(
+                  title1,
+                  Icons.arrow_forward_ios,
+                  disabled: onlyTopDisabled ?? false,
+                  onTap: () async {
+                    onTap!(0);
+                  },
+                ),
+              if (!isSingleButton) SizedBox(height: 16),
+              if (bottom != null)
+                abAnimatedButton(
+                  title2,
+                  bottomArrow,
+                  disabled: bottomDisabled,
+                  onTap: () async {
+                    bottomDisabled
+                        ? null
+                        : bottom.isEmpty
+                            ? Get.back()
+                            : onTap!(1);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
 
 Widget abBottomRow({
@@ -1011,5 +1133,240 @@ class ResponsiveWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     throw UnimplementedError();
+  }
+}
+
+Widget abMainWidgetWithLoadingOverlayScaffoldFormScrollView(
+    BuildContext context, bool isLoading, Key formKey,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: gHPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 2,
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 100),
+                            child: content),
+                      ),
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+              if (bottomBar != null) bottomBar
+            ],
+          ),
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Expanded(
+                child:
+                    SingleChildScrollView(padding: gHPadding, child: content),
+              ),
+              if (bottomBar != null) bottomBar
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget abMainWidgetWithLoadingOverlayScaffoldScrollView(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar, required Widget content}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: abHeaderNew(context, 'Verification'.tr, showHome: false),
+        body: SingleChildScrollView(
+          padding: gHPadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 2,
+                child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 100),
+                    child: content),
+              ),
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(padding: gHPadding, child: content),
+      ),
+    );
+  }
+}
+
+Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar, required Widget content}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Container(
+          padding: gHPadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 2,
+                child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 100),
+                    child: content),
+              ),
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Container(padding: gHPadding, child: content),
+      ),
+    );
+  }
+}
+
+Widget abPinCodeText(BuildContext context, int length,
+    {Function(String)? onCompleted, required Function(String) onChanged}) {
+  return PinCodeTextField(
+    appContext: context,
+    pastedTextStyle: MyFonts.bold(32, color: MyColors.darkBlue),
+    length: length,
+    obscureText: true,
+    obscuringCharacter: '*',
+    blinkWhenObscuring: true,
+    animationType: AnimationType.fade,
+    validator: (v) {
+      return null;
+    },
+    pinTheme: PinTheme(
+      shape: PinCodeFieldShape.box,
+      borderRadius: BorderRadius.circular(5),
+      fieldHeight: 50,
+      fieldWidth: 40,
+      selectedFillColor: MyColors.white,
+      inactiveFillColor: MyColors.white,
+      activeFillColor: Colors.white,
+      selectedColor: MyColors.darkBlue,
+      inactiveColor: MyColors.darkBlue,
+      activeColor: MyColors.darkBlue,
+    ),
+    cursorColor: MyColors.darkBlue,
+    animationDuration: Duration(milliseconds: 300),
+    enableActiveFill: true,
+    keyboardType: TextInputType.number,
+    boxShadows: [
+      BoxShadow(
+        offset: Offset(0, 1),
+        color: Colors.black12,
+        blurRadius: 10,
+      )
+    ],
+    onCompleted: onCompleted,
+    onChanged: onChanged,
+    beforeTextPaste: (text) {
+      return true;
+    },
+  );
+}
+
+Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: gHPadding,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          child: content),
+                    ),
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
+              ),
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: Container(padding: gHPadding, child: content),
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
   }
 }

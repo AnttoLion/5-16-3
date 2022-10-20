@@ -12,10 +12,10 @@ class StartScreenView extends StatefulWidget {
   const StartScreenView({Key? key}) : super(key: key);
 
   @override
-  _AlreadySignedUpState createState() => _AlreadySignedUpState();
+  _StartScreenViewState createState() => _StartScreenViewState();
 }
 
-class _AlreadySignedUpState extends State<StartScreenView> {
+class _StartScreenViewState extends State<StartScreenView> {
   final controller = LoginController();
   bool isPassCodeSet = false;
   bool isBiometricSet = false;
@@ -53,7 +53,8 @@ class _AlreadySignedUpState extends State<StartScreenView> {
                 if (isPassCodeSet) SizedBox(height: 32),
                 if (isPassCodeSet)
                   abSimpleButton('loginWithPasscode'.tr.toUpperCase(),
-                      onTap: () => Get.to(() => EnterCode(isFromStart: false))),
+                      onTap: () =>
+                          Get.to(() => EnterConfrimCode(isFromStart: false))),
                 if (isPassCodeSet) SizedBox(height: 32),
                 if (isPassCodeSet)
                   abSimpleButton('Forgot Passcode'.toUpperCase(),

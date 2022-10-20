@@ -45,64 +45,59 @@ class _SetPasswordState extends State<SetPassword> {
     );
   }
 
-  Widget top() {
-    return Container(
-      padding: gHPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 32),
-          abTitle('enterPassword'.tr),
-          SizedBox(height: 8),
-          abPasswordField('', (text) => controller.password = text,
-              validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('reEnterPassword'.tr),
-          SizedBox(height: 8),
-          abPasswordField('', (text) => controller.rePassword = text,
-              validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }, onFieldSubmitted: (e) async {
-            await next();
-          }),
-          SizedBox(height: 16),
-        ],
-      ),
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        abTitle('enterPassword'.tr),
+        SizedBox(height: 8),
+        abPasswordField('', (text) => controller.password = text,
+            validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('reEnterPassword'.tr),
+        SizedBox(height: 8),
+        abPasswordField('', (text) => controller.rePassword = text,
+            validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }, onFieldSubmitted: (e) async {
+          await next();
+        }),
+        SizedBox(height: 16),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'setPassword'.tr,
+        showHome: false, showBack: false);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      bottom: null,
+      onTap: (i) async {
+        if (i == 0) {
+          await next();
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('setPassword'.tr, showHome: false, showBack: false),
-        body: Form(
-          key: controller.formKey,
-          child: Column(
-            children: [
-              Expanded(child: SingleChildScrollView(child: top())),
-              abBottom(
-                bottom: null,
-                onTap: (i) async {
-                  if (i == 0) {
-                    await next();
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return abMainWidgetWithLoadingOverlayScaffoldFormScrollView(
+        context, isLoading, controller.formKey,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {

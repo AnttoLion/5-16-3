@@ -70,11 +70,12 @@ Future<BaseApiResponse> safeDecode(Response value) async {
   try {
     final json = jsonDecode(value.body);
     final response = BaseApiResponse.fromJson(json);
-    if (response.errorCode == 3) {
-      await localStorage?.setString('passcode', '');
-      Get.offAll(() => WelcomeView());
-      return BaseApiResponse.fromJson('');
-    }
+    //MYTEST
+    // if (response.errorCode == 3) {
+    //   await localStorage?.setString('passcode', '');
+    //   Get.offAll(() => WelcomeView());
+    //   return BaseApiResponse.fromJson('');
+    // }
     return response;
   } catch (e) {
     print(e);

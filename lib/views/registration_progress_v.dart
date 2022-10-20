@@ -42,75 +42,72 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
     if (result.errorMessage.isNotEmpty) {
       abShowMessage(result.errorMessage);
     } else {
-      if (result.result.contains('isDriver') &&
+      if (result.result.containsKey('isDriver') &&
           result.result['isDriver'] is bool) {
         await localStorage?.setBool('isDriver', result.result['isDriver']);
       }
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget getContent() {
     final str =
         'completed%'.tr + ' ' + '$progress%' + ' ' + 'registration'.tr + '.';
     width = MediaQuery.of(context).size.width - (gHPadding.right * 2);
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('dashboard'.tr),
-        body: Column(
+    return Column(
+      children: [
+        SizedBox(height: 32),
+        Stack(
           children: [
-            Expanded(
-              child: Container(
-                padding: gHPadding,
-                child: Column(
-                  children: [
-                    SizedBox(height: 32),
-                    Stack(
-                      children: [
-                        LinearProgressIndicator(
-                          value: progress / 100,
-                          minHeight: 40,
-                          color: MyColors.darkBlue,
-                          backgroundColor: MyColors.offWhite,
-                        ),
-                        Container(
-                          height: 40,
-                          width: progress == 0 ? width : width * progress / 100,
-                          alignment: Alignment.center,
-                          child: Text(
-                            progress >= 15 ? '$progress%' : '',
-                            style: MyFonts.medium(20, color: MyColors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 32),
-                    abWords(str, '$progress% ${'registration'.tr}.', null),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
+            LinearProgressIndicator(
+              value: progress / 100,
+              minHeight: 40,
+              color: MyColors.darkBlue,
+              backgroundColor: MyColors.offWhite,
             ),
-            abBottom(
-              top: progress != 0
-                  ? 'resume'.tr.toUpperCase()
-                  : 'start'.tr.toUpperCase(),
-              bottom: null,
-              onTap: (i) {
-                if (i == 0) {
-                  if (progress != 0) {
-                    Resume.shared.navigate();
-                  } else {
-                    Get.to(() => ListToUploadView());
-                  }
-                }
-              },
+            Container(
+              height: 40,
+              width: progress == 0 ? width : width * progress / 100,
+              alignment: Alignment.center,
+              child: Text(
+                progress >= 15 ? '$progress%' : '',
+                style: MyFonts.medium(20, color: MyColors.white),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
-      ),
+        SizedBox(height: 32),
+        abWords(str, '$progress% ${'registration'.tr}.', null),
+        SizedBox(height: 32),
+      ],
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'dashboard'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: progress != 0 ? 'resume'.tr.toUpperCase() : 'start'.tr.toUpperCase(),
+      bottom: null,
+      onTap: (i) {
+        if (i == 0) {
+          if (progress != 0) {
+            Resume.shared.navigate();
+          } else {
+            Get.to(() => ListToUploadView());
+          }
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

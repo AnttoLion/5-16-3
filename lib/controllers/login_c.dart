@@ -109,13 +109,18 @@ class LoginController extends GetxController {
       await localStorage?.setInt('tempUserId', result!.userid);
       await localStorage?.setInt('tempTid', result!.tid);
       await Services.shared.setData();
-
+      print('a');
       await initPlatformState();
+      print('2');
+
       // response = await Services.shared
       //     .addDeviceDetails(emailAddress, _deviceData.toString());
       localStorage?.setString('device', _deviceData['device']);
       Services.shared.headers['device'] = device;
+      print('3');
+
       response = await Services.shared.addDeviceDetails(emailAddress, device);
+      print('4');
     }
     return response.errorMessage;
   }
@@ -132,7 +137,7 @@ class LoginController extends GetxController {
         };
       } else {
         //web
-        deviceData = <String, dynamic>{'device:': 'Web Browser'};
+        deviceData = <String, dynamic>{'device': 'Web'};
       }
     } on PlatformException {
       deviceData = <String, dynamic>{

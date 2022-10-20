@@ -13,7 +13,7 @@ class BiometricView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: abHeader('useBiometricID?'.tr,
+      appBar: abHeaderNew(context, 'useBiometricID?'.tr,
           showHome: false, showBack: !isSkippable),
       body: Column(
         children: [
@@ -26,7 +26,8 @@ class BiometricView extends StatelessWidget {
               ),
             ),
           ),
-          abBottom(
+          abBottomNew(
+            context,
             top: 'useBiometricID'.tr,
             bottom: isSkippable ? 'setUpLater'.tr : null,
             onTap: (i) async {

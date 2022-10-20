@@ -235,7 +235,7 @@ class ListToUploadController extends GetxController {
     if (result.errorMessage.isNotEmpty) {
       abShowMessage(result.errorMessage);
     } else {
-      if (result.result.contains('isDriver') &&
+      if (result.result.containsKey('isDriver') &&
           result.result['isDriver'] is bool) {
         await localStorage?.setBool('isDriver', result.result['isDriver']);
       }

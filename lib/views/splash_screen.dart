@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
         if ((localStorage?.getString('passcode') ?? '').isNotEmpty) {
-          return EnterCode(isFromStart: true);
+          return EnterConfrimCode(isFromStart: true);
         } else {
           return PageControllerView();
         }
