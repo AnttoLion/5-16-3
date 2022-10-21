@@ -25,73 +25,73 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
     controller = Get.arguments['medicalHistory'];
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        abTitle('receivingMedicalTreatment?'.tr),
+        SizedBox(height: 8),
+        abRadioButtons(controller.treatment, (p0) {
+          setState(() {
+            controller.data.treatment = p0! ? '1' : '2';
+            controller.treatment = p0;
+          });
+        }),
+        SizedBox(height: 16),
+        abTitle('furtherDetails'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.treatmentData,
+            (p0) => controller.data.treatmentData = p0,
+            maxLines: 3),
+        SizedBox(height: 16),
+        abTitle('takenAnyDrugsMedicines?'.tr),
+        SizedBox(height: 8),
+        abRadioButtons(controller.drug, (p0) {
+          setState(() {
+            controller.data.drug = p0! ? '1' : '2';
+            controller.drug = p0;
+          });
+        }),
+        SizedBox(height: 16),
+        abTitle('furtherDetails'.tr),
+        SizedBox(height: 8),
+        abTextField(
+            controller.data.drugData, (p0) => controller.data.drugData = p0,
+            maxLines: 3),
+        SizedBox(height: 16),
+        abTitle('detailsOfAllIllnesses'.tr),
+        SizedBox(height: 16),
+        abTextField(controller.data.illnessData,
+            (p0) => controller.data.illnessData = p0,
+            maxLines: 3),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'yourMedicalHistory'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: 'save'.tr,
+      bottom: null,
+      onTap: (i) async {
+        if (i == 0) {
+          next();
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-        isLoading: isLoading,
-        child: Scaffold(
-          appBar: abHeader('yourMedicalHistory'.tr),
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: gHPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 32),
-                      abTitle('receivingMedicalTreatment?'.tr),
-                      SizedBox(height: 8),
-                      abRadioButtons(controller.treatment, (p0) {
-                        setState(() {
-                          controller.data.treatment = p0! ? '1' : '2';
-                          controller.treatment = p0;
-                        });
-                      }),
-                      SizedBox(height: 16),
-                      abTitle('furtherDetails'.tr),
-                      SizedBox(height: 8),
-                      abTextField(controller.data.treatmentData,
-                          (p0) => controller.data.treatmentData = p0,
-                          maxLines: 3),
-                      SizedBox(height: 16),
-                      abTitle('takenAnyDrugsMedicines?'.tr),
-                      SizedBox(height: 8),
-                      abRadioButtons(controller.drug, (p0) {
-                        setState(() {
-                          controller.data.drug = p0! ? '1' : '2';
-                          controller.drug = p0;
-                        });
-                      }),
-                      SizedBox(height: 16),
-                      abTitle('furtherDetails'.tr),
-                      SizedBox(height: 8),
-                      abTextField(controller.data.drugData,
-                          (p0) => controller.data.drugData = p0,
-                          maxLines: 3),
-                      SizedBox(height: 16),
-                      abTitle('detailsOfAllIllnesses'.tr),
-                      SizedBox(height: 16),
-                      abTextField(controller.data.illnessData,
-                          (p0) => controller.data.illnessData = p0,
-                          maxLines: 3),
-                      SizedBox(height: 32),
-                    ],
-                  ),
-                ),
-              ),
-              abBottom(
-                top: 'save'.tr,
-                bottom: null,
-                onTap: (i) async {
-                  if (i == 0) {
-                    next();
-                  }
-                },
-              ),
-            ],
-          ),
-        ));
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {

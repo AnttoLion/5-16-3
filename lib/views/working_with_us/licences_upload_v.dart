@@ -120,20 +120,24 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
         SizedBox(height: 16),
         abTitle('${controller.title} - Front'),
         SizedBox(height: 16),
-        abSimpleButton(firstF, onTap: () async {
-          await getImageFrom(ImageSource.camera, 0);
-        }, backgroundColor: backgroundF),
-        SizedBox(height: 16),
+        if (!isWebApp) ...[
+          abSimpleButton(firstF, onTap: () async {
+            await getImageFrom(ImageSource.camera, 0);
+          }, backgroundColor: backgroundF),
+          SizedBox(height: 16),
+        ],
         abSimpleButton(secondF, onTap: () async {
           await getImageFrom(ImageSource.gallery, 0);
         }, backgroundColor: backgroundF),
         SizedBox(height: 16),
         abTitle('${controller.title} - Back'),
         SizedBox(height: 16),
-        abSimpleButton(firstB, onTap: () async {
-          await getImageFrom(ImageSource.camera, 1);
-        }, backgroundColor: backgroundB),
-        SizedBox(height: 16),
+        if (!isWebApp) ...[
+          abSimpleButton(firstB, onTap: () async {
+            await getImageFrom(ImageSource.camera, 1);
+          }, backgroundColor: backgroundB),
+          SizedBox(height: 16),
+        ],
         abSimpleButton(secondB, onTap: () async {
           await getImageFrom(ImageSource.gallery, 1);
         }, backgroundColor: backgroundB),

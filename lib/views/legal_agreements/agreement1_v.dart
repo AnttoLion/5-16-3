@@ -52,7 +52,7 @@ class _Agreement1State extends State<Agreement1> {
     return LoadingOverlay(
       isLoading: isLoading,
       child: Scaffold(
-        appBar: abHeader(
+        appBar: abHeaderNew(context,
             controller.allAgreements[controller.currentIndex - 1].value),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +124,8 @@ class _Agreement1State extends State<Agreement1> {
                 ],
               ),
             ),
-            abBottom(
+            abBottomNew(
+              context,
               top: 'agree'.tr,
               onlyTopDisabled: needToScrolled ? needToScrolled : null,
               onTap: (i) async {

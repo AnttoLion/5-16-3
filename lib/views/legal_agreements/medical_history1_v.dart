@@ -38,81 +38,78 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
     }
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        Icon(
+          Icons.history,
+          size: 125,
+          color: MyColors.lightBlue,
+        ),
+        SizedBox(height: 32),
+        abTitle('medicalPhysicalMental'.tr),
+        SizedBox(height: 32),
+        abRadioButtons(controller.hasMedicalCondition, (b) {
+          setState(() {
+            controller.data.medicalCondition = b! ? '1' : '2';
+            controller.hasMedicalCondition = b;
+          });
+        }, showIcon: true),
+        SizedBox(height: 16),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'yourMedicalHistory'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      onTap: (i) async {
+        if (i == 0) {
+          final msg = controller.validate1();
+          if (msg.isNotEmpty) {
+            abShowMessage(msg);
+            return;
+          }
+          if (controller.hasMedicalCondition == false) {
+            setState(() => isLoading = true);
+            await Resume.shared.markAllDone();
+            final message = await controller.updateTempMedicalInfo();
+            setState(() => isLoading = false);
+            if (message.isEmpty) {
+              await Resume.shared.setDone();
+              await Resume.shared.setDone(name: (MedicalHistory2).toString());
+              await Resume.shared.setDone(name: (MedicalHistory3).toString());
+              Get.bottomSheet(
+                NewInfoView(6, () {
+                  Get.off(() => RegistrationComplete());
+                }),
+                enableDrag: false,
+                isDismissible: false,
+                isScrollControlled: true,
+              );
+            } else {
+              abShowMessage(message);
+            }
+          } else {
+            await Resume.shared.setDone();
+            Get.to(() => MedicalHistory2(),
+                arguments: {'medicalHistory': controller});
+          }
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('yourMedicalHistory'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: gHPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 16),
-                      Icon(
-                        Icons.history,
-                        size: 125,
-                        color: MyColors.lightBlue,
-                      ),
-                      SizedBox(height: 32),
-                      abTitle('medicalPhysicalMental'.tr),
-                      SizedBox(height: 32),
-                      abRadioButtons(controller.hasMedicalCondition, (b) {
-                        setState(() {
-                          controller.data.medicalCondition = b! ? '1' : '2';
-                          controller.hasMedicalCondition = b;
-                        });
-                      }, showIcon: true),
-                      SizedBox(height: 16),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            abBottom(onTap: (i) async {
-              if (i == 0) {
-                final msg = controller.validate1();
-                if (msg.isNotEmpty) {
-                  abShowMessage(msg);
-                  return;
-                }
-                if (controller.hasMedicalCondition == false) {
-                  setState(() => isLoading = true);
-                  await Resume.shared.markAllDone();
-                  final message = await controller.updateTempMedicalInfo();
-                  setState(() => isLoading = false);
-                  if (message.isEmpty) {
-                    await Resume.shared.setDone();
-                    await Resume.shared
-                        .setDone(name: (MedicalHistory2).toString());
-                    await Resume.shared
-                        .setDone(name: (MedicalHistory3).toString());
-                    Get.bottomSheet(
-                      NewInfoView(6, () {
-                        Get.off(() => RegistrationComplete());
-                      }),
-                      enableDrag: false,
-                      isDismissible: false,
-                      isScrollControlled: true,
-                    );
-                  } else {
-                    abShowMessage(message);
-                  }
-                } else {
-                  await Resume.shared.setDone();
-                  Get.to(() => MedicalHistory2(),
-                      arguments: {'medicalHistory': controller});
-                }
-              }
-            }),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

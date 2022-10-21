@@ -53,3 +53,4 @@ extra_staff/ios/Runner/GeneratedPluginRegistrant.m
 ios/Debug.xcconfig
 ios/Release.xcconfig
 lib/views/question1_v.dart.orig
+/pubspec.lock

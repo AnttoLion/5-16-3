@@ -59,31 +59,58 @@ class _AgreementsViewState extends State<AgreementsView> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: abHeader('agreements'.tr),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: gHPadding,
-              child: Column(
-                children: [
-                  SizedBox(height: 16),
-                  for (var i in controller.allAgreements) agreement(i),
-                  SizedBox(height: 16),
-                ],
-              ),
-            ),
-          ),
-          abBottom(onTap: (i) async {
-            if (i == 0) {
-              await navigate();
-            }
-          }),
-        ],
-      ),
+  Widget getContent() {
+    return Column(
+      children: [
+        SizedBox(height: 16),
+        for (var i in controller.allAgreements) agreement(i),
+        SizedBox(height: 16),
+      ],
     );
   }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'agreements'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        await navigate();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarScaffoldScrollView(context,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
+  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: abHeader('agreements'.tr),
+  //     body: Column(
+  //       children: [
+  //         Expanded(
+  //           child: SingleChildScrollView(
+  //             padding: gHPadding,
+  //             child: Column(
+  //               children: [
+  //                 SizedBox(height: 16),
+  //                 for (var i in controller.allAgreements) agreement(i),
+  //                 SizedBox(height: 16),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //         abBottom(onTap: (i) async {
+  //           if (i == 0) {
+  //             await navigate();
+  //           }
+  //         }),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

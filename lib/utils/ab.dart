@@ -131,6 +131,212 @@ PreferredSize abQuestions(
   );
 }
 
+PreferredSize abQuestionsNew(
+    BuildContext context, bool showHome, int current, int total) {
+  final width = MediaQuery.of(context).size.width;
+  final indent = ((width - 56) / total) * current;
+  if (isWebApp) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          padding: gHPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(),
+              Center(
+                child: Row(
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          total == 0
+                              ? Container()
+                              : Container(
+                                  width: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Text(
+                                        (current <= 9 ? '0' : '') + '$current',
+                                        textAlign: TextAlign.center,
+                                        style: MyFonts.medium(28),
+                                      ),
+                                      Text(
+                                        '/ ${(total <= 9 ? '0' : '')}$total',
+                                        textAlign: TextAlign.center,
+                                        style: MyFonts.medium(18,
+                                            color: MyColors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: IconButton(
+                              onPressed: () => Get.back(),
+                              icon: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: MyColors.grey,
+                              ),
+                            ),
+                          ),
+                          showHome
+                              ? Container(
+                                  height: 40,
+                                  alignment: AlignmentDirectional.centerEnd,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Get.to(() => RegistrationProgress());
+                                    },
+                                    icon: Icon(
+                                      Icons.home,
+                                      size: 30,
+                                      color: MyColors.lightBlue,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
+              ),
+              Spacer(),
+              total == 0
+                  ? Container(height: 10)
+                  : SizedBox(
+                      height: 10,
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Divider(
+                            height: 0,
+                            thickness: 2,
+                            color: MyColors.grey,
+                          ),
+                          AnimatedContainer(
+                            color: MyColors.darkBlue,
+                            height: 8,
+                            width: indent,
+                            duration: duration,
+                          ),
+                        ],
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  } else {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          padding: gHPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(),
+              Center(
+                child: Stack(
+                  alignment: AlignmentDirectional.centerStart,
+                  children: [
+                    total == 0
+                        ? Container()
+                        : Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Text(
+                                  (current <= 9 ? '0' : '') + '$current',
+                                  textAlign: TextAlign.center,
+                                  style: MyFonts.medium(28),
+                                ),
+                                Text(
+                                  '/ ${(total <= 9 ? '0' : '')}$total',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      MyFonts.medium(18, color: MyColors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      child: IconButton(
+                        onPressed: () => Get.back(),
+                        icon: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: MyColors.grey,
+                        ),
+                      ),
+                    ),
+                    showHome
+                        ? Container(
+                            height: 40,
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: IconButton(
+                              onPressed: () {
+                                Get.to(() => RegistrationProgress());
+                              },
+                              icon: Icon(
+                                Icons.home,
+                                size: 30,
+                                color: MyColors.lightBlue,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+              Spacer(),
+              total == 0
+                  ? Container(height: 10)
+                  : SizedBox(
+                      height: 10,
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Divider(
+                            height: 0,
+                            thickness: 2,
+                            color: MyColors.grey,
+                          ),
+                          AnimatedContainer(
+                            color: MyColors.darkBlue,
+                            height: 8,
+                            width: indent,
+                            duration: duration,
+                          ),
+                        ],
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 Widget abSimpleButton(String title,
     {required Function() onTap, Color? backgroundColor}) {
   final frontColor =
@@ -870,7 +1076,7 @@ Widget abBottomNew(
       : isSingleButton
           ? 1
           : 2;
-
+  final buttonHeightLength = length > 2 ? length : 2;
   if (isWebApp) {
     return GetBuilder(
       init: objABBottom,
@@ -879,7 +1085,8 @@ Widget abBottomNew(
           return Container();
         }
         return Container(
-          height: (2 * buttonHeight) + ((length + 1) * 16),
+          height: (buttonHeightLength * buttonHeight) +
+              ((buttonHeightLength + 1) * 16),
           padding: gHPadding,
           color: MyColors.darkBlue,
           child: Row(
@@ -1420,6 +1627,102 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
             if (bottomBar != null) bottomBar
           ],
         ),
+      ),
+    );
+  }
+}
+
+Widget abMainWidgetWithBottomBarLoadingOverlayScaffold(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: content),
+                  ),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                ],
+              ),
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(child: content),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget abMainWidgetWithBottomBarScaffoldScrollView(BuildContext context,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return Scaffold(
+      appBar: appBar,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: gHPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: content),
+                  ),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                ],
+              ),
+            ),
+          ),
+          if (bottomBar != null) bottomBar
+        ],
+      ),
+    );
+  } else {
+    return Scaffold(
+      appBar: appBar,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(padding: gHPadding, child: content),
+          ),
+          if (bottomBar != null) bottomBar
+        ],
       ),
     );
   }

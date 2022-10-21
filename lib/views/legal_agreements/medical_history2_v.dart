@@ -22,78 +22,134 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
     controller = Get.arguments['medicalHistory'];
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget getContent() {
     final keys = controller.values.keys.toList();
     final value = controller.values.values.toList();
-    return Scaffold(
-      appBar: abHeader('yourMedicalHistory'.tr),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: gHPadding,
+          child: Column(
+            children: [
+              SizedBox(height: 32),
+              abTitle('youSuffer?'.tr),
+              SizedBox(height: 32),
+            ],
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
             padding: gHPadding,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 32),
-                abTitle('youSuffer?'.tr),
-                SizedBox(height: 32),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.values.length,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, position) {
+                    return Column(
+                      children: [
+                        CheckboxListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          value: value[position],
+                          onChanged: (v) => setState(() {
+                            controller.values[keys[position]] = v!;
+                            controller.setValues(position, v ? '1' : '2');
+                          }),
+                          title: abTitle(keys[position]),
+                        ),
+                        Divider(thickness: 2, color: MyColors.offWhite),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 16),
+                abTitle('furtherDetails'.tr),
+                SizedBox(height: 8),
+                abTextField(
+                  controller.data.medicalDesc,
+                  (t) => controller.data.medicalDesc = t,
+                  maxLength: -1,
+                  onFieldSubmitted: (p) {
+                    next();
+                  },
+                ),
+                SizedBox(height: 16),
               ],
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: gHPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'yourMedicalHistory'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      onTap: (i) async {
+        if (i == 0) {
+          next();
+        }
+      },
+    );
+  }
+
+  Widget getMainWidget(BuildContext context,
+      {required PreferredSizeWidget appBar,
+      required Widget content,
+      Widget? bottomBar}) {
+    if (isWebApp) {
+      return Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.values.length,
-                    padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, position) {
-                      return Column(
-                        children: [
-                          CheckboxListTile(
-                            dense: true,
-                            contentPadding: EdgeInsets.zero,
-                            value: value[position],
-                            onChanged: (v) => setState(() {
-                              controller.values[keys[position]] = v!;
-                              controller.setValues(position, v ? '1' : '2');
-                            }),
-                            title: abTitle(keys[position]),
-                          ),
-                          Divider(thickness: 2, color: MyColors.offWhite),
-                        ],
-                      );
-                    },
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: content),
                   ),
-                  SizedBox(height: 16),
-                  abTitle('furtherDetails'.tr),
-                  SizedBox(height: 8),
-                  abTextField(
-                    controller.data.medicalDesc,
-                    (t) => controller.data.medicalDesc = t,
-                    maxLength: -1,
-                    onFieldSubmitted: (p) {
-                      next();
-                    },
-                  ),
-                  SizedBox(height: 16),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
                 ],
               ),
             ),
-          ),
-          abBottom(onTap: (i) async {
-            if (i == 0) {
-              next();
-            }
-          }),
-        ],
-      ),
-    );
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      );
+    } else {
+      return Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: content,
+            ),
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getMainWidget(context,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {

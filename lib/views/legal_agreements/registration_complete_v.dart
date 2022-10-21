@@ -36,10 +36,20 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
     return Scaffold(
       body: Column(
         children: [
-          Image(
-            image: AssetImage('lib/images/comingSoon.png'),
-            fit: BoxFit.fitWidth,
-          ),
+          isWebApp
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 300.0,
+                  ),
+                  child: Image(
+                      image: AssetImage('lib/images/comingSoon.png'),
+                      width: double.infinity,
+                      fit: BoxFit.fitWidth),
+                )
+              : Image(
+                  image: AssetImage('lib/images/comingSoon.png'),
+                  fit: BoxFit.fitWidth,
+                ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 44),
@@ -60,7 +70,8 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
               ),
             ),
           ),
-          abBottom(
+          abBottomNew(
+            context,
             top: 'Review Application',
             bottom: 'Logout',
             onTap: (i) async {

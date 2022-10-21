@@ -96,74 +96,71 @@ class _HMRCChecklistViewState extends State<HMRCChecklistView>
     );
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 32),
+        question(),
+        if (controller.isOption4 || controller.isOption1) ...[
+          SizedBox(height: 32),
+          Text(
+            'Student Loan Plans',
+            style: MyFonts.bold(24, color: MyColors.darkBlue),
+          ),
+          for (var i in controller.option4Display) showPlans(i),
+        ],
+        if (controller.isOption5) ...[
+          for (var i in controller.option5Display) showPlans(i),
+        ],
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abQuestionsNew(context, true, controller.selectedIndex + 1,
+        controller.startingData.length);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: null,
+      multiple: controller.bottomOptions,
+      onTap: (i) async {
+        if (i == 2) {
+          controller.answers[controller.selectedIndex + 1].value = '1';
+          controller.nextQuestion();
+        } else if (i == 3) {
+          controller.answers[controller.selectedIndex + 1].value = '2';
+          if (controller.selectedIndex < 4) {
+            controller.jumpQuestion();
+          } else {
+            if (controller.selectedIndex ==
+                controller.startingData.length - 2) {
+              await apiCall();
+            } else {
+              await apiCall();
+            }
+          }
+        } else if (i == 4) {
+          controller.answers[controller.selectedIndex + 1].value = '1,2';
+          controller.nextQuestion();
+        }
+        setState(() {});
+        if (controller.selectedIndex == controller.startingData.length) {
+          controller.selectedIndex -= 1;
+          await apiCall();
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abQuestions(context, true, controller.selectedIndex + 1,
-            controller.startingData.length),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 32),
-                    question(),
-                    if (controller.isOption4 || controller.isOption1) ...[
-                      SizedBox(height: 32),
-                      Text(
-                        'Student Loan Plans',
-                        style: MyFonts.bold(24, color: MyColors.darkBlue),
-                      ),
-                      for (var i in controller.option4Display) showPlans(i),
-                    ],
-                    if (controller.isOption5) ...[
-                      for (var i in controller.option5Display) showPlans(i),
-                    ],
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            abBottom(
-              top: null,
-              multiple: controller.bottomOptions,
-              onTap: (i) async {
-                if (i == 2) {
-                  controller.answers[controller.selectedIndex + 1].value = '1';
-                  controller.nextQuestion();
-                } else if (i == 3) {
-                  controller.answers[controller.selectedIndex + 1].value = '2';
-                  if (controller.selectedIndex < 4) {
-                    controller.jumpQuestion();
-                  } else {
-                    if (controller.selectedIndex ==
-                        controller.startingData.length - 2) {
-                      await apiCall();
-                    } else {
-                      await apiCall();
-                    }
-                  }
-                } else if (i == 4) {
-                  controller.answers[controller.selectedIndex + 1].value =
-                      '1,2';
-                  controller.nextQuestion();
-                }
-                setState(() {});
-                if (controller.selectedIndex ==
-                    controller.startingData.length) {
-                  controller.selectedIndex -= 1;
-                  await apiCall();
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

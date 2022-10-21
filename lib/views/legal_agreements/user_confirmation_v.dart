@@ -59,89 +59,83 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
     );
   }
 
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 32),
+        abTitle('I $userName confirm that I have read and understood:'.tr),
+        SizedBox(height: 32),
+        for (var i = 0; i < data.length; i++) checkList(i),
+        SizedBox(height: 32),
+        abWords('requireSign'.tr, 'signature', WrapAlignment.start),
+        SizedBox(height: 8),
+        Container(
+          height: 300,
+          color: MyColors.lightGrey.withOpacity(0.5),
+          child: Signature(key: sign),
+        ),
+        SizedBox(height: 8),
+        TextButton(
+          onPressed: () {
+            sign.currentState?.clear();
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.darkBlue),
+          ),
+          child: Text(
+            'Clear',
+            style: MyFonts.bold(17, color: MyColors.white),
+          ),
+        ),
+        SizedBox(height: 32),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'agreements'.tr);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].values.first == false) {
+            abShowMessage('selectAllAgreements'.tr);
+            return;
+          }
+        }
+        final si = sign.currentState;
+        if (!(si?.hasPoints ?? false)) {
+          abShowMessage('requireSign'.tr);
+          return;
+        }
+        final image = await si?.getData();
+        var iData = await image?.toByteData(format: ui.ImageByteFormat.png);
+        final xFile = XFile.fromData(iData!.buffer.asUint8List());
+        si?.clear();
+        final message = await controller.putSignature(xFile);
+        if (message != 'OK') {
+          abShowMessage(message);
+          return;
+        }
+        await Resume.shared.setDone();
+        Get.bottomSheet(
+          NewInfoView(8, () {
+            Get.to(() => Interview());
+          }),
+          enableDrag: false,
+          isDismissible: false,
+          isScrollControlled: true,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (data.isEmpty) {
-      return Container();
-    }
-    return Scaffold(
-      appBar: abHeader('agreements'.tr),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: gHPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 32),
-                  abTitle('I $userName confirm that I have read and understood:'
-                      .tr),
-                  SizedBox(height: 32),
-                  for (var i = 0; i < data.length; i++) checkList(i),
-                  SizedBox(height: 32),
-                  abWords('requireSign'.tr, 'signature', WrapAlignment.start),
-                  SizedBox(height: 8),
-                  Container(
-                    height: 300,
-                    color: MyColors.lightGrey.withOpacity(0.5),
-                    child: Signature(key: sign),
-                  ),
-                  SizedBox(height: 8),
-                  TextButton(
-                    onPressed: () {
-                      sign.currentState?.clear();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(MyColors.darkBlue),
-                    ),
-                    child: Text(
-                      'Clear',
-                      style: MyFonts.bold(17, color: MyColors.white),
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                ],
-              ),
-            ),
-          ),
-          abBottom(onTap: (i) async {
-            if (i == 0) {
-              for (var i = 0; i < data.length; i++) {
-                if (data[i].values.first == false) {
-                  abShowMessage('selectAllAgreements'.tr);
-                  return;
-                }
-              }
-              final si = sign.currentState;
-              if (!(si?.hasPoints ?? false)) {
-                abShowMessage('requireSign'.tr);
-                return;
-              }
-              final image = await si?.getData();
-              var iData =
-                  await image?.toByteData(format: ui.ImageByteFormat.png);
-              final xFile = XFile.fromData(iData!.buffer.asUint8List());
-              si?.clear();
-              final message = await controller.putSignature(xFile);
-              if (message != 'OK') {
-                abShowMessage(message);
-                return;
-              }
-              await Resume.shared.setDone();
-              Get.bottomSheet(
-                NewInfoView(8, () {
-                  Get.to(() => Interview());
-                }),
-                enableDrag: false,
-                isDismissible: false,
-                isScrollControlled: true,
-              );
-            }
-          }),
-        ],
-      ),
-    );
+    return abMainWidgetWithBottomBarScaffoldScrollView(context,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

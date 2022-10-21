@@ -33,65 +33,71 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
     if (message.isNotEmpty) abShowMessage(message);
   }
 
+  Widget getContent() {
+    return Column(
+      children: [
+        SizedBox(height: 32),
+        Container(
+          padding: gHPadding,
+          child: Column(
+            children: [
+              abWords('Employment Statement', 'Statement', null),
+              SizedBox(height: 16),
+              abTitle('selectStatement'.tr),
+            ],
+          ),
+        ),
+        SizedBox(height: 32),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: gHPadding,
+            child: Column(
+              children: [
+                for (var i in controller.options) ...[
+                  abStatusButton(
+                    i,
+                    controller.answers[controller.selectedIndex].value ==
+                            '${controller.options.indexOf(i) + 1}'
+                        ? true
+                        : null,
+                    () {
+                      final index = controller.options.indexOf(i);
+                      setState(() {
+                        controller.selectedIndex = 0;
+                        controller.answers[0].value = '${index + 1}';
+                      });
+                      Future.delayed(duration * 2, () async {
+                        await Resume.shared.setDone();
+                        passedData['answers'] = controller.answers[0];
+                        Get.to(() => HMRCChecklistView(),
+                            arguments: passedData);
+                      });
+                    },
+                    hideStatus: true,
+                    expanded: true,
+                    borderWidth: 3,
+                  ),
+                  SizedBox(height: 32),
+                ]
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'HMRC Checklist');
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(context, top: null);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('HMRC Checklist'),
-        body: Column(
-          children: [
-            SizedBox(height: 32),
-            Container(
-              padding: gHPadding,
-              child: Column(
-                children: [
-                  abWords('Employment Statement', 'Statement', null),
-                  SizedBox(height: 16),
-                  abTitle('selectStatement'.tr),
-                ],
-              ),
-            ),
-            SizedBox(height: 32),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: gHPadding,
-                child: Column(
-                  children: [
-                    for (var i in controller.options) ...[
-                      abStatusButton(
-                        i,
-                        controller.answers[controller.selectedIndex].value ==
-                                '${controller.options.indexOf(i) + 1}'
-                            ? true
-                            : null,
-                        () {
-                          final index = controller.options.indexOf(i);
-                          setState(() {
-                            controller.selectedIndex = 0;
-                            controller.answers[0].value = '${index + 1}';
-                          });
-                          Future.delayed(duration * 2, () async {
-                            await Resume.shared.setDone();
-                            passedData['answers'] = controller.answers[0];
-                            Get.to(() => HMRCChecklistView(),
-                                arguments: passedData);
-                          });
-                        },
-                        hideStatus: true,
-                        expanded: true,
-                        borderWidth: 3,
-                      ),
-                      SizedBox(height: 32),
-                    ]
-                  ],
-                ),
-              ),
-            ),
-            abBottom(top: null),
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffold(context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }
