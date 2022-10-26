@@ -47,122 +47,163 @@ class _Agreement1State extends State<Agreement1> {
     return true;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeaderNew(context,
-            controller.allAgreements[controller.currentIndex - 1].value),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding:
-                  EdgeInsets.fromLTRB(gHPadding.left, 16, gHPadding.right, 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text('Dear $userName', style: MyFonts.semiBold(24)),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      scrollController.animateTo(
-                        scrollController.position.maxScrollExtent,
-                        duration: duration,
-                        curve: Curves.elasticOut,
-                      );
-                      setState(() => needToScrolled = false);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Icon(Icons.arrow_forward_ios,
-                            color: MyColors.white),
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: MyColors.darkBlue,
-                      ),
-                    ),
-                  ),
-                ],
+  Widget getContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(gHPadding.left, 16, gHPadding.right, 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('Dear $userName', style: MyFonts.semiBold(24)),
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: gHPadding,
-                child: RawScrollbar(
-                  isAlwaysShown: true,
-                  controller: scrollController,
-                  thumbColor: MyColors.darkBlue,
-                  radius: Radius.circular(16),
-                  thickness: 16,
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Html(data: controller.txt),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              padding: gHPadding,
-              color: MyColors.darkBlue,
-              child: Column(
-                children: [
-                  SizedBox(height: 16),
-                  abWords(
-                    '${'dear'.tr} $userName ${'confirm'.tr}, ${'agreementAbove'.tr}',
-                    '$userName ${'understood'.tr}',
-                    null,
-                    textColor: MyColors.white,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-            abBottomNew(
-              context,
-              top: 'agree'.tr,
-              onlyTopDisabled: needToScrolled ? needToScrolled : null,
-              onTap: (i) async {
-                if (i == 0) {
-                  if (needToScrolled) {
-                    abShowMessage(
-                        'Scroll to bottom of document using right hand side down arrow to review before agreeing');
-                    return;
-                  }
-                  final message = await controller.updateTempAgreementInfo();
-                  if (message.isNotEmpty) {
-                    abShowMessage(message);
-                    return;
-                  }
-                  if (controller.currentIndex ==
-                      controller.allAgreements.length) {
-                    await Resume.shared.setDone();
-                    await Resume.shared
-                        .setDone(name: (AgreementsView).toString());
-                    Get.to(() => UserConfirmationView());
-                    return;
-                  }
-                  controller.nextAgreement();
-                  final value = await apiCall();
-                  if (!value) return;
+              InkWell(
+                onTap: () {
                   scrollController.animateTo(
-                    scrollController.position.minScrollExtent,
+                    scrollController.position.maxScrollExtent,
                     duration: duration,
                     curve: Curves.elasticOut,
                   );
-                  setState(() => needToScrolled = true);
-                }
-              },
+                  setState(() => needToScrolled = false);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: RotatedBox(
+                    quarterTurns: 1,
+                    child: Icon(Icons.arrow_forward_ios, color: MyColors.white),
+                  ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: MyColors.darkBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: gHPadding,
+            child: RawScrollbar(
+              isAlwaysShown: true,
+              controller: scrollController,
+              thumbColor: MyColors.darkBlue,
+              radius: Radius.circular(16),
+              thickness: 16,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Html(data: controller.txt),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(
+        context, controller.allAgreements[controller.currentIndex - 1].value);
+  }
+
+  Widget getBottomBar() {
+    return abBottomNew(
+      context,
+      top: 'agree'.tr,
+      onlyTopDisabled: needToScrolled ? needToScrolled : null,
+      onTap: (i) async {
+        if (i == 0) {
+          if (needToScrolled) {
+            abShowMessage(
+                'Scroll to bottom of document using right hand side down arrow to review before agreeing');
+            return;
+          }
+          final message = await controller.updateTempAgreementInfo();
+          if (message.isNotEmpty) {
+            abShowMessage(message);
+            return;
+          }
+          if (controller.currentIndex == controller.allAgreements.length) {
+            await Resume.shared.setDone();
+            await Resume.shared.setDone(name: (AgreementsView).toString());
+            Get.to(() => UserConfirmationView());
+            return;
+          }
+          controller.nextAgreement();
+          final value = await apiCall();
+          if (!value) return;
+          scrollController.animateTo(
+            scrollController.position.minScrollExtent,
+            duration: duration,
+            curve: Curves.elasticOut,
+          );
+          setState(() => needToScrolled = true);
+        }
+      },
+    );
+  }
+
+  Widget getBottomTitle() {
+    if (isWebApp) {
+      return Container(
+          color: MyColors.darkBlue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 2,
+                child: Container(
+                  padding: gHPadding,
+                  color: MyColors.darkBlue,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 16),
+                      abWords(
+                        '${'dear'.tr} $userName ${'confirm'.tr}, ${'agreementAbove'.tr}',
+                        '$userName ${'understood'.tr}',
+                        null,
+                        textColor: MyColors.white,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            ],
+          ));
+    } else {
+      return Container(
+        padding: gHPadding,
+        color: MyColors.darkBlue,
+        child: Column(
+          children: [
+            SizedBox(height: 16),
+            abWords(
+              '${'dear'.tr} $userName ${'confirm'.tr}, ${'agreementAbove'.tr}',
+              '$userName ${'understood'.tr}',
+              null,
+              textColor: MyColors.white,
+              size: 20,
             ),
           ],
         ),
-      ),
-    );
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
+        context, isLoading,
+        appBar: getAppBar(),
+        content: getContent(),
+        bottomTitle: getBottomTitle(),
+        bottomBar: getBottomBar());
   }
 }

@@ -61,11 +61,38 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                     textAlign: TextAlign.center,
                     style: MyFonts.regular(30, color: MyColors.darkBlue),
                   ),
-                  Text(
-                    "This is only the start of our app, stay tuned for new updates including ability to view your pay information/payslips, latest Extrastaff news, ability to check in and out of work and book your holidays all by the click of a button!",
-                    textAlign: TextAlign.center,
-                    style: MyFonts.regular(20, color: MyColors.grey),
-                  ),
+                  isWebApp
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            if (!ResponsiveWidget.isSmallScreen(context))
+                              Spacer(),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              flex: 2,
+                              child: Container(
+                                padding: gHPadding,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "This is only the start of our app, stay tuned for new updates including ability to view your pay information/payslips, latest Extrastaff news, ability to check in and out of work and book your holidays all by the click of a button!",
+                                      textAlign: TextAlign.center,
+                                      style: MyFonts.regular(20,
+                                          color: MyColors.grey),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            if (!ResponsiveWidget.isSmallScreen(context))
+                              Spacer(),
+                          ],
+                        )
+                      : Text(
+                          "This is only the start of our app, stay tuned for new updates including ability to view your pay information/payslips, latest Extrastaff news, ability to check in and out of work and book your holidays all by the click of a button!",
+                          textAlign: TextAlign.center,
+                          style: MyFonts.regular(20, color: MyColors.grey),
+                        ),
                 ],
               ),
             ),

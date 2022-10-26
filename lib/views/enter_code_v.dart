@@ -58,7 +58,7 @@ class _EnterCodeState extends State<EnterCode> {
         SizedBox(height: 32),
         Container(
             height: controller.textFiledWidth,
-            width: double.infinity,
+            width: 300,
             child: getPinCodeText()),
         SizedBox(height: 32),
         Column(

@@ -6,8 +6,7 @@ import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/biometric_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:extra_staff/views/registration_progress_v.dart';
 
 class ChooseCode2 extends StatefulWidget {
   const ChooseCode2({Key? key}) : super(key: key);
@@ -66,7 +65,11 @@ class _ChooseCode2State extends State<ChooseCode2> {
           await localStorage?.setString(
               'completed', message3.result['completed']);
           await Services.shared.setData();
-          Get.to(() => BiometricView(true));
+          if (isWebApp) {
+            Get.to(() => RegistrationProgress());
+          } else {
+            Get.to(() => BiometricView(true));
+          }
         }
       } else {
         abShowMessage('passcodeNotMathcing'.tr);
@@ -77,7 +80,12 @@ class _ChooseCode2State extends State<ChooseCode2> {
   }
 
   Widget getContent() {
-    return Column(children: [SizedBox(height: 64), getPinCodeText()]);
+    return Column(children: [
+      SizedBox(height: 64),
+      isWebApp
+          ? Container(height: 60, width: 300, child: getPinCodeText())
+          : getPinCodeText()
+    ]);
   }
 
   PreferredSizeWidget getAppBar() {

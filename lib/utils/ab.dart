@@ -1727,3 +1727,55 @@ Widget abMainWidgetWithBottomBarScaffoldScrollView(BuildContext context,
     );
   }
 }
+
+Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    required Widget bottomTitle,
+    Widget? bottomBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    flex: 2,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: content),
+                  ),
+                  if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                ],
+              ),
+            ),
+            bottomTitle,
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Expanded(child: content),
+            bottomTitle,
+            if (bottomBar != null) bottomBar
+          ],
+        ),
+      ),
+    );
+  }
+}

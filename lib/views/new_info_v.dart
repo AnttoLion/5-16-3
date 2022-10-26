@@ -70,11 +70,11 @@ class NewInfoView extends StatelessWidget {
     return Scaffold(
         body: isWebApp
             ? (index == 0 || index == 1)
-                ? startInfoWindowForWeb()
-                : normalInfoWindow()
+                ? startInfoWindowForWeb(context)
+                : normalInfoWindow(context)
             : (index == 0 || index == 1)
                 ? SafeArea(bottom: false, child: startInfoWindow())
-                : normalInfoWindow());
+                : normalInfoWindow(context));
   }
 
   Widget startInfoWindow() {
@@ -144,7 +144,7 @@ class NewInfoView extends StatelessWidget {
     );
   }
 
-  Widget startInfoWindowForWeb() {
+  Widget startInfoWindowForWeb(BuildContext context) {
     return Column(
       children: [
         ConstrainedBox(
@@ -157,52 +157,68 @@ class NewInfoView extends StatelessWidget {
               fit: BoxFit.fitWidth),
         ),
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 44),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  allData[index].title,
-                  textAlign: TextAlign.center,
-                  style: MyFonts.regular(30, color: MyColors.darkBlue),
-                ),
-                Text(
-                  allData[index].details,
-                  textAlign: TextAlign.center,
-                  style: MyFonts.regular(20, color: MyColors.grey),
-                ),
-                if (index == 1)
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      textStyle: MyFonts.semiBold(17),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () async {
-                      if (!await launchUrl(url,
-                          mode: LaunchMode.externalApplication)) {
-                        throw 'Could not launch $url';
-                      }
-                    },
-                    child: Text('www.extrastaff.com'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 2,
+                child: Container(
+                  padding: gHPadding,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        allData[index].title,
+                        textAlign: TextAlign.center,
+                        style: MyFonts.regular(30, color: MyColors.darkBlue),
+                      ),
+                      Text(
+                        allData[index].details,
+                        textAlign: TextAlign.center,
+                        style: MyFonts.regular(20, color: MyColors.grey),
+                      ),
+                      if (index == 1)
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            textStyle: MyFonts.semiBold(17),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () async {
+                            if (!await launchUrl(url,
+                                mode: LaunchMode.externalApplication)) {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: Text('www.extrastaff.com'),
+                        ),
+                      abRoundButtonWithFixedWidth(
+                        'next'.tr,
+                        btnHeight: 32,
+                        onTap: onTap,
+                      )
+                    ],
                   ),
-              ],
-            ),
+                ),
+              ),
+              if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+            ],
           ),
         ),
-        Padding(
-            padding: EdgeInsets.only(bottom: 44),
-            child: abRoundButtonWithFixedWidth(
-              'next'.tr,
-              btnHeight: 32,
-              onTap: onTap,
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(bottom: 44),
+        //     child: abRoundButtonWithFixedWidth(
+        //       'next'.tr,
+        //       btnHeight: 32,
+        //       onTap: onTap,
+        //     )),
       ],
     );
   }
 
-  Widget normalInfoWindow() {
+  Widget normalInfoWindow(BuildContext context) {
     return Column(
       children: [
         isWebApp
@@ -219,60 +235,108 @@ class NewInfoView extends StatelessWidget {
                 image: AssetImage('lib/images/${allData[index].image}.png'),
                 fit: BoxFit.fitWidth,
               ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 44),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  allData[index].title,
-                  textAlign: TextAlign.center,
-                  style: MyFonts.regular(30, color: MyColors.darkBlue),
-                ),
-                Text(
-                  allData[index].details,
-                  textAlign: TextAlign.center,
-                  style: MyFonts.regular(20, color: MyColors.grey),
-                ),
-                if (index == 4)
-                  Image(
-                    image: AssetImage('lib/images/${5.1}.png'),
-                    fit: BoxFit.contain,
-                    width: 150,
-                    height: 150,
-                  ),
-              ],
-            ),
-          ),
-        ),
         isWebApp
-            ? Padding(
-                padding: EdgeInsets.only(bottom: 44),
-                child: abRoundButtonWithFixedWidth(
-                  'next'.tr,
-                  btnHeight: 32,
-                  onTap: () {
-                    Get.back();
-                    onTap();
-                  },
-                ))
-            : Padding(
-                padding: EdgeInsets.fromLTRB(44, 0, 44, 22),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    onTap();
-                  },
-                  child: Text('NEXT', style: MyFonts.regular(20)),
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Get.size.width, 60),
-                    primary: MyColors.darkBlue,
-                    onPrimary: MyColors.white,
-                    shape: StadiumBorder(),
+            ? Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Container(
+                        padding: gHPadding,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              allData[index].title,
+                              textAlign: TextAlign.center,
+                              style:
+                                  MyFonts.regular(30, color: MyColors.darkBlue),
+                            ),
+                            Text(
+                              allData[index].details,
+                              textAlign: TextAlign.center,
+                              style: MyFonts.regular(20, color: MyColors.grey),
+                            ),
+                            if (index == 4)
+                              Image(
+                                image: AssetImage('lib/images/${5.1}.png'),
+                                fit: BoxFit.contain,
+                                width: 150,
+                                height: 150,
+                              ),
+                            if (isWebApp)
+                              abRoundButtonWithFixedWidth(
+                                'next'.tr,
+                                btnHeight: 32,
+                                onTap: () {
+                                  Get.back();
+                                  onTap();
+                                },
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
+              )
+            : Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 44),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        allData[index].title,
+                        textAlign: TextAlign.center,
+                        style: MyFonts.regular(30, color: MyColors.darkBlue),
+                      ),
+                      Text(
+                        allData[index].details,
+                        textAlign: TextAlign.center,
+                        style: MyFonts.regular(20, color: MyColors.grey),
+                      ),
+                      if (index == 4)
+                        Image(
+                          image: AssetImage('lib/images/${5.1}.png'),
+                          fit: BoxFit.contain,
+                          width: 150,
+                          height: 150,
+                        ),
+                      if (isWebApp)
+                        abRoundButtonWithFixedWidth(
+                          'next'.tr,
+                          btnHeight: 32,
+                          onTap: () {
+                            Get.back();
+                            onTap();
+                          },
+                        ),
+                    ],
                   ),
                 ),
               ),
+        if (!isWebApp)
+          Padding(
+            padding: EdgeInsets.fromLTRB(44, 0, 44, 22),
+            child: ElevatedButton(
+              onPressed: () {
+                Get.back();
+                onTap();
+              },
+              child: Text('NEXT', style: MyFonts.regular(20)),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(Get.size.width, 60),
+                primary: MyColors.darkBlue,
+                onPrimary: MyColors.white,
+                shape: StadiumBorder(),
+              ),
+            ),
+          ),
       ],
     );
   }

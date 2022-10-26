@@ -21,7 +21,12 @@ class _ChooseCodeState extends State<ChooseCode> {
   }
 
   Widget getContent() {
-    return Column(children: [SizedBox(height: 64), getPinCodeText()]);
+    return Column(children: [
+      SizedBox(height: 64),
+      isWebApp
+          ? Container(height: 60, width: 300, child: getPinCodeText())
+          : getPinCodeText()
+    ]);
   }
 
   PreferredSizeWidget getAppBar() {

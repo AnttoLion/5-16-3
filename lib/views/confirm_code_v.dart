@@ -40,7 +40,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
     if (isWebApp) {
       return Column(children: [
         SizedBox(height: 64),
-        getPinCodeText(),
+        Container(height: 60, width: 300, child: getPinCodeText()),
         Container(
           padding: gHPadding,
           child: TextButton(
