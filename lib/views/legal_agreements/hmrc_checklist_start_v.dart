@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/legal_agreements/hmrc_checklist_v.dart';
+import 'package:extra_staff/views/legal_agreements/agreements_v.dart';
 import 'package:extra_staff/controllers/legal_agreements/hmrc_checklist_c.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -18,6 +19,7 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
   final controller = HMRCCheckListController();
   bool isLoading = false;
   var passedData = {};
+  final isHMRCCompleted = localStorage?.getBool('isHMRCCompleted') ?? false;
 
   @override
   void initState() {
@@ -92,7 +94,14 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
   }
 
   Widget getBottomBar() {
-    return abBottomNew(context, top: null);
+    if (isHMRCCompleted) {
+      return abBottomNew(context, onTap: (i) async {
+        if (i == 0) {
+          Get.to(() => AgreementsView());
+        }
+      });
+    } else
+      return abBottomNew(context, top: null);
   }
 
   @override

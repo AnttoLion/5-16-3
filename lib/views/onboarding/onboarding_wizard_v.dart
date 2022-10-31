@@ -134,43 +134,43 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
     });
   }
 
+  Widget getContent() {
+    final options = controller.question.getAllOptions();
+    return Column(
+      children: [
+        SizedBox(height: 16),
+        questions(),
+        SizedBox(height: 16),
+        for (var item in options) ...[
+          button(item, options),
+          SizedBox(height: 16),
+        ],
+      ],
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abQuestionsNew(
+        context, false, counter + 1, controller.questions.length);
+  }
+
+  Widget? getBottomBar() {
+    if (controller.isCompleted) {
+      return abBottomNew(context, onTap: (i) async {
+        if (i == 0) {
+          await next();
+        }
+      });
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final options = controller.question.getAllOptions();
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abQuestions(
-            context, false, counter + 1, controller.questions.length),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                padding: gHPadding,
-                child: Column(
-                  children: [
-                    SizedBox(height: 16),
-                    questions(),
-                    SizedBox(height: 16),
-                    for (var item in options) ...[
-                      button(item, options),
-                      SizedBox(height: 16),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-            if (controller.isCompleted)
-              abBottom(onTap: (i) async {
-                if (i == 0) {
-                  await next();
-                }
-              })
-          ],
-        ),
-      ),
-    );
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 
   next() async {
