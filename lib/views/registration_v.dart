@@ -219,7 +219,9 @@ class _RegistrationView extends State<RegistrationView> {
 
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) {
-      if (i == 0) {}
+      if (i == 0) {
+        Get.to(() => Address(), arguments: allData);
+      }
     });
   }
 
