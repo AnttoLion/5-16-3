@@ -42,7 +42,6 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 # added by delay
-/ios/Flutter/
 /ios/build/
 extra_staff/android/local.properties
 extra_staff/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java

@@ -1,13 +1,14 @@
 import 'package:extra_staff/utils/constants.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/messages.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:extra_staff/views/splash_screen.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 Future<void> main() async {
@@ -57,6 +58,9 @@ class ExtraStaff extends StatelessWidget {
               await localStorageInit();
               await Resume.shared.getClass();
               Services.shared.setData();
+              if (isiOS) {
+                await AppTrackingTransparency.requestTrackingAuthorization();
+              }
             },
           ),
         ),
