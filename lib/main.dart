@@ -10,6 +10,7 @@ import 'package:extra_staff/views/splash_screen.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'dart:async';
 
 Future<void> main() async {
   await SentryFlutter.init(
@@ -59,7 +60,9 @@ class ExtraStaff extends StatelessWidget {
               await Resume.shared.getClass();
               Services.shared.setData();
               if (isiOS) {
-                await AppTrackingTransparency.requestTrackingAuthorization();
+                Future.delayed(Duration(seconds: 3), () async {
+                  await AppTrackingTransparency.requestTrackingAuthorization();
+                });
               }
             },
           ),
