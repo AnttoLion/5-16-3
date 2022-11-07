@@ -2,7 +2,7 @@ import 'package:extra_staff/models/upload_documents_m.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
-import 'package:extra_staff/views/save_photo_v.dart';
+import 'package:extra_staff/views/save_photo_v.dart' if (dart.library.html)  'package:extra_staff/views/save_photo_web_v.dart';
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

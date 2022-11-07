@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:extra_staff/controllers/save_photo_c.dart';
+import 'package:extra_staff/controllers/save_photo_web_c.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class SavePhoto extends StatefulWidget {
   const SavePhoto({Key? key}) : super(key: key);
@@ -95,7 +96,23 @@ class _SavePhotoState extends State<SavePhoto> {
   }
 
   Widget showImage() {
-
+    if (isWebApp) {
+      if (controller.imageInfoforWeb != null) {
+        return Image.memory(controller.imageInfoforWeb!.data!);
+      } else {
+        return Column(
+          children: [
+            Image(
+              image: AssetImage('lib/images/face.png'),
+              height: 125,
+              width: 125,
+            ),
+            SizedBox(height: 32),
+            abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
+          ],
+        );
+      }
+    } else {
       if (controller.image != null) {
         return Image.file(File(controller.image!.path), fit: BoxFit.contain);
       } else {
@@ -111,6 +128,7 @@ class _SavePhotoState extends State<SavePhoto> {
           ],
         );
       }
+    }
   }
 
   Widget simpleButton(String title, String image, int index) {
@@ -119,7 +137,12 @@ class _SavePhotoState extends State<SavePhoto> {
     final frontColor = backColor != null ? MyColors.white : MyColors.darkBlue;
     return InkWell(
       onTap: () async {
-
+        if (isWebApp) {
+          MediaInfo? imageInfoforWeb = await ImagePickerWeb.getImageInfo;
+          if (imageInfoforWeb != null) {
+            setState(() => controller.imageInfoforWeb = imageInfoforWeb);
+          }
+        } else {
           if (index == 2) {
             if (controller.image == null) {
               final img = await picker.pickImage(source: ImageSource.gallery);
@@ -138,6 +161,7 @@ class _SavePhotoState extends State<SavePhoto> {
               setState(() => controller.image = img);
             }
           }
+        }
       },
       child: AnimatedContainer(
         duration: duration,
