@@ -44,8 +44,8 @@ class Availability2Controller extends GetxController {
   KeyValue selected48Hour = KeyValue('', '');
 
   final hours48 = [
-    KeyValue('1', 'Yes'),
-    KeyValue('2', 'No'),
+    KeyValue('1', 'Opt Out'),
+    KeyValue('2', 'Opt In'),
   ];
 
   KeyValue get selectedRelationship {

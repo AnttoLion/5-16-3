@@ -16,6 +16,8 @@ class Messages extends Translations {
               'Do you have any Unspent Criminal Convictions?',
           '48hours':
               '48 Hour Opt Out (The Working Time Regulations 1998 provide that a worker shall not work in excess of an average of 48 hours each week calculated over a set reference period unless they opt out of the limitation. You are asked here to confirm whether or not you wish to opt out. If you opt out, you must give Extrastaff one months written notice if you want to opt back in. You also agree to notify Extrastaff immediately if any of the information becomes out of date.)',
+          '48hours note':
+              '**If you are a driver(7.5tonne or LGV driver- all categories) you are governed by the road transport WTR(2005) so cannot exceed an average of 48 hours per week over a 17 weekreference period. Please ensure you select the opt in option.',
           'optional': 'optional',
           'euNS': 'Nationality',
           'pSame': 'Both passwords should be the same',

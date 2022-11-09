@@ -122,46 +122,6 @@ class _AvailabilityState extends State<Availability> {
           });
         }),
         SizedBox(height: 16),
-        abTitle('emergencyContactName'.tr),
-        SizedBox(height: 8),
-        abTextField(controller.data.emergencyContact, (text) {
-          controller.data.emergencyContact = text;
-        }, validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'enterText'.tr;
-          }
-          return null;
-        }),
-        SizedBox(height: 16),
-        abTitle('emergencyContactRelationship'.tr),
-        SizedBox(height: 8),
-        abDropDownButton(
-            controller.selectedRelationship, controller.contactRelationship,
-            (value) {
-          setState(() {
-            controller.data.emergencyContactRelationship = value.id;
-          });
-        }),
-        SizedBox(height: 16),
-        abTitle('emergencyContactTelephoneNumber'.tr),
-        SizedBox(height: 8),
-        abTextField(
-          controller.data.emergencyContactNumber,
-          (text) {
-            controller.data.emergencyContactNumber = text;
-          },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            } else if (!isPhoneNo(value)) {
-              return 'validPhone'.tr;
-            }
-            return null;
-          },
-          keyboardType: TextInputType.number,
-          maxLength: 11,
-        ),
-        SizedBox(height: 16),
         abTitle('hasCriminalConvictions'.tr),
         SizedBox(height: 16),
         abRadioButtons(controller.hasCriminalConvictions, (b) {
@@ -185,11 +145,51 @@ class _AvailabilityState extends State<Availability> {
         abTitle('How did you hear about Extrastaff?'),
         SizedBox(height: 8),
         abDropDownButton(controller.selectedItem, controller.dropDowns.hearEs,
-            (value) async {
+            (value) {
           FocusScope.of(context).requestFocus(FocusNode());
           setState(() {
             controller.data.hearAboutUS = value.id;
             controller.selectedItem = value;
+          });
+        }, disable: true),
+        SizedBox(height: 16),
+        abTitle('emergencyContactName'.tr),
+        SizedBox(height: 8),
+        abTextField(controller.data.emergencyContact, (text) {
+          controller.data.emergencyContact = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          }
+          return null;
+        }),
+        SizedBox(height: 16),
+        abTitle('emergencyContactTelephoneNumber'.tr),
+        SizedBox(height: 8),
+        abTextField(
+          controller.data.emergencyContactNumber,
+          (text) {
+            controller.data.emergencyContactNumber = text;
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            } else if (!isPhoneNo(value)) {
+              return 'validPhone'.tr;
+            }
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          maxLength: 11,
+        ),
+        SizedBox(height: 16),
+        abTitle('emergencyContactRelationship'.tr),
+        SizedBox(height: 8),
+        abDropDownButton(
+            controller.selectedRelationship, controller.contactRelationship,
+            (value) async {
+          setState(() {
+            controller.data.emergencyContactRelationship = value.id;
           });
           await next(0, false);
         }),

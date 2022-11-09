@@ -369,7 +369,7 @@ Widget abSimpleButton(String title,
 
 Widget abDropDownButton(
     KeyValue selected, List<KeyValue> options, Function(KeyValue) onChange,
-    {Color? bordercolor}) {
+    {Color? bordercolor, bool? disable}) {
   return Container(
     height: buttonHeight,
     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -382,7 +382,10 @@ Widget abDropDownButton(
           child: Icon(Icons.arrow_forward_ios, color: MyColors.darkBlue),
         ),
         value: selected,
-        onChanged: (KeyValue? newValue) async => onChange(newValue!),
+        onChanged: disable == null || disable == false
+            ? (KeyValue? newValue) async => onChange(newValue!)
+            : null,
+        // onChanged: null,
         items: options
             .map((value) => DropdownMenuItem(
                   value: value,

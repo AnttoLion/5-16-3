@@ -245,6 +245,9 @@ class _Availability2State extends State<Availability2> {
             setState(() {});
           }),
           SizedBox(height: 16),
+          Text('48hours note'.tr,
+              style: MyFonts.regular(14, color: Colors.redAccent)),
+          SizedBox(height: 16),
         ],
         if (controller.isForklift) ...[
           abTitle('Please upload your Forklift Licence'),
