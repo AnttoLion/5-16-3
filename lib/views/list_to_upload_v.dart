@@ -2,7 +2,8 @@ import 'package:extra_staff/models/upload_documents_m.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
-import 'package:extra_staff/views/save_photo_v.dart' if (dart.library.html)  'package:extra_staff/views/save_photo_web_v.dart';
+import 'package:extra_staff/views/save_photo_v.dart'
+    if (dart.library.html) 'package:extra_staff/views/save_photo_web_v.dart';
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -73,14 +74,18 @@ class _ListToUploadViewState extends State<ListToUploadView> {
           setState(() {
             if (index == 0) {
               controller.passportExpDate = null;
+              controller.shareCode = "";
             }
             controller.type = value;
             controller.selectedIndex = index;
             controller.data[index].selected = value;
           });
           if (value.id.isNotEmpty) {
-            final data =
-                await Get.to(() => UploadDocumentsView(controller: controller));
+            bool data = true;
+            if (value.id != "Share Code") {
+              data = await Get.to(
+                  () => UploadDocumentsView(controller: controller));
+            }
             setState(() => controller.data[index].status = data);
             if (controller.showAnalyzer && data == true) {
               await controller.getTempCompDocInfo();
@@ -108,6 +113,19 @@ class _ListToUploadViewState extends State<ListToUploadView> {
         abTitle('entitledProof'.tr),
         SizedBox(height: 16),
         dropDonwButton(0),
+        if (controller.showShareCode) ...[
+          SizedBox(height: 16),
+          abTitle('${controller.data[0].selected.value}'),
+          SizedBox(height: 16),
+          abTextField(controller.shareCode, (text) {
+            controller.shareCode = text;
+          }, validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'enterText'.tr;
+            }
+            return null;
+          }),
+        ],
         if (controller.showExpiryDate) ...[
           SizedBox(height: 16),
           abTitle('${controller.data[0].selected.value} Expiry date'),
@@ -219,6 +237,14 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     if (d1.status != true) {
       showValidation('uploadAllDocuments'.tr, showMessage);
       return;
+    }
+
+    if (controller.showShareCode) {
+      if (controller.shareCode == "") {
+        showValidation(
+            '${controller.data[0].selected.value} Error', showMessage);
+        return;
+      }
     }
 
     if (controller.showExpiryDate) {

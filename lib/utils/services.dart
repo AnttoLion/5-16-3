@@ -927,8 +927,12 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
-  Future<BaseApiResponse> updateTempComplianceDocExpiry(String? passExp,
-          String? immiExp, bool isHaveNi, String niReason) async =>
+  Future<BaseApiResponse> updateTempComplianceDocExpiry(
+          String? passExp,
+          String? immiExp,
+          String? shareCode,
+          bool isHaveNi,
+          String niReason) async =>
       await post(
         baseUrl + 'updateTempComplianceDocExpiry',
         {
@@ -938,6 +942,7 @@ class Services extends GetConnect {
           'is_have_ni_reason': isHaveNi ? niReason : '',
           'passport_expiry': passExp ?? '',
           'immi_expiry': immiExp ?? '',
+          'share_code': shareCode ?? '',
           'digest': generateMd5(staticDigestKey + '$userId'),
         },
         headers: headers,

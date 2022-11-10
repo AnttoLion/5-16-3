@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 class ListToUploadController extends GetxController {
   XFile? image;
   DateTime? passportExpDate;
+  String shareCode = "";
   bool isCV = false;
   bool isCVUploaded = false;
   bool isForklift = false;
@@ -45,6 +46,14 @@ class ListToUploadController extends GetxController {
       return isPassport(data[0].selected.value) ||
           data[0].selected.value == 'visaBrp'.tr ||
           data[0].selected.value == 'Current Immigration Status Document';
+    } else {
+      return false;
+    }
+  }
+
+  bool get showShareCode {
+    if (data.isNotEmpty) {
+      return data[0].selected.value == 'Share Code';
     } else {
       return false;
     }
@@ -173,6 +182,9 @@ class ListToUploadController extends GetxController {
         } else if (key == 'is_have_ni_reason') {
           reasonForNotHaveNi = value;
           return;
+        } else if (key == 'share_code') {
+          shareCode = value ?? "";
+          return;
         }
         final index = data.indexWhere((element) => element.id == key);
         final v = KeyValue.fromJson(value);
@@ -210,6 +222,7 @@ class ListToUploadController extends GetxController {
     final result = await Services.shared.updateTempComplianceDocExpiry(
       isPassport ? date : null,
       !isPassport ? date : null,
+      showShareCode ? shareCode : "",
       notHaveNi,
       reasonForNotHaveNi,
     );
