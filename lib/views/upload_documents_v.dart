@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:video_player/video_player.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class UploadDocumentsView extends StatefulWidget {
   final ListToUploadController controller;
@@ -194,9 +195,13 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
   }
 
   Widget getBottomBar() {
+    String buttonText = 'skip'.tr;
+    if (Services.shared.completed == "Yes") {
+      buttonText = 'done'.tr;
+    }
     return abBottomNew(
       context,
-      top: controller.isCV || controller.isForklift ? 'skip'.tr : null,
+      top: controller.isCV || controller.isForklift ? buttonText : null,
       onTap: (e) {
         if (e == 0) {
           Get.back(result: true);

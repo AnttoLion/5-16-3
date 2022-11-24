@@ -8,6 +8,7 @@ import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class EmploymentView extends StatefulWidget {
   @override
@@ -52,10 +53,28 @@ class _EmploymentViewState extends State<EmploymentView> {
     return abHeaderNew(context, 'Employment'.tr);
   }
 
+  Widget getBottomBar() {
+    return abBottomNew(context, onTap: (i) async {
+      if (i == 0) {
+        await localStorage?.setBool('isEmploymentHistoryCompleted', true);
+        await Resume.shared.setDone();
+        Get.off(() => RegistrationView());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithLoadingOverlayScaffoldContainer(context, isLoading,
-        appBar: getAppBar(), content: getContent());
+    if (Services.shared.completed == "Yes") {
+      return abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
+          context, isLoading, controller.formKey,
+          appBar: getAppBar(),
+          content: getContent(),
+          bottomBar: getBottomBar());
+    } else {
+      return abMainWidgetWithLoadingOverlayScaffoldContainer(context, isLoading,
+          appBar: getAppBar(), content: getContent());
+    }
   }
 
   action(int index) async {

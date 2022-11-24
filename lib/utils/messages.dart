@@ -318,6 +318,7 @@ class Messages extends Translations {
           'loginWithPasscode': 'Pass code',
           'loginWithBiometric': 'Biometric ID',
           'next': 'Next',
+          'done': 'Done'
         },
         'de': {
           'howTo': 'Cómo #',

@@ -6,8 +6,10 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart';
 
 class ListToUploadController extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   XFile? image;
   DateTime? passportExpDate;
   String shareCode = "";
