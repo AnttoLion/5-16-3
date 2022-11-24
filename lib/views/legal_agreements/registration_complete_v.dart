@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/legal_agreements/hmrc_checklist_start_v.dart';
+import 'package:extra_staff/views/registration_v.dart';
+import 'package:extra_staff/utils/resume_navigation.dart';
 
 class RegistrationComplete extends StatefulWidget {
   const RegistrationComplete({Key? key}) : super(key: key);
@@ -103,7 +106,15 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
             bottom: 'Logout',
             onTap: (i) async {
               if (i == 0) {
-                Get.offAll(() => ListToUploadView());
+                await localStorage?.setBool('isAboutYouCompleted', false);
+                await localStorage?.setBool(
+                    'isEmploymentHistoryCompleted', false);
+                await localStorage?.setBool('isCompetencyTestCompleted', false);
+                await localStorage?.setBool('isHMRCCompleted', false);
+                await localStorage?.setBool('isAgreementsCompleted', false);
+                await Resume.shared.markAllNotDone();
+
+                Get.offAll(() => RegistrationView());
               } else {
                 await removeAllSharedPref();
                 Get.offAll(() => SplashPage());

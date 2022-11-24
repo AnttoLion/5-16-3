@@ -5,6 +5,8 @@ import 'package:extra_staff/views/login_v.dart';
 import 'package:extra_staff/views/registration_progress_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class EnterConfrimCode extends StatefulWidget {
   final bool isFromStart;
@@ -29,6 +31,10 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
     return abPinCodeText(context, 4, onCompleted: (v) async {
       final code = localStorage?.getString('passcode') ?? '';
       if (code == v) {
+        if (Services.shared.completed == "Yes") {
+          Get.offAll(() => RegistrationComplete());
+          return;
+        }
         Get.to(() => RegistrationProgress());
       } else {
         abShowMessage('passcodeNotMathcing'.tr);
@@ -152,6 +158,10 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
           if (isBiomatricAvaliable) {
             final isAuth = await loginController.checkAuth();
             if (isAuth) {
+              if (Services.shared.completed == "Yes") {
+                Get.offAll(() => RegistrationComplete());
+                return;
+              }
               Get.to(() => RegistrationProgress());
             } else {
               abShowMessage('passcodeNotMathcing'.tr);

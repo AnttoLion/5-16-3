@@ -19,7 +19,8 @@ import 'package:extra_staff/views/legal_agreements/medical_history3_v.dart';
 import 'package:extra_staff/views/onboarding/competency_test_v.dart';
 import 'package:extra_staff/views/onboarding/onboarding_wizard_v.dart';
 import 'package:extra_staff/views/registration_v.dart';
-import 'package:extra_staff/views/save_photo_v.dart' if (dart.library.html)  'package:extra_staff/views/save_photo_web_v.dart';
+import 'package:extra_staff/views/save_photo_v.dart'
+    if (dart.library.html) 'package:extra_staff/views/save_photo_web_v.dart';
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:extra_staff/views/working_with_us/availability2_v.dart';
 import 'package:extra_staff/views/working_with_us/driving_test_v.dart';
@@ -119,6 +120,12 @@ class Resume {
   Future markAllDone() async {
     for (var item in allClasses) {
       item.done = true;
+    }
+  }
+
+  Future markAllNotDone() async {
+    for (var item in allClasses) {
+      item.done = false;
     }
   }
 

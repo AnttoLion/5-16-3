@@ -19,6 +19,8 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/controllers/registration_c.dart';
+import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class RegistrationView extends StatefulWidget {
   const RegistrationView({Key? key}) : super(key: key);
@@ -220,7 +222,13 @@ class _RegistrationView extends State<RegistrationView> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) {
       if (i == 0) {
-        Get.to(() => Address(), arguments: allData);
+        for (int i = 0; i < controller.completedValues.length; i++) {
+          final v = controller.completedValues[i];
+          if (!v) {
+            switchTheFlow(i);
+            return;
+          }
+        }
       }
     });
   }
