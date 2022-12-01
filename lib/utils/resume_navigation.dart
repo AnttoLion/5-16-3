@@ -154,6 +154,12 @@ class Resume {
       for (final element in sections) {
         await localStorage?.setBool(element, true);
       }
+
+      List<String> list = [];
+      for (var e in allClasses) {
+        list.add(jsonEncode(e.toJson()));
+      }
+      await localStorage?.setStringList('resume', list);
     }
   }
 }
