@@ -1484,8 +1484,11 @@ Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
 }
 
 Widget abPinCodeText(BuildContext context, int length,
-    {Function(String)? onCompleted, required Function(String) onChanged}) {
+    {Function(String)? onCompleted,
+    required Function(String) onChanged,
+    TextEditingController? controller}) {
   return PinCodeTextField(
+    controller: controller,
     appContext: context,
     pastedTextStyle: MyFonts.bold(32, color: MyColors.darkBlue),
     length: length,

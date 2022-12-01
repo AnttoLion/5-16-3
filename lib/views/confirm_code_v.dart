@@ -28,7 +28,8 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
   final loginController = LoginController();
 
   Widget getPinCodeText() {
-    return abPinCodeText(context, 4, onCompleted: (v) async {
+    return abPinCodeText(context, 4, controller: controller,
+        onCompleted: (v) async {
       final code = localStorage?.getString('passcode') ?? '';
       if (code == v) {
         if (Services.shared.completed == "Yes") {
