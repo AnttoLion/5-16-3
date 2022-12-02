@@ -9,6 +9,8 @@ import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:image_picker/image_picker.dart';
+import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/views/legal_agreements/medical_history1_v.dart';
 
 class UserConfirmationView extends StatefulWidget {
   const UserConfirmationView({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
     {'Privacy Statement': false},
     {'Manual Handling Guide': false},
   ];
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -52,6 +55,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
       title: Text(data[index].keys.first),
       contentPadding: EdgeInsets.zero,
       value: data[index].values.first,
+      enabled: !isReviewing,
       onChanged: (newValue) {
         data[index] = {data[index].keys.first: newValue ?? false};
         setState(() {});
@@ -100,6 +104,10 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
+        if (isReviewing) {
+          Get.to(() => MedicalHistory1());
+          return;
+        }
         for (var i = 0; i < data.length; i++) {
           if (data[i].values.first == false) {
             abShowMessage('selectAllAgreements'.tr);

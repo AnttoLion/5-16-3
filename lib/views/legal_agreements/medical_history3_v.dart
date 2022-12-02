@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class MedicalHistory3 extends StatefulWidget {
   const MedicalHistory3({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class MedicalHistory3 extends StatefulWidget {
 class _MedicalHistory3State extends State<MedicalHistory3> {
   bool isLoading = false;
   MedicalHistoryController controller = MedicalHistoryController();
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -33,6 +33,7 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
         abTitle('receivingMedicalTreatment?'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.treatment, (p0) {
+          if (isReviewing) return;
           setState(() {
             controller.data.treatment = p0! ? '1' : '2';
             controller.treatment = p0;
@@ -43,11 +44,12 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
         SizedBox(height: 8),
         abTextField(controller.data.treatmentData,
             (p0) => controller.data.treatmentData = p0,
-            maxLines: 3),
+            maxLines: 3, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('takenAnyDrugsMedicines?'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.drug, (p0) {
+          if (isReviewing) return;
           setState(() {
             controller.data.drug = p0! ? '1' : '2';
             controller.drug = p0;
@@ -58,13 +60,13 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
         SizedBox(height: 8),
         abTextField(
             controller.data.drugData, (p0) => controller.data.drugData = p0,
-            maxLines: 3),
+            maxLines: 3, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('detailsOfAllIllnesses'.tr),
         SizedBox(height: 16),
         abTextField(controller.data.illnessData,
             (p0) => controller.data.illnessData = p0,
-            maxLines: 3),
+            maxLines: 3, readOnly: isReviewing),
         SizedBox(height: 32),
       ],
     );
@@ -95,6 +97,11 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
   }
 
   next() async {
+    if (isReviewing) {
+      await Resume.shared.setDone();
+      Get.off(() => RegistrationComplete());
+      return;
+    }
     final msg = controller.validate3();
     if (msg.isNotEmpty) {
       abShowMessage(msg);

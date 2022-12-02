@@ -11,7 +11,7 @@ import 'package:extra_staff/views/registration_v.dart';
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class Availability2 extends StatefulWidget {
   const Availability2({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _Availability2State extends State<Availability2> {
   final listToUploadController = ListToUploadController();
 
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -68,6 +68,7 @@ class _Availability2State extends State<Availability2> {
     }
     return InkWell(
       onTap: () {
+        if (isReviewing) return;
         switch (index) {
           case 1:
             controller.dMon = !controller.dMon;
@@ -139,6 +140,7 @@ class _Availability2State extends State<Availability2> {
         abTitle('workingInNightQuestion'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.areYouInterested, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.nightWork = b == null ? '' : b.toString();
             controller.areYouInterested = b;
@@ -148,6 +150,7 @@ class _Availability2State extends State<Availability2> {
         abTitle('ownTransport'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.haveOwnTransport, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.ownTrasport = b == null ? '' : b.toString();
             controller.haveOwnTransport = b;
@@ -157,6 +160,7 @@ class _Availability2State extends State<Availability2> {
         abTitle('hiVis'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.requireHiVis, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.hiVis = b == null ? '' : b.toString();
             controller.requireHiVis = b;
@@ -166,6 +170,7 @@ class _Availability2State extends State<Availability2> {
         abTitle('safetyBoots'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.requireSafetyBoots, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.requireSafetyBoot = b == null ? '' : b.toString();
             controller.requireSafetyBoots = b;
@@ -181,12 +186,13 @@ class _Availability2State extends State<Availability2> {
             controller.data.safetyBootSize = value.id;
             controller.selectedItem = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         CheckboxListTile(
           title: abTitle('dbs'.tr),
           contentPadding: EdgeInsets.zero,
           value: controller.data.dbsCheck == '1',
+          enabled: !isReviewing,
           onChanged: (newValue) {
             controller.data.dbsCheck = (newValue ?? false) ? '1' : '2';
             setState(() {});
@@ -199,6 +205,7 @@ class _Availability2State extends State<Availability2> {
           abStatusButton(
               dateToString(controller.dbsDate, false) ?? 'dd/mm/yyyy', null,
               () async {
+            if (isReviewing) return;
             final now = getNow;
             final DateTime? picked = await showDatePicker(
               context: context,
@@ -243,7 +250,7 @@ class _Availability2State extends State<Availability2> {
             controller.selected48Hour = newValue;
             controller.data.hourOutput = newValue.id;
             setState(() {});
-          }),
+          }, disable: isReviewing),
           SizedBox(height: 16),
           Text('48hours note'.tr,
               style: MyFonts.regular(14, color: Colors.redAccent)),
@@ -254,6 +261,7 @@ class _Availability2State extends State<Availability2> {
           SizedBox(height: 16),
           abStatusButton('Forklift', controller.isForkliftDocUploaded,
               () async {
+            if (isReviewing) return;
             listToUploadController.type = KeyValue.fromJson({});
             final success = await Get.to(
                 () => UploadDocumentsView(controller: listToUploadController),
@@ -273,6 +281,11 @@ class _Availability2State extends State<Availability2> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
+        if (isReviewing) {
+          await localStorage?.setBool('isCompetencyTestCompleted', true);
+          Get.off(() => RegistrationView());
+          return;
+        }
         final error = controller.validate();
         if (error.isNotEmpty) {
           abShowMessage(error);
@@ -287,14 +300,19 @@ class _Availability2State extends State<Availability2> {
         if (isDriver) {
           Get.to(() => DrivingTestView());
         } else if (isQuizTest && !is35T) {
-          Get.bottomSheet(
-            NewInfoView(7, () async {
-              Get.to(() => OnboardingWizard());
-            }),
-            enableDrag: false,
-            isDismissible: false,
-            isScrollControlled: true,
-          );
+          if (isReviewing) {
+            await localStorage?.setBool('isCompetencyTestCompleted', true);
+            Get.off(() => RegistrationView());
+          } else {
+            Get.bottomSheet(
+              NewInfoView(7, () async {
+                Get.to(() => OnboardingWizard());
+              }),
+              enableDrag: false,
+              isDismissible: false,
+              isScrollControlled: true,
+            );
+          }
         } else {
           await localStorage?.setBool('isCompetencyTestCompleted', true);
           Get.off(() => RegistrationView());

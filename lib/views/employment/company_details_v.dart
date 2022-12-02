@@ -5,6 +5,7 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class CompanyDetails extends StatefulWidget {
 class _CompanyDetailsState extends State<CompanyDetails> {
   CompanyDetailsController controller = CompanyDetailsController();
   bool isLoading = false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('companyContact'.tr),
         SizedBox(height: 16),
@@ -81,7 +83,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }, maxLength: 250),
+        }, maxLength: 250, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('companyContactEmail'.tr),
         SizedBox(height: 16),
@@ -96,28 +98,26 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             return 'validEmail'.tr;
           }
           return null;
-        }, keyboardType: TextInputType.emailAddress),
+        }, keyboardType: TextInputType.emailAddress, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('companyTelephone'.tr),
         SizedBox(height: 16),
-        abTextField(
-          controller.company.contactNumber,
-          (p0) => controller.company.contactNumber = p0,
-          validator: (value) {
-            final empty = value == null || value.isEmpty;
-            final text = value ?? '';
-            if (empty && controller.company.contactPersonEmail.isEmpty) {
-              return 'enterText'.tr;
-            }
-            if (text.isEmpty) return null;
-            if (!isPhoneNo(text)) {
-              return 'validPhone'.tr;
-            }
-            return null;
-          },
-          keyboardType: TextInputType.number,
-          maxLength: 11,
-        ),
+        abTextField(controller.company.contactNumber,
+            (p0) => controller.company.contactNumber = p0, validator: (value) {
+          final empty = value == null || value.isEmpty;
+          final text = value ?? '';
+          if (empty && controller.company.contactPersonEmail.isEmpty) {
+            return 'enterText'.tr;
+          }
+          if (text.isEmpty) return null;
+          if (!isPhoneNo(text)) {
+            return 'validPhone'.tr;
+          }
+          return null;
+        },
+            keyboardType: TextInputType.number,
+            maxLength: 11,
+            readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('jobTitle'.tr),
         SizedBox(height: 16),
@@ -127,7 +127,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('reasonForLeaving'.tr),
         SizedBox(height: 16),
@@ -138,7 +138,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }, maxLines: 3),
+        }, maxLines: 3, readOnly: isReviewing),
         SizedBox(height: 16),
         Row(
           children: [
@@ -149,6 +149,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                   abTitle('startDate'.tr),
                   SizedBox(height: 16),
                   abStatusButton(controller.startDate, null, () async {
+                    if (isReviewing) return;
                     selectDate(context, 1);
                   }, hideStatus: true),
                 ],
@@ -162,6 +163,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                   abTitle('endDate'.tr),
                   SizedBox(height: 16),
                   abStatusButton(controller.endDate, null, () async {
+                    if (isReviewing) return;
                     selectDate(context, 2);
                   }, hideStatus: true),
                 ],

@@ -7,7 +7,6 @@ import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/about_you/availability_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 
 class Address extends StatefulWidget {
   const Address({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class _AddressState extends State<Address> {
   final controller = AddressController();
   Map<String, dynamic> allData = {};
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -39,9 +38,10 @@ class _AddressState extends State<Address> {
         SizedBox(height: 8),
         abTextField(controller.searchByPostcode, (text) {
           controller.searchByPostcode = text;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abSimpleButton('findAddress'.tr, onTap: () async {
+          if (isReviewing) return;
           if (controller.searchByPostcode.isEmpty) {
             abShowMessage('postcodeNotFound'.tr);
             return;
@@ -95,64 +95,6 @@ class _AddressState extends State<Address> {
     );
   }
 
-  Widget top() {
-    return Container(
-      padding: gHPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          searchAddress(),
-          SizedBox(height: 16),
-          abTitle('postcode'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.addressPostCode, (text) {
-            controller.data.addressPostCode = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('addressLine1'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.address_1, (text) {
-            controller.data.address_1 = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('addressLine2'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.address_2, (text) {
-            controller.data.address_2 = text;
-          }),
-          SizedBox(height: 16),
-          abTitle('town'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.addressTown, (text) {
-            controller.data.addressTown = text;
-          }, validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            }
-            return null;
-          }),
-          SizedBox(height: 16),
-          abTitle('county'.tr),
-          SizedBox(height: 8),
-          abTextField(controller.data.addressCounty, (text) {
-            controller.data.addressCounty = text;
-          }, onFieldSubmitted: (e) async => await next()),
-          SizedBox(height: 16),
-        ],
-      ),
-    );
-  }
-
   Widget getContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +110,7 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('addressLine1'.tr),
         SizedBox(height: 8),
@@ -179,13 +121,13 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('addressLine2'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.address_2, (text) {
           controller.data.address_2 = text;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('town'.tr),
         SizedBox(height: 8),
@@ -196,13 +138,13 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('county'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.addressCounty, (text) {
           controller.data.addressCounty = text;
-        }, onFieldSubmitted: (e) async => await next()),
+        }, onFieldSubmitted: (e) async => await next(), readOnly: isReviewing),
         SizedBox(height: 16),
       ],
     );
@@ -232,6 +174,11 @@ class _AddressState extends State<Address> {
   }
 
   next() async {
+    if (isReviewing) {
+      await Resume.shared.setDone();
+      Get.to(() => Availability(), arguments: allData);
+      return;
+    }
     setState(() => isLoading = true);
     final message = await controller.updateTempInfo();
     setState(() => isLoading = false);

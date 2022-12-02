@@ -8,7 +8,7 @@ import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart'
 import 'package:extra_staff/views/new_info_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class MedicalHistory1 extends StatefulWidget {
   const MedicalHistory1({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
   final controller = MedicalHistoryController();
 
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -52,6 +52,7 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
         abTitle('medicalPhysicalMental'.tr),
         SizedBox(height: 32),
         abRadioButtons(controller.hasMedicalCondition, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.medicalCondition = b! ? '1' : '2';
             controller.hasMedicalCondition = b;
@@ -71,6 +72,12 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
       context,
       onTap: (i) async {
         if (i == 0) {
+          if (isReviewing) {
+            await Resume.shared.setDone();
+            Get.to(() => MedicalHistory2(),
+                arguments: {'medicalHistory': controller});
+            return;
+          }
           final msg = controller.validate1();
           if (msg.isNotEmpty) {
             abShowMessage(msg);

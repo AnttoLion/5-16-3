@@ -6,7 +6,7 @@ import 'package:extra_staff/views/about_you/details_v.dart';
 import 'package:extra_staff/views/registration_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class EqualityMonitoring extends StatefulWidget {
   const EqualityMonitoring({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
   final controller = EqualityMonitoringController();
 
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -72,7 +72,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             controller.data.nationalIdentity = value.id;
             controller.selectedNationalIdentity = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('ethnicity'.tr),
         SizedBox(height: 8),
@@ -82,7 +82,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             controller.data.ethnic = value.id;
             controller.selectedEthnic = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('gender'.tr),
         SizedBox(height: 8),
@@ -93,7 +93,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             controller.data.tempGender = value.id;
             controller.selectedGender = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('religion'.tr),
         SizedBox(height: 8),
@@ -104,11 +104,12 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             controller.data.religion = value.id;
             controller.selectedReligion = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('civilPartnerhip'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.marriedOrCivil, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.married = b == null ? '' : b.toString();
             controller.marriedOrCivil = b;
@@ -118,6 +119,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
         abTitle('disability'.tr),
         SizedBox(height: 8),
         abRadioButtons(controller.disability, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.tempDisability = b == null ? '' : b.toString();
             controller.disability = b;
@@ -134,11 +136,12 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             return 'furtherDetails'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('Age'.tr),
         SizedBox(height: 8),
         abStatusButton(formatDate(controller.selectedAge), null, () async {
+          if (isReviewing) return;
           final DateTime? picked = await showDatePicker(
             context: context,
             initialDate: controller.selectedAge,
@@ -163,6 +166,11 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
 
   Widget getBottomBar() {
     return abBottomNew(context, bottom: 'skip'.tr, onTap: (i) async {
+      if (isReviewing) {
+        await localStorage?.setBool('isAboutYouCompleted', true);
+        await Resume.shared.setDone();
+        Get.off(() => RegistrationView());
+      }
       setState(() => isLoading = true);
       final message = await controller.updateTempEqualityInfo();
       setState(() => isLoading = false);

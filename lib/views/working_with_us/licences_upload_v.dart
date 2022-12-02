@@ -6,7 +6,7 @@ import 'package:extra_staff/views/working_with_us/availability2_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -23,7 +23,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
   VideoPlayerController? _controller;
   bool isVisiable = false;
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -122,24 +122,24 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
         SizedBox(height: 16),
         if (!isWebApp) ...[
           abSimpleButton(firstF, onTap: () async {
-            await getImageFrom(ImageSource.camera, 0);
+            if (!isReviewing) await getImageFrom(ImageSource.camera, 0);
           }, backgroundColor: backgroundF),
           SizedBox(height: 16),
         ],
         abSimpleButton(secondF, onTap: () async {
-          await getImageFrom(ImageSource.gallery, 0);
+          if (!isReviewing) await getImageFrom(ImageSource.gallery, 0);
         }, backgroundColor: backgroundF),
         SizedBox(height: 16),
         abTitle('${controller.title} - Back'),
         SizedBox(height: 16),
         if (!isWebApp) ...[
           abSimpleButton(firstB, onTap: () async {
-            await getImageFrom(ImageSource.camera, 1);
+            if (!isReviewing) await getImageFrom(ImageSource.camera, 1);
           }, backgroundColor: backgroundB),
           SizedBox(height: 16),
         ],
         abSimpleButton(secondB, onTap: () async {
-          await getImageFrom(ImageSource.gallery, 1);
+          if (!isReviewing) await getImageFrom(ImageSource.gallery, 1);
         }, backgroundColor: backgroundB),
         SizedBox(height: 16),
         if (controller.type == LicenceType.licence) ...[
@@ -149,6 +149,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
           abStatusButton(
               dateToString(controller.passDate, false) ?? 'dd/mm/yyyy', null,
               () async {
+            if (isReviewing) return;
             final now = getNow;
             final DateTime? picked = await showDatePicker(
               context: context,
@@ -168,6 +169,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
         abStatusButton(
             dateToString(controller.expDate, false) ?? 'dd/mm/yyyy', null,
             () async {
+          if (isReviewing) return;
           final now = getNow;
           final DateTime? picked = await showDatePicker(
             context: context,
@@ -210,7 +212,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
                   return;
               }
             });
-          }),
+          }, disable: isReviewing),
           SizedBox(height: 16),
         ],
       ],
@@ -240,6 +242,11 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
   }
 
   next(bool showError) async {
+    if (isReviewing) {
+      await Resume.shared.setDone();
+      Get.to(() => Availability2());
+      return;
+    }
     final str = controller.validate();
     if (str.isNotEmpty) {
       abShowMessage(str);

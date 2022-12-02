@@ -6,7 +6,7 @@ import 'package:extra_staff/views/about_you/bank_details_v.dart';
 import 'package:extra_staff/views/new_info_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class Availability extends StatefulWidget {
   const Availability({Key? key}) : super(key: key);
@@ -21,6 +21,7 @@ class _AvailabilityState extends State<Availability> {
   Map<String, dynamic> allData = {};
   bool isLoading = false;
   final isNiUploaded = localStorage?.getBool('isNiUploaded') ?? false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -46,6 +47,10 @@ class _AvailabilityState extends State<Availability> {
       return;
     }
     if (i == 0) {
+      if (isReviewing) {
+        Get.to(() => BankDetails(), arguments: allData);
+        return;
+      }
       setState(() => isLoading = true);
       final message = await controller.updateTempInfo();
       setState(() => isLoading = false);
@@ -82,12 +87,13 @@ class _AvailabilityState extends State<Availability> {
               return 'enterText'.tr;
             }
             return null;
-          }),
+          }, readOnly: isReviewing),
           SizedBox(height: 16),
         ],
         abTitle('dateOfBirth'.tr),
         SizedBox(height: 8),
         abStatusButton(controller.formatDateStr(), null, () async {
+          if (isReviewing) return;
           final DateTime? picked = await showDatePicker(
             context: context,
             initialDate: controller.selectedDob ?? maxDate,
@@ -111,7 +117,7 @@ class _AvailabilityState extends State<Availability> {
             controller.data.euNational = value.id;
             controller.selectedEU = value;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('employemntStatus'.tr),
         SizedBox(height: 8),
@@ -120,11 +126,12 @@ class _AvailabilityState extends State<Availability> {
             controller.data.contract = v.id;
             controller.selectedES = v;
           });
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
         abTitle('hasCriminalConvictions'.tr),
         SizedBox(height: 16),
         abRadioButtons(controller.hasCriminalConvictions, (b) {
+          if (isReviewing) return;
           setState(() {
             controller.data.criminal = b! ? '1' : '2';
             controller.hasCriminalConvictions = b;
@@ -140,7 +147,7 @@ class _AvailabilityState extends State<Availability> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('emergencyContactName'.tr),
         SizedBox(height: 8),
@@ -151,26 +158,23 @@ class _AvailabilityState extends State<Availability> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('emergencyContactTelephoneNumber'.tr),
         SizedBox(height: 8),
-        abTextField(
-          controller.data.emergencyContactNumber,
-          (text) {
-            controller.data.emergencyContactNumber = text;
-          },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'enterText'.tr;
-            } else if (!isPhoneNo(value)) {
-              return 'validPhone'.tr;
-            }
-            return null;
-          },
-          keyboardType: TextInputType.number,
-          maxLength: 11,
-        ),
+        abTextField(controller.data.emergencyContactNumber, (text) {
+          controller.data.emergencyContactNumber = text;
+        }, validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'enterText'.tr;
+          } else if (!isPhoneNo(value)) {
+            return 'validPhone'.tr;
+          }
+          return null;
+        },
+            keyboardType: TextInputType.number,
+            maxLength: 11,
+            readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('emergencyContactRelationship'.tr),
         SizedBox(height: 8),
@@ -181,7 +185,7 @@ class _AvailabilityState extends State<Availability> {
             controller.data.emergencyContactRelationship = value.id;
           });
           await next(0, false);
-        }),
+        }, disable: isReviewing),
         SizedBox(height: 16),
       ],
     );

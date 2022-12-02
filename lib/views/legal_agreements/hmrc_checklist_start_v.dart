@@ -6,7 +6,8 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/legal_agreements/hmrc_checklist_v.dart';
 import 'package:extra_staff/views/legal_agreements/agreements_v.dart';
 import 'package:extra_staff/controllers/legal_agreements/hmrc_checklist_c.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/views/legal_agreements/user_confirmation_v.dart';
 
 class HMRCChecklistStartView extends StatefulWidget {
   const HMRCChecklistStartView({Key? key}) : super(key: key);
@@ -19,12 +20,13 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
   final controller = HMRCCheckListController();
   bool isLoading = false;
   var passedData = {};
-  final isHMRCCompleted = localStorage?.getBool('isHMRCCompleted') ?? false;
-
+  bool isHMRCCompleted = localStorage?.getBool('isHMRCCompleted') ?? false;
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
     getData();
+    if (isReviewing) isHMRCCompleted = true;
   }
 
   getData() async {
@@ -63,6 +65,7 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
                         ? true
                         : null,
                     () {
+                      if (isReviewing) return;
                       final index = controller.options.indexOf(i);
                       setState(() {
                         controller.selectedIndex = 0;
@@ -97,7 +100,10 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
     if (isHMRCCompleted) {
       return abBottomNew(context, onTap: (i) async {
         if (i == 0) {
-          Get.to(() => AgreementsView());
+          if (isReviewing)
+            Get.to(() => UserConfirmationView());
+          else
+            Get.to(() => AgreementsView());
         }
       });
     } else

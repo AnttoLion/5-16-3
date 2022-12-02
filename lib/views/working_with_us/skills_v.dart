@@ -6,7 +6,7 @@ import 'package:extra_staff/views/working_with_us/licences_upload_v.dart';
 import 'package:extra_staff/views/working_with_us/availability2_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class SkillsView extends StatefulWidget {
   const SkillsView({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class SkillsView extends StatefulWidget {
 class _SkillsViewState extends State<SkillsView> {
   final controller = SkillsViewController();
   bool isLoading = false;
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -53,6 +53,7 @@ class _SkillsViewState extends State<SkillsView> {
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   value: controller.isSelected(position),
+                  enabled: !isReviewing,
                   onChanged: (v) => setState(() {
                     controller.addOrRemoveRole(position);
                   }),
@@ -75,6 +76,11 @@ class _SkillsViewState extends State<SkillsView> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
+        if (isReviewing) {
+          await Resume.shared.setDone();
+          Get.to(() => isDriver ? LicencesUploadView() : Availability2());
+          return;
+        }
         final message = await controller.updateTempSkillsInfo();
         if (message.isNotEmpty) {
           abShowMessage(message);

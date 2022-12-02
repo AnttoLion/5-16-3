@@ -1,11 +1,10 @@
 import 'package:extra_staff/controllers/about_you/bank_details_c.dart';
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/about_you/equality_monitoring_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class BankDetails extends StatefulWidget {
   const BankDetails({Key? key}) : super(key: key);
@@ -18,6 +17,7 @@ class _BankDetails extends State<BankDetails> {
   final controller = BankDetailsController();
   Map<String, dynamic> allData = {};
   bool isLoading = false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _BankDetails extends State<BankDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('sortCode'.tr),
         SizedBox(height: 8),
@@ -55,7 +55,10 @@ class _BankDetails extends State<BankDetails> {
             return 'bankSortCode'.tr;
           }
           return null;
-        }, maxLength: 6, keyboardType: TextInputType.phone),
+        },
+            maxLength: 6,
+            keyboardType: TextInputType.phone,
+            readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('bankAccountNumber'.tr),
         SizedBox(height: 8),
@@ -69,7 +72,10 @@ class _BankDetails extends State<BankDetails> {
             return 'validBankAccountNumber'.tr;
           }
           return null;
-        }, keyboardType: TextInputType.number, maxLength: 8),
+        },
+            keyboardType: TextInputType.number,
+            maxLength: 8,
+            readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('bankHolderName'.tr),
         SizedBox(height: 8),
@@ -80,7 +86,7 @@ class _BankDetails extends State<BankDetails> {
             return 'enterText'.tr;
           }
           return null;
-        }),
+        }, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('bankReference'.tr),
         SizedBox(height: 8),
@@ -88,7 +94,7 @@ class _BankDetails extends State<BankDetails> {
           controller.data.bankReference = text;
         }, validator: (value) {
           return null;
-        }, onFieldSubmitted: (e) => next()),
+        }, onFieldSubmitted: (e) => next(), readOnly: isReviewing),
         SizedBox(height: 16),
         SizedBox(height: 8),
       ],
@@ -115,6 +121,11 @@ class _BankDetails extends State<BankDetails> {
   }
 
   next() async {
+    if (isReviewing) {
+      await Resume.shared.setDone();
+      Get.to(() => EqualityMonitoring(), arguments: allData);
+      return;
+    }
     if (!controller.formKey.currentState!.validate()) {
       abShowMessage('error'.tr);
       return;

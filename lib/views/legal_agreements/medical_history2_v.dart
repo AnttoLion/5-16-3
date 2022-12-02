@@ -5,6 +5,7 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/legal_agreements/medical_history3_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class MedicalHistory2 extends StatefulWidget {
   const MedicalHistory2({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MedicalHistory2 extends StatefulWidget {
 
 class _MedicalHistory2State extends State<MedicalHistory2> {
   MedicalHistoryController controller = MedicalHistoryController();
-
+  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
@@ -56,6 +57,7 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
                           dense: true,
                           contentPadding: EdgeInsets.zero,
                           value: value[position],
+                          enabled: !isReviewing,
                           onChanged: (v) => setState(() {
                             controller.values[keys[position]] = v!;
                             controller.setValues(position, v ? '1' : '2');
@@ -70,14 +72,11 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
                 SizedBox(height: 16),
                 abTitle('furtherDetails'.tr),
                 SizedBox(height: 8),
-                abTextField(
-                  controller.data.medicalDesc,
-                  (t) => controller.data.medicalDesc = t,
-                  maxLength: -1,
-                  onFieldSubmitted: (p) {
-                    next();
-                  },
-                ),
+                abTextField(controller.data.medicalDesc,
+                    (t) => controller.data.medicalDesc = t, maxLength: -1,
+                    onFieldSubmitted: (p) {
+                  next();
+                }, readOnly: isReviewing),
                 SizedBox(height: 16),
               ],
             ),
@@ -153,6 +152,12 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
   }
 
   next() async {
+    if (isReviewing) {
+      await Resume.shared.setDone();
+      Get.to(() => MedicalHistory3(),
+          arguments: {'medicalHistory': controller});
+      return;
+    }
     final msg = controller.validate2();
     if (msg.isNotEmpty) {
       abShowMessage(msg);

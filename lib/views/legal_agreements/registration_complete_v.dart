@@ -110,7 +110,6 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                 await localStorage?.setBool(
                     'isEmploymentHistoryCompleted', false);
                 await localStorage?.setBool('isCompetencyTestCompleted', false);
-                await localStorage?.setBool('isHMRCCompleted', false);
                 await localStorage?.setBool('isAgreementsCompleted', false);
                 await Resume.shared.markAllNotDone();
 

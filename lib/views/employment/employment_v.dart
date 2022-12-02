@@ -7,7 +7,6 @@ import 'package:extra_staff/views/registration_v.dart';
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class EmploymentView extends StatefulWidget {
@@ -18,6 +17,7 @@ class EmploymentView extends StatefulWidget {
 class _EmploymentViewState extends State<EmploymentView> {
   final controller = ListToUploadController();
   bool isLoading = false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -37,13 +37,14 @@ class _EmploymentViewState extends State<EmploymentView> {
         SizedBox(height: 32),
         abSimpleButton(
           'Upload CV',
-          onTap: () async => await action(0),
+          onTap: () async => {if (!isReviewing) await action(0)},
           backgroundColor: controller.isCVUploaded ? MyColors.green : null,
         ),
         SizedBox(height: 16),
         abTitle('Or'),
         SizedBox(height: 16),
-        abSimpleButton('Enter manually', onTap: () async => await action(1)),
+        abSimpleButton('Enter manually',
+            onTap: () async => {if (!isReviewing) await action(1)}),
         SizedBox(height: 32),
       ],
     );

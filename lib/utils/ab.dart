@@ -543,10 +543,12 @@ Widget abTextField(String title, Function(String) onChanged,
     Function(int)? onTap,
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
-    Function(String)? onFieldSubmitted}) {
+    Function(String)? onFieldSubmitted,
+    bool readOnly = false}) {
   return Container(
     decoration: abOutline(borderColor: MyColors.transparent),
     child: TextFormField(
+      readOnly: readOnly,
       inputFormatters: inputFormatters,
       validator: validator,
       initialValue: title,
