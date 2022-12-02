@@ -39,7 +39,6 @@ class AvailabilityController extends GetxController {
     KeyValue('T.O.E.', 'PAYE'),
     KeyValue('Umbrella', 'Paid through Umbrella'),
   ];
-  KeyValue selectedItem = KeyValue.fromJson({});
   KeyValue selectedEU = KeyValue.fromJson({});
   UserData data = UserData.fromJson({});
   DropDowns dropDowns = DropDowns.fromJson({});
@@ -62,14 +61,6 @@ class AvailabilityController extends GetxController {
     areYouInterested = data.nightWork == '' ? null : data.nightWork == 'true';
 
     hasCriminalConvictions = data.criminal == '' ? null : data.criminal == '1';
-
-    if (data.hearAboutUS.isNotEmpty) {
-      final index = dropDowns.hearEs
-          .indexWhere((element) => element.id == data.hearAboutUS);
-      selectedItem = dropDowns.hearEs[index];
-    } else {
-      selectedItem = dropDowns.hearEs.first;
-    }
 
     if (data.euNational.isNotEmpty) {
       final index = dropDowns.euNational
@@ -96,8 +87,6 @@ class AvailabilityController extends GetxController {
       return 'error'.tr;
     } else if (data.emergencyContactRelationship.isEmpty) {
       return 'emergencyContactRelationship'.tr;
-    } else if (selectedItem.id.isEmpty) {
-      return 'hearAboutExtraStaffQuestion'.tr;
     } else if (data.criminal.isEmpty) {
       return 'hasCriminalConvictions'.tr;
     }

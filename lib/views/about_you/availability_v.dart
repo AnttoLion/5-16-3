@@ -142,17 +142,6 @@ class _AvailabilityState extends State<Availability> {
           return null;
         }),
         SizedBox(height: 16),
-        abTitle('How did you hear about Extrastaff?'),
-        SizedBox(height: 8),
-        abDropDownButton(controller.selectedItem, controller.dropDowns.hearEs,
-            (value) {
-          FocusScope.of(context).requestFocus(FocusNode());
-          setState(() {
-            controller.data.hearAboutUS = value.id;
-            controller.selectedItem = value;
-          });
-        }, disable: true),
-        SizedBox(height: 16),
         abTitle('emergencyContactName'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.emergencyContact, (text) {
