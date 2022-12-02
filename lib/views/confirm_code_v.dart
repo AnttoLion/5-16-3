@@ -27,8 +27,33 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
   TextEditingController controller = TextEditingController(text: '');
   final loginController = LoginController();
 
+  @override
+  void initState() {
+    super.initState();
+    if (!isWebApp) {
+      authBiometric();
+    }
+  }
+
+  void authBiometric() async {
+    final isBiomatricAvaliable = await loginController.isBiometricsAvaliable();
+    if (isBiomatricAvaliable) {
+      final isAuth = await loginController.checkAuth();
+      if (isAuth) {
+        if (Services.shared.completed == "Yes") {
+          Get.offAll(() => RegistrationComplete());
+          return;
+        }
+        Get.to(() => RegistrationProgress());
+      }
+    }
+  }
+
   Widget getPinCodeText() {
-    return abPinCodeText(context, 4, controller: controller,
+    bool readOnly = true;
+    if (isWebApp) readOnly = false;
+
+    return abPinCodeText(context, 4, controller: controller, readOnly: readOnly,
         onCompleted: (v) async {
       final code = localStorage?.getString('passcode') ?? '';
       if (code == v) {

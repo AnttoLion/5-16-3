@@ -1486,7 +1486,8 @@ Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
 Widget abPinCodeText(BuildContext context, int length,
     {Function(String)? onCompleted,
     required Function(String) onChanged,
-    TextEditingController? controller}) {
+    TextEditingController? controller,
+    bool readOnly = false}) {
   return PinCodeTextField(
     controller: controller,
     appContext: context,
@@ -1496,6 +1497,7 @@ Widget abPinCodeText(BuildContext context, int length,
     obscuringCharacter: '*',
     blinkWhenObscuring: true,
     animationType: AnimationType.fade,
+    readOnly: readOnly,
     validator: (v) {
       return null;
     },
