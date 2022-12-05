@@ -93,8 +93,10 @@ class Availability2Controller extends GetxController {
 
   getDataFromStorage() {
     final storedData = localStorage?.getString('RolesView') ?? '';
-    final map = json.decode(storedData);
-    isForklift = map['isForklift'];
+    if (storedData.length > 0) {
+      final map = json.decode(storedData);
+      isForklift = map['isForklift'];
+    }
   }
 
   Future<String> updateTempWorkInfo() async {

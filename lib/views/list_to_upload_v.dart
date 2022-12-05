@@ -7,7 +7,7 @@ import 'package:extra_staff/views/save_photo_v.dart'
 import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 import 'analysing_docs.v.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:extra_staff/controllers/list_to_upload_c.dart';
@@ -25,6 +25,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
   final ImagePicker picker = ImagePicker();
 
   var isLoading = false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -40,8 +41,11 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     }).toList();
     setState(() => isLoading = true);
     await controller.getUploadDocDropdownInfo();
-    await controller.getTempPhotoInfo();
-    await controller.getTempCompDocInfo();
+    if (isReviewing) {
+      await controller.getTempPhotoInfo();
+      await controller.getTempCompDocInfo();
+    }
+
     await controller.getTempDeskInfo();
     setState(() => isLoading = false);
   }
@@ -88,8 +92,8 @@ class _ListToUploadViewState extends State<ListToUploadView> {
             }
             setState(() => controller.data[index].status = data);
             if (controller.showAnalyzer && data == true) {
-              await controller.getTempCompDocInfo();
-              setState(() {});
+              // await controller.getTempCompDocInfo();
+              // setState(() {});
             }
             await allDocsUploaded(false);
           } else {

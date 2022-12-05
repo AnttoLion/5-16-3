@@ -33,8 +33,14 @@ class _AvailabilityState extends State<Availability> {
   }
 
   setData() async {
+    if (!isReviewing) {
+      controller.data.nationalInsurance = '';
+      controller.data.dob = '';
+    }
+
     await controller.setData();
     if (!isNiUploaded) controller.data.nationalInsurance = '';
+
     setState(() {});
   }
 

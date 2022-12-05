@@ -153,7 +153,9 @@ class LicencesUploadController extends GetxController {
         digicardDateExpiry = response.result['digicard_date_expiry'] ?? '';
         digicardDocID = response.result['digicard_doc_id'] ?? '';
         digicardBackDocID = response.result['digicard_back_doc_id'] ?? '';
-
+        if (drivingDateExpiry == "0000-00-00") drivingDateExpiry = '';
+        if (tachoDateExpiry == "0000-00-00") tachoDateExpiry = '';
+        if (digicardDateExpiry == "0000-00-00") digicardDateExpiry = '';
         switch (type) {
           case LicenceType.licence:
             passDate = stringToDate(drivingIssueDate, true);
@@ -186,13 +188,14 @@ class LicencesUploadController extends GetxController {
       if (type == LicenceType.licence) {
         type = LicenceType.tacho;
         expDate = stringToDate(tachoDateExpiry, true);
-        selectedCountry =
-            countryOptions.firstWhere((e) => e.id == tachoCountry);
+        selectedCountry = countryOptions.firstWhere((e) => e.id == tachoCountry,
+            orElse: () => countryOptions.first);
       } else if (type == LicenceType.tacho) {
         type = LicenceType.qualification;
         expDate = stringToDate(digicardDateExpiry, true);
-        selectedCountry =
-            countryOptions.firstWhere((e) => e.id == digicardCountry);
+        selectedCountry = countryOptions.firstWhere(
+            (e) => e.id == digicardCountry,
+            orElse: () => countryOptions.first);
       } else {
         allFinished = true;
       }

@@ -51,7 +51,6 @@ class RegistrationController extends GetxController {
       'isAboutYouCompleted',
       'isEmploymentHistoryCompleted',
       'isCompetencyTestCompleted',
-      'isHMRCCompleted',
       'isAgreementsCompleted',
     ];
     for (var k in keys) {
