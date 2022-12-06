@@ -29,8 +29,10 @@ class SkillsViewController extends GetxController {
 
   getDataFromStorage() {
     final storedData = localStorage?.getString('RolesView') ?? '';
-    final map = json.decode(storedData);
-    selectedRoles = map['selectedRoles'];
+    if (storedData.length > 0) {
+      final map = json.decode(storedData);
+      selectedRoles = map['selectedRoles'];
+    }
   }
 
   Future apiCalls() async {

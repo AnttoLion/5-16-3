@@ -110,8 +110,10 @@ class LicencesUploadController extends GetxController {
 
   getDataFromStorage() {
     final storedData = localStorage?.getString('RolesView') ?? '';
-    final map = json.decode(storedData);
-    isOnly35T = map['isOnly35T'];
+    if (storedData.length > 0) {
+      final map = json.decode(storedData);
+      isOnly35T = map['isOnly35T'];
+    }
 
     final storedType = localStorage?.getString('LicenceType') ??
         LicenceType.licence.toString();

@@ -5,7 +5,6 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/registration_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 
 class CompetencyTest extends StatefulWidget {
   const CompetencyTest({Key? key}) : super(key: key);
@@ -33,59 +32,59 @@ class _CompetencyTestState extends State<CompetencyTest> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isLoading,
-      child: Scaffold(
-        appBar: abHeader('ct'.tr),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                padding: gHPadding,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.help_outline,
-                      size: 125,
-                      color: MyColors.lightBlue,
-                    ),
-                    SizedBox(height: 32),
-                    abWords('', '', WrapAlignment.center),
-                    SizedBox(height: 32),
-                    Text(
-                      'completingCompetency'.tr,
-                      style: MyFonts.regular(15),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 32),
-                    Text(
-                      controller.scoreText(),
-                      style: MyFonts.regular(15),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            abBottom(
-              bottom: 'back'.tr,
-              onTap: (i) async {
-                await Resume.shared.setDone();
-                if (i == 0) {
-                  await localStorage?.setBool(
-                      'isCompetencyTestCompleted', true);
-                  Get.off(() => RegistrationView());
-                } else {
-                  Get.back(result: true);
-                }
-              },
-            ),
-          ],
-        ),
+  Widget getContent() {
+    return Container(
+      padding: gHPadding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.help_outline,
+            size: 125,
+            color: MyColors.lightBlue,
+          ),
+          SizedBox(height: 32),
+          abWords('', '', WrapAlignment.center),
+          SizedBox(height: 32),
+          Text(
+            'completingCompetency'.tr,
+            style: MyFonts.regular(15),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 32),
+          Text(
+            controller.scoreText(),
+            style: MyFonts.regular(15),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    return abHeaderNew(context, 'ct'.tr);
+  }
+
+  Widget? getBottomBar() {
+    return abBottomNew(
+      context,
+      bottom: 'back'.tr,
+      onTap: (i) async {
+        await Resume.shared.setDone();
+        if (i == 0) {
+          await localStorage?.setBool('isCompetencyTestCompleted', true);
+          Get.off(() => RegistrationView());
+        } else {
+          Get.back(result: true);
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return abMainWidgetWithBottomBarLoadingOverlayScaffold(context, isLoading,
+        appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

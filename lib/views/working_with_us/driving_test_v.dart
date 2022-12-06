@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/views/onboarding/competency_test_v.dart';
 
 class DrivingTestView extends StatefulWidget {
   @override
@@ -392,8 +393,20 @@ class _DrivingTestViewState extends State<DrivingTestView> {
       if (i == 0) {
         if (isReviewing) {
           await Resume.shared.setDone();
-          await localStorage?.setBool('isCompetencyTestCompleted', true);
-          Get.off(() => RegistrationView());
+          if (isQuizTest && !is35T) {
+            Get.bottomSheet(
+              NewInfoView(7, () async {
+                await localStorage?.setBool('isCompetencyTestCompleted', true);
+                Get.to(() => CompetencyTest());
+              }),
+              enableDrag: false,
+              isDismissible: false,
+              isScrollControlled: true,
+            );
+          } else {
+            await localStorage?.setBool('isCompetencyTestCompleted', true);
+            Get.off(() => RegistrationView());
+          }
           return;
         }
         if (controller.validated()) {

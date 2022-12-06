@@ -12,6 +12,7 @@ import 'package:extra_staff/views/upload_documents_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/views/onboarding/competency_test_v.dart';
 
 class Availability2 extends StatefulWidget {
   const Availability2({Key? key}) : super(key: key);
@@ -281,38 +282,35 @@ class _Availability2State extends State<Availability2> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
-        if (isReviewing) {
-          await localStorage?.setBool('isCompetencyTestCompleted', true);
-          Get.off(() => RegistrationView());
-          return;
+        if (!isReviewing) {
+          final error = controller.validate();
+          if (error.isNotEmpty) {
+            abShowMessage(error);
+            return;
+          }
+          final message = await controller.updateTempWorkInfo();
+          if (message.isNotEmpty) {
+            abShowMessage(message);
+            return;
+          }
         }
-        final error = controller.validate();
-        if (error.isNotEmpty) {
-          abShowMessage(error);
-          return;
-        }
-        final message = await controller.updateTempWorkInfo();
-        if (message.isNotEmpty) {
-          abShowMessage(message);
-          return;
-        }
+
         await Resume.shared.setDone();
         if (isDriver) {
           Get.to(() => DrivingTestView());
         } else if (isQuizTest && !is35T) {
-          if (isReviewing) {
-            await localStorage?.setBool('isCompetencyTestCompleted', true);
-            Get.off(() => RegistrationView());
-          } else {
-            Get.bottomSheet(
-              NewInfoView(7, () async {
+          Get.bottomSheet(
+            NewInfoView(7, () async {
+              if (isReviewing) {
+                Get.to(() => CompetencyTest());
+              } else {
                 Get.to(() => OnboardingWizard());
-              }),
-              enableDrag: false,
-              isDismissible: false,
-              isScrollControlled: true,
-            );
-          }
+              }
+            }),
+            enableDrag: false,
+            isDismissible: false,
+            isScrollControlled: true,
+          );
         } else {
           await localStorage?.setBool('isCompetencyTestCompleted', true);
           Get.off(() => RegistrationView());

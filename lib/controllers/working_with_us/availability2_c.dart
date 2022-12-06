@@ -128,6 +128,8 @@ class Availability2Controller extends GetxController {
     if (response.result is Map) {
       data = UserData.fromJson(response.result);
       isQuizTest = data.quizTest == '1';
+      print('isQuizTest');
+      print(isQuizTest);
     }
     return response.errorMessage;
   }

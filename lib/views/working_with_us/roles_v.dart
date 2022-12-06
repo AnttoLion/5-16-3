@@ -76,6 +76,7 @@ class _RolesViewState extends State<RolesView> {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
         if (isReviewing) {
+          await controller.setDataInStorage();
           await Resume.shared.setDone();
           Get.to(() => SkillsView());
           return;
