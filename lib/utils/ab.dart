@@ -400,6 +400,45 @@ Widget abDropDownButton(
   );
 }
 
+Widget abStatusButtonWidget(Widget title, bool? status, Function() onTap,
+    {bool hideStatus = false, bool expanded = false, double? borderWidth}) {
+  final color = status != null
+      ? status
+          ? MyColors.green
+          : MyColors.ornage
+      : MyColors.lightGrey;
+  final icon = status != null
+      ? status
+          ? Icons.check_circle
+          : Icons.cancel
+      : Icons.add_circle;
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      height: expanded ? null : buttonHeight,
+      padding:
+          expanded ? EdgeInsets.all(16) : EdgeInsets.symmetric(horizontal: 16),
+      decoration: abOutline(borderColor: color, width: borderWidth),
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: AlignmentDirectional.bottomEnd,
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: title,
+          ),
+          if (!hideStatus)
+            Positioned(
+              top: 43,
+              right: -27,
+              child: Icon(icon, color: color),
+            ),
+        ],
+      ),
+    ),
+  );
+}
+
 Widget abStatusButton(String title, bool? status, Function() onTap,
     {bool hideStatus = false, bool expanded = false, double? borderWidth}) {
   final color = status != null

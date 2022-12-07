@@ -36,8 +36,8 @@ class AvailabilityController extends GetxController {
   KeyValue selectedES = KeyValue.fromJson({});
   List<KeyValue> esValues = [
     KeyValue('', 'Please select option'),
-    KeyValue('T.O.E.', 'PAYE'),
-    KeyValue('Umbrella', 'Paid through Umbrella'),
+    KeyValue('T.O.E.', 'Individual'),
+    KeyValue('Umbrella', 'Umbrella'),
   ];
   KeyValue selectedEU = KeyValue.fromJson({});
   UserData data = UserData.fromJson({});

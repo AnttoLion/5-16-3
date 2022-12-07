@@ -296,6 +296,15 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
+  Future<BaseApiResponse> getTempSignatureInfo() async => await get(
+        baseUrl + 'getTempSignatureInfo',
+        query: {
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+
   Future<BaseApiResponse> getBranchInfo(
           double latitude, double longitude) async =>
       await get(

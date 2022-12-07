@@ -318,7 +318,12 @@ class Messages extends Translations {
           'loginWithPasscode': 'Pass code',
           'loginWithBiometric': 'Biometric ID',
           'next': 'Next',
-          'done': 'Done'
+          'done': 'Done',
+          'agreement_extra1':
+              'I give Extrastaff consent to seek a reference about me, and issue a reference about me if requested',
+          'agreement_extra2':
+              'I confirm I have read and agree to the Terms of Engagement',
+          'signed': 'Signed:'
         },
         'de': {
           'howTo': 'Cómo #',

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/models/signature_data_m.dart';
 import 'package:extra_staff/models/key_value_m.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -7,13 +8,14 @@ class AgreementsController extends GetxController {
   String txt = '';
   int currentIndex = 1;
   List<String> status = [];
-
+  String signatureBlob = '';
   final allAgreements = [
     KeyValue('1', 'Extrastaff Pension'),
     KeyValue('2', 'Now Pension'),
     KeyValue('3', 'GDPR / Privacy Statement'),
     KeyValue('4', 'Code of Conduct'),
     KeyValue('5', 'Manual Handling'),
+    KeyValue('6', 'Employment Status'),
   ];
 
   nextAgreement() async {
@@ -27,6 +29,18 @@ class AgreementsController extends GetxController {
       ...{...status}
     ];
     return status.length == allAgreements.length;
+  }
+
+  Future<String> getTempSignatureInfo() async {
+    final response = await Services.shared.getTempSignatureInfo();
+    if (response.result is Map) {
+      SignatureData data = SignatureData.fromJson(response.result);
+      var index = data.signature.indexOf("base64,");
+      signatureBlob = data.signature.substring(index + 7);
+      print(signatureBlob);
+      // signatureBlob = data.signature;
+    }
+    return response.errorMessage;
   }
 
   Future<String> updateTempAgreementInfo() async {

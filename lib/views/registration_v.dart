@@ -21,6 +21,9 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/controllers/registration_c.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/views/legal_agreements/hmrc_checklist_review_v.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class RegistrationView extends StatefulWidget {
   const RegistrationView({Key? key}) : super(key: key);
@@ -34,6 +37,7 @@ class _RegistrationView extends State<RegistrationView> {
 
   bool isLoading = true;
   Map<String, dynamic> allData = {};
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -85,8 +89,14 @@ class _RegistrationView extends State<RegistrationView> {
         workingWithUsNestedNavigation();
         break;
       case 3:
-        Get.to(() => HMRCChecklistStartView(), arguments: allData);
-        break;
+        {
+          if (isReviewing) {
+            Get.to(() => HMRCChecklistReView(), arguments: allData);
+          } else {
+            Get.to(() => HMRCChecklistStartView(), arguments: allData);
+          }
+          break;
+        }
       default:
         Get.to(() => HMRCChecklistStartView(), arguments: allData);
     }

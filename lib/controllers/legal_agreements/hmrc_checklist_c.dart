@@ -103,6 +103,16 @@ class HMRCCheckListController extends GetxController {
     },
   ];
 
+  final questionsForReview = [
+    'Do you have a Student Loan?',
+    'Did you complete your Studies?',
+    'Are you repaying Student Loans?',
+    'What type of Student Loan do you have?',
+    "Do you have a Postgraduate Loan?",
+    'Did you complete Postgraduate studies?',
+    'Are you repaying Postgraduate Loan?'
+  ];
+
   final options = [
     "This is my first job since 6 April and I've not been receiving taxable Jobseeker's Allowance, Employment and Support Allowance, taxable Incapacity Benefit, State or Occupational Pension.",
     "This is now my only job but since 6 April I've had another job, or received taxable Jobseeker's Allowance, Employment and Support Allowance or taxable Incapacity Benefit. I do not receive a State or Occupational Pension.",

@@ -8,6 +8,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/controllers/legal_agreements/agreements_c.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class Agreement1 extends StatefulWidget {
   const Agreement1({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _Agreement1State extends State<Agreement1> {
   late final AgreementsController controller;
   bool isLoading = true;
   bool needToScrolled = true;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -112,7 +114,7 @@ class _Agreement1State extends State<Agreement1> {
   Widget getBottomBar() {
     return abBottomNew(
       context,
-      top: 'agree'.tr,
+      top: isReviewing ? null : 'agree'.tr,
       onlyTopDisabled: needToScrolled ? needToScrolled : null,
       onTap: (i) async {
         if (i == 0) {

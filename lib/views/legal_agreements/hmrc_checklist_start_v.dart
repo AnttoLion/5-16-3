@@ -21,12 +21,10 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
   bool isLoading = false;
   var passedData = {};
   bool isHMRCCompleted = localStorage?.getBool('isHMRCCompleted') ?? false;
-  bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
     getData();
-    if (isReviewing) isHMRCCompleted = true;
   }
 
   getData() async {
@@ -65,7 +63,6 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
                         ? true
                         : null,
                     () {
-                      if (isReviewing) return;
                       final index = controller.options.indexOf(i);
                       setState(() {
                         controller.selectedIndex = 0;
@@ -100,10 +97,7 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
     if (isHMRCCompleted) {
       return abBottomNew(context, onTap: (i) async {
         if (i == 0) {
-          if (isReviewing)
-            Get.to(() => UserConfirmationView());
-          else
-            Get.to(() => AgreementsView());
+          Get.to(() => AgreementsView());
         }
       });
     } else
