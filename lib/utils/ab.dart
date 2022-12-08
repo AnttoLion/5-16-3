@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:extra_staff/views/confirm_code_v.dart';
+import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:flutter/services.dart';
 import 'constants.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:extra_staff/views/registration_progress_v.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:extra_staff/utils/services.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -752,6 +754,7 @@ PreferredSize abHeaderNew(
   bool showHome = true,
   bool showBack = true,
 }) {
+  bool isReviewing = Services.shared.completed == "Yes";
   if (isWebApp) {
     return PreferredSize(
       preferredSize: Size.fromHeight(80),
@@ -804,7 +807,9 @@ PreferredSize abHeaderNew(
                             maintainSemantics: true,
                             child: IconButton(
                               onPressed: () => onTap == null
-                                  ? Get.to(() => RegistrationProgress())
+                                  ? (isReviewing
+                                      ? Get.offAll(() => RegistrationComplete())
+                                      : Get.to(() => RegistrationProgress()))
                                   : onTap(2),
                               icon: Icon(
                                 Icons.home,
@@ -871,7 +876,9 @@ PreferredSize abHeaderNew(
                       maintainSemantics: true,
                       child: IconButton(
                         onPressed: () => onTap == null
-                            ? Get.to(() => RegistrationProgress())
+                            ? (isReviewing
+                                ? Get.offAll(() => RegistrationComplete())
+                                : Get.to(() => RegistrationProgress()))
                             : onTap(2),
                         icon: Icon(
                           Icons.home,

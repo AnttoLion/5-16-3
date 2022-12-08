@@ -104,13 +104,15 @@ class HMRCCheckListController extends GetxController {
   ];
 
   final questionsForReview = [
-    'Do you have a Student Loan?',
-    'Did you complete your Studies?',
-    'Are you repaying Student Loans?',
-    'What type of Student Loan do you have?',
+    'Do you have one of the Student Loan Plans which is not fully repaid?'.tr,
+    'Did you complete or leave your Studies before 6th April?'.tr,
+    'Are you repaying your Student Loans directly to the Student Loans data by direct debit?'
+        .tr,
+    'What type of Student Loan do you have?'.tr,
     "Do you have a Postgraduate Loan?",
-    'Did you complete Postgraduate studies?',
-    'Are you repaying Postgraduate Loan?'
+    'Did you complete or leave your Postgraduate studies before 6th April?'.tr,
+    'Are you repaying your Postgraduate Loan direct to the Student Loans data by direct debit?'
+        .tr,
   ];
 
   final options = [
