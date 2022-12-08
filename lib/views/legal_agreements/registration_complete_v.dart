@@ -8,6 +8,7 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/legal_agreements/hmrc_checklist_start_v.dart';
 import 'package:extra_staff/views/registration_v.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
+import 'package:extra_staff/views/page_controller_v.dart';
 
 class RegistrationComplete extends StatefulWidget {
   const RegistrationComplete({Key? key}) : super(key: key);
@@ -116,7 +117,10 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                 Get.offAll(() => RegistrationView());
               } else {
                 await removeAllSharedPref();
-                Get.offAll(() => SplashPage());
+                if (isWebApp)
+                  Get.offAll(() => PageControllerView());
+                else
+                  Get.offAll(() => SplashPage());
               }
             },
           ),

@@ -132,7 +132,9 @@ class Resume {
   navigate() {
     final goTo = allClasses.firstWhere((e) => e.done == false,
         orElse: () => Todo(title: 'RegistrationView', done: false));
-    if (goTo.title == 'RegistrationView') {
+    print(goTo.title);
+    print((RegistrationView).toString());
+    if (goTo.title == (RegistrationView).toString()) {
       Get.to(() => RegistrationView(), arguments: true);
     } else {
       Get.to(() => ListToUploadView());

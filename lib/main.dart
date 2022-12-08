@@ -11,8 +11,11 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'dart:async';
+import 'package:extra_staff/views/page_controller_v.dart';
+import 'package:extra_staff/views/confirm_code_v.dart';
 
 Future<void> main() async {
+  await localStorageInit();
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -34,6 +37,7 @@ class ExtraStaff extends StatelessWidget {
         objABBottom.hideBottom = isKeyboardVisible;
         objABBottom.update();
       }
+      print(localStorage?.getString('passcode'));
       return KeyboardDismissOnTap(
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
@@ -49,7 +53,12 @@ class ExtraStaff extends StatelessWidget {
             title: 'es'.tr,
             theme: ThemeData.light(),
             darkTheme: ThemeData.light(),
-            home: SplashPage(),
+            // home: SplashPage(),
+            home: !isWebApp
+                ? SplashPage()
+                : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+                    ? EnterConfrimCode(isFromStart: true)
+                    : PageControllerView()),
             enableLog: false,
             debugShowCheckedModeBanner: false,
             translations: Messages(),
