@@ -7,6 +7,8 @@ import 'package:device_info/device_info.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
+import 'package:flutter/foundation.dart';
+import 'package:dart_ipify/dart_ipify.dart';
 
 class ForgotPasscodeController extends GetxController {
   String phoneNo = '';
@@ -47,20 +49,23 @@ class ForgotPasscodeController extends GetxController {
     Map<String, dynamic> deviceData = <String, dynamic>{};
 
     try {
-      // if (Platform.isAndroid) {
-      //   deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      // } else if (Platform.isIOS) {
-      //   deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
-      // }
-      final device = Platform.isAndroid
-          ? (await deviceInfoPlugin.androidInfo).display
-          : (await deviceInfoPlugin.iosInfo).identifierForVendor;
-      deviceData = {'device': device};
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};
+      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+        deviceData = {
+          'device': (await deviceInfoPlugin.iosInfo).identifierForVendor
+        };
+      } else {
+        final ipv4 = await Ipify.ipv4();
+        //web
+        deviceData = {'device': 'AppWebBrowser_' + ipv4};
+      }
     } on PlatformException {
       deviceData = <String, dynamic>{
         'Error:': 'Failed to get platform version.'
       };
     }
+
     _deviceData = deviceData;
   }
 }

@@ -50,7 +50,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
         );
       },
       child: Text(
-        'Equal Oppourtunities',
+        'Equal Opportunities',
         style: MyFonts.medium(25).merge(
           TextStyle(decoration: TextDecoration.underline),
         ),
@@ -161,7 +161,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abHeaderNew(context, 'Equal Oppourtunities', center: button());
+    return abHeaderNew(context, 'Equal Opportunities', center: button());
   }
 
   Widget getBottomBar() {

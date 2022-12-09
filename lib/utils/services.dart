@@ -675,14 +675,14 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
-  Future<String> putSignature(XFile image) async => await post(
+  Future<String> putSignature(String imageBlob) async => await post(
         baseUrl + 'putSignature',
         {
           'tid': '$tid',
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
           'Content-Type': '.png',
-          'image': await image.readAsBytes(),
+          'image': imageBlob,
         },
         headers: headers,
       ).then((value) => value.statusCode == 200 ? 'OK' : 'Error');

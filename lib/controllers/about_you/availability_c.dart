@@ -43,7 +43,10 @@ class AvailabilityController extends GetxController {
   UserData data = UserData.fromJson({});
   DropDowns dropDowns = DropDowns.fromJson({});
 
-  String formatDateStr() => selectedDob == null ? '' : formatDate(selectedDob!);
+  // String formatDateStr() => selectedDob == null ? '' : formatDate(selectedDob!);
+  String formatDateStr() {
+    return selectedDob == null ? '' : formatDate(selectedDob!);
+  }
 
   setData() async {
     final dob = stringToDate(data.dob);
@@ -53,7 +56,7 @@ class AvailabilityController extends GetxController {
       selectedES =
           esValues.firstWhere((element) => element.id == data.contract);
     }
-    if (dob != null && dob.isAfter(minDate) && dob.isBefore(maxDate)) {
+    if (dob != null && dob.isAfter(minDate)) {
       selectedDob = stringToDate(data.dob);
     } else {
       data.dob = '';

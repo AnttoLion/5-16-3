@@ -20,12 +20,24 @@ class _AddressState extends State<Address> {
   Map<String, dynamic> allData = {};
   bool isLoading = false;
   bool isReviewing = Services.shared.completed == "Yes";
+
+  final addressPostCodeController = TextEditingController();
+  final address_1Controller = TextEditingController();
+  final address_2Controller = TextEditingController();
+  final addressTownController = TextEditingController();
+  final addressCountyController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     controller.data = Get.arguments['aboutYou'];
     controller.dropDowns = Get.arguments['dropDowns'];
     allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
+    addressPostCodeController.text = controller.data.addressPostCode;
+    address_1Controller.text = controller.data.address_1;
+    address_2Controller.text = controller.data.address_2;
+    addressTownController.text = controller.data.addressTown;
+    addressCountyController.text = controller.data.addressCounty;
     setState(() {});
   }
 
@@ -71,12 +83,22 @@ class _AddressState extends State<Address> {
                 value: controller.selectedAddress,
                 onChanged: (AddressModel? newValue) async {
                   if (newValue != null) {
-                    controller.setValues(newValue);
                     setState(() => isLoading = true);
-                    Future.delayed(
-                      duration,
-                      () => setState(() => isLoading = false),
-                    );
+                    controller.setValues(newValue);
+                    addressPostCodeController.text =
+                        controller.data.addressPostCode;
+                    address_1Controller.text = controller.data.address_1;
+                    address_2Controller.text = controller.data.address_2;
+                    addressTownController.text = controller.data.addressTown;
+                    addressCountyController.text =
+                        controller.data.addressCounty;
+                    setState(() {
+                      isLoading = false;
+                    });
+                    // Future.delayed(
+                    //   duration,
+                    //   () => setState(() => isLoading = false),
+                    // );
                   }
                 },
                 items: controller.allAddresses
@@ -110,7 +132,7 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }, readOnly: isReviewing),
+        }, readOnly: isReviewing, controller: addressPostCodeController),
         SizedBox(height: 16),
         abTitle('addressLine1'.tr),
         SizedBox(height: 8),
@@ -121,13 +143,13 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }, readOnly: isReviewing),
+        }, readOnly: isReviewing, controller: address_1Controller),
         SizedBox(height: 16),
         abTitle('addressLine2'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.address_2, (text) {
           controller.data.address_2 = text;
-        }, readOnly: isReviewing),
+        }, readOnly: isReviewing, controller: address_2Controller),
         SizedBox(height: 16),
         abTitle('town'.tr),
         SizedBox(height: 8),
@@ -138,13 +160,16 @@ class _AddressState extends State<Address> {
             return 'enterText'.tr;
           }
           return null;
-        }, readOnly: isReviewing),
+        }, readOnly: isReviewing, controller: addressTownController),
         SizedBox(height: 16),
         abTitle('county'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.addressCounty, (text) {
           controller.data.addressCounty = text;
-        }, onFieldSubmitted: (e) async => await next(), readOnly: isReviewing),
+        },
+            onFieldSubmitted: (e) async => await next(),
+            readOnly: isReviewing,
+            controller: addressCountyController),
         SizedBox(height: 16),
       ],
     );

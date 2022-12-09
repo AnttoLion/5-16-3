@@ -135,8 +135,7 @@ class LoginController extends GetxController {
       } else {
         final ipv4 = await Ipify.ipv4();
         //web
-        // deviceData = {'device': ipv4};
-        deviceData = {'device': 'WebBrowser'};
+        deviceData = {'device': 'AppWebBrowser_' + ipv4};
       }
     } on PlatformException {
       deviceData = <String, dynamic>{

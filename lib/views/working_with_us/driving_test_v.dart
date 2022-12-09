@@ -209,7 +209,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[7])),
                       ],
                     ),
@@ -217,7 +217,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[8])),
                       ],
                     ),
@@ -247,7 +247,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[12])),
                       ],
                     ),
@@ -255,7 +255,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[13])),
                       ],
                     ),
@@ -293,7 +293,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[17])),
                       ],
                     ),
@@ -301,7 +301,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[18])),
                       ],
                     ),
@@ -309,7 +309,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        abTitle('\t\t\t• '),
+                        abTitle('      • '),
                         Expanded(child: abTitle(controller.longTexts[19])),
                       ],
                     ),

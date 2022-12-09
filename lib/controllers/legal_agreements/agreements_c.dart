@@ -3,6 +3,8 @@ import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/models/signature_data_m.dart';
 import 'package:extra_staff/models/key_value_m.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class AgreementsController extends GetxController {
   String txt = '';
@@ -36,7 +38,10 @@ class AgreementsController extends GetxController {
     if (response.result is Map) {
       SignatureData data = SignatureData.fromJson(response.result);
       var index = data.signature.indexOf("base64,");
-      signatureBlob = data.signature.substring(index + 7);
+      if (index > 0)
+        signatureBlob = data.signature.substring(index + 7);
+      else
+        signatureBlob = data.signature;
       print(signatureBlob);
       // signatureBlob = data.signature;
     }
@@ -76,7 +81,9 @@ class AgreementsController extends GetxController {
 
   Future<String> putSignature(XFile img) async {
     try {
-      return await Services.shared.putSignature(img);
+      final binaryData = await img.readAsBytes();
+      String signatureBlob = Base64Codec().encode(binaryData);
+      return await Services.shared.putSignature(signatureBlob);
     } catch (e) {
       print(e.toString());
       return 'error'.tr;

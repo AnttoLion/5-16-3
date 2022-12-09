@@ -585,57 +585,112 @@ Widget abTextField(String title, Function(String) onChanged,
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
     Function(String)? onFieldSubmitted,
-    bool readOnly = false}) {
-  return Container(
-    decoration: abOutline(borderColor: MyColors.transparent),
-    child: TextFormField(
-      readOnly: readOnly,
-      inputFormatters: inputFormatters,
-      validator: validator,
-      initialValue: title,
-      style: MyFonts.regular(16),
-      textCapitalization: TextCapitalization.sentences,
-      maxLength: maxLength ?? (maxLines == 1 ? 45 : 256),
-      maxLines: maxLines,
-      keyboardType: keyboardType,
-      onChanged: (e) => onChanged(e),
-      textInputAction: TextInputAction.next,
-      onFieldSubmitted: (e) =>
-          onFieldSubmitted == null ? null : onFieldSubmitted(e),
-      textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        counterText: '',
-        hintText: hintText,
-        contentPadding: EdgeInsets.all(16),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.skyBlue, width: 1),
+    bool readOnly = false,
+    TextEditingController? controller}) {
+  if (controller == null) {
+    return Container(
+      decoration: abOutline(borderColor: MyColors.transparent),
+      child: TextFormField(
+        readOnly: readOnly,
+        inputFormatters: inputFormatters,
+        validator: validator,
+        initialValue: title,
+        style: MyFonts.regular(16),
+        textCapitalization: TextCapitalization.sentences,
+        maxLength: maxLength ?? (maxLines == 1 ? 45 : 256),
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        onChanged: (e) => onChanged(e),
+        textInputAction: TextInputAction.next,
+        onFieldSubmitted: (e) =>
+            onFieldSubmitted == null ? null : onFieldSubmitted(e),
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: hintText,
+          contentPadding: EdgeInsets.all(16),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.skyBlue, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.lightGrey, width: 1),
+          ),
+          suffixIcon: clearAndEdit == null
+              ? null
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (clearAndEdit == 1)
+                      IconButton(
+                        onPressed: () => onTap == null ? null : onTap(1),
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.clear),
+                      ),
+                    if (clearAndEdit == 2)
+                      IconButton(
+                        onPressed: () => onTap == null ? null : onTap(2),
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.edit),
+                      ),
+                  ],
+                ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.lightGrey, width: 1),
-        ),
-        suffixIcon: clearAndEdit == null
-            ? null
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (clearAndEdit == 1)
-                    IconButton(
-                      onPressed: () => onTap == null ? null : onTap(1),
-                      constraints: BoxConstraints(),
-                      icon: Icon(Icons.clear),
-                    ),
-                  if (clearAndEdit == 2)
-                    IconButton(
-                      onPressed: () => onTap == null ? null : onTap(2),
-                      constraints: BoxConstraints(),
-                      icon: Icon(Icons.edit),
-                    ),
-                ],
-              ),
       ),
-    ),
-  );
+    );
+  } else {
+    return Container(
+      decoration: abOutline(borderColor: MyColors.transparent),
+      child: TextFormField(
+        controller: controller,
+        readOnly: readOnly,
+        inputFormatters: inputFormatters,
+        validator: validator,
+        // initialValue: title,
+        style: MyFonts.regular(16),
+        textCapitalization: TextCapitalization.sentences,
+        maxLength: maxLength ?? (maxLines == 1 ? 45 : 256),
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        onChanged: (e) => onChanged(e),
+        textInputAction: TextInputAction.next,
+        onFieldSubmitted: (e) =>
+            onFieldSubmitted == null ? null : onFieldSubmitted(e),
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: hintText,
+          contentPadding: EdgeInsets.all(16),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.skyBlue, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyColors.lightGrey, width: 1),
+          ),
+          suffixIcon: clearAndEdit == null
+              ? null
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (clearAndEdit == 1)
+                      IconButton(
+                        onPressed: () => onTap == null ? null : onTap(1),
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.clear),
+                      ),
+                    if (clearAndEdit == 2)
+                      IconButton(
+                        onPressed: () => onTap == null ? null : onTap(2),
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.edit),
+                      ),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
 }
 
 Widget abBottomBar(BuildContext context, int current, int total) {
