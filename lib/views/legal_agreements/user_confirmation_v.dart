@@ -23,8 +23,8 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
   final sign = GlobalKey<SignatureState>();
   final controller = AgreementsController();
   var data = [
-    {"Extrastaff's Workplace Pension letter": false},
-    {'Now Pension Letter': false},
+    {"Extrastaff's Workplace Pension": false},
+    {'Now Pension': false},
     {'The Code of Conduct': false},
     {'Privacy Statement': false},
     {'Manual Handling Guide': false},
