@@ -53,12 +53,12 @@ class ExtraStaff extends StatelessWidget {
             title: 'es'.tr,
             theme: ThemeData.light(),
             darkTheme: ThemeData.light(),
-            // home: SplashPage(),
-            home: !isWebApp
-                ? SplashPage()
-                : ((localStorage?.getString('passcode') ?? '').isNotEmpty
-                    ? EnterConfrimCode(isFromStart: true)
-                    : PageControllerView()),
+            home: SplashPage(),
+            // home: !isWebApp
+            //     ? SplashPage()
+            //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+            //         ? EnterConfrimCode(isFromStart: true)
+            //         : PageControllerView()),
             enableLog: false,
             debugShowCheckedModeBanner: false,
             translations: Messages(),
