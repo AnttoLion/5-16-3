@@ -35,6 +35,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
   }
 
   setData() async {
+    controller.sendScreenID = false;
     controller.data = controller.data.map((e) {
       e.selected = e.data.first;
       return e;

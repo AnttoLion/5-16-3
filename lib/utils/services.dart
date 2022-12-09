@@ -155,12 +155,13 @@ class Services extends GetConnect {
       Map<String, String>? headers,
       Map<String, dynamic>? query,
       T Function(dynamic)? decoder,
-      dynamic Function(double)? uploadProgress}) {
+      dynamic Function(double)? uploadProgress,
+      bool sendScreenID = true}) {
     body['completed'] = completed;
     body['progress'] = '${Resume.shared.progress}';
     final str = url?.split('/').last ?? '';
     final index = screens.indexWhere((element) => element.id.contains(str));
-    if (index > 0) {
+    if (index > 0 && sendScreenID) {
       body['screen_id'] = screens[index].value;
     }
     log('Post:===========================API===========================');
@@ -260,26 +261,28 @@ class Services extends GetConnect {
           String? tachoDExp,
           String? tachoCt,
           String? digiDExp,
-          String? digiCt}) async =>
+          String? digiCt,
+          bool sendScreenID = true}) async =>
       await post(
-        baseUrl + 'TempCompDoc',
-        {
-          'user_id': '$userId',
-          'type': type,
-          'isBack': isBack ? '1' : '2',
-          'doc_type': docType,
-          'doc_name': docName,
-          'tid': '$tid',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-          'driving_date_expiry': drivingDExp ?? '',
-          'driving_issue_date': drivingDIssue ?? '',
-          'tacho_date_expiry': tachoDExp ?? '',
-          'tacho_country': tachoCt ?? '',
-          'digicard_date_expiry': digiDExp ?? '',
-          'digicard_country': digiCt ?? '',
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+              baseUrl + 'TempCompDoc',
+              {
+                'user_id': '$userId',
+                'type': type,
+                'isBack': isBack ? '1' : '2',
+                'doc_type': docType,
+                'doc_name': docName,
+                'tid': '$tid',
+                'digest': generateMd5(staticDigestKey + '$userId'),
+                'driving_date_expiry': drivingDExp ?? '',
+                'driving_issue_date': drivingDIssue ?? '',
+                'tacho_date_expiry': tachoDExp ?? '',
+                'tacho_country': tachoCt ?? '',
+                'digicard_date_expiry': digiDExp ?? '',
+                'digicard_country': digiCt ?? '',
+              },
+              headers: headers,
+              sendScreenID: sendScreenID)
+          .then((value) => safeDecode(value));
   // File Uploading
 
   Future<AWSApiResponse> extractedData() async => await get(

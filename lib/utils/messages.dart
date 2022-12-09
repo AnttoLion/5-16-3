@@ -323,7 +323,8 @@ class Messages extends Translations {
               'I give Extrastaff consent to seek a reference about me, and issue a reference about me if requested',
           'agreement_extra2':
               'I confirm I have read and agree to the Terms of Engagement',
-          'signed': 'Signed:'
+          'signed': 'Signed:',
+          'error_internal_user_register': 'Internal users cannot register.'
         },
         'de': {
           'howTo': 'Cómo #',

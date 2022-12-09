@@ -97,6 +97,10 @@ class LoginController extends GetxController {
 
   Future<String> login() async {
     BaseApiResponse response;
+    if (emailAddress.endsWith("@extrastaff.com") &&
+        emailAddress != "test@extrastaff.com") {
+      return 'error_internal_user_register'.tr;
+    }
     if (withoutPassword) {
       response = await Services.shared.tempVerificationByEmail(emailAddress);
     } else {

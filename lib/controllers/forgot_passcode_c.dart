@@ -23,6 +23,10 @@ class ForgotPasscodeController extends GetxController {
   }
 
   Future verifyUserFromEmailPhone() async {
+    if (emailAddress.endsWith("@extrastaff.com") &&
+        emailAddress != "test@extrastaff.com") {
+      return 'error_internal_user_register'.tr;
+    }
     BaseApiResponse response =
         await Services.shared.verifyUserFromEmailPhone(emailAddress, phoneNo);
     if (response.errorMessage.isNotEmpty) {

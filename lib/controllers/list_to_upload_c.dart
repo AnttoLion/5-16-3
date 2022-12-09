@@ -16,6 +16,7 @@ class ListToUploadController extends GetxController {
   bool isCV = false;
   bool isCVUploaded = false;
   bool isForklift = false;
+  bool sendScreenID = true;
   KeyValue type = KeyValue('license', 'drivinglicence'.tr);
   int selectedIndex = 0;
   bool isSingleImage() =>
@@ -158,8 +159,8 @@ class ListToUploadController extends GetxController {
             ? 'Forklift'
             : data[selectedIndex].selected.value;
     await Future.delayed(Duration(seconds: 6), () {});
-    final tempCompDoc =
-        await Services.shared.tempCompDoc(type, docType, str, isBack);
+    final tempCompDoc = await Services.shared
+        .tempCompDoc(type, docType, str, isBack, sendScreenID: sendScreenID);
     message = tempCompDoc.errorMessage;
     return message;
   }

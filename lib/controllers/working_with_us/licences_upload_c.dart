@@ -263,17 +263,14 @@ class LicencesUploadController extends GetxController {
     String? digiCt =
         type == LicenceType.qualification ? selectedCountry.id : null;
     final tempCompDoc = await Services.shared.tempCompDoc(
-      passType,
-      passType,
-      str,
-      index != 0,
-      drivingDExp: drivingDExp,
-      drivingDIssue: drivingDIssue,
-      tachoDExp: tachoDExp,
-      tachoCt: tachoCt,
-      digiDExp: digiDExp,
-      digiCt: digiCt,
-    );
+        passType, passType, str, index != 0,
+        drivingDExp: drivingDExp,
+        drivingDIssue: drivingDIssue,
+        tachoDExp: tachoDExp,
+        tachoCt: tachoCt,
+        digiDExp: digiDExp,
+        digiCt: digiCt,
+        sendScreenID: false);
     message = tempCompDoc.errorMessage;
     return message;
   }
