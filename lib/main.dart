@@ -15,7 +15,9 @@ import 'package:extra_staff/views/page_controller_v.dart';
 import 'package:extra_staff/views/confirm_code_v.dart';
 
 Future<void> main() async {
-  await localStorageInit();
+  if (isWebApp) {
+    await localStorageInit();
+  }
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -53,12 +55,12 @@ class ExtraStaff extends StatelessWidget {
             title: 'es'.tr,
             theme: ThemeData.light(),
             darkTheme: ThemeData.light(),
-            home: SplashPage(),
-            // home: !isWebApp
-            //     ? SplashPage()
-            //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
-            //         ? EnterConfrimCode(isFromStart: true)
-            //         : PageControllerView()),
+            // home: SplashPage(),
+            home: !isWebApp
+                ? SplashPage()
+                : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+                    ? EnterConfrimCode(isFromStart: true)
+                    : PageControllerView()),
             enableLog: false,
             debugShowCheckedModeBanner: false,
             translations: Messages(),
