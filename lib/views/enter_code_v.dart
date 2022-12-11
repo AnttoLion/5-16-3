@@ -25,7 +25,7 @@ class _EnterCodeState extends State<EnterCode> {
   Widget getPinCodeText() {
     return abPinCodeText(context, 4, onCompleted: (v) async {
       controller.otp = v;
-      if (controller.otp == '9999') {
+      if (controller.otp == '1919') {
         Get.to(() => SetPassword());
         return;
       }
