@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/utils/resume_navigation.dart';
 
 class EnterConfrimCode extends StatefulWidget {
   final bool isFromStart;
@@ -40,6 +41,11 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
     if (isBiomatricAvaliable) {
       final isAuth = await loginController.checkAuth();
       if (isAuth) {
+        final message3 = await Services.shared.getTempProgressInfo();
+        await Resume.shared.completedProgress(message3.result['screen_id']);
+        await localStorage?.setString(
+            'completed', message3.result['completed']);
+        await Services.shared.setData();
         if (Services.shared.completed == "Yes") {
           Get.offAll(() => RegistrationComplete());
           return;
@@ -57,6 +63,11 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
         onCompleted: (v) async {
       final code = localStorage?.getString('passcode') ?? '';
       if (code == v) {
+        final message3 = await Services.shared.getTempProgressInfo();
+        await Resume.shared.completedProgress(message3.result['screen_id']);
+        await localStorage?.setString(
+            'completed', message3.result['completed']);
+        await Services.shared.setData();
         if (Services.shared.completed == "Yes") {
           Get.offAll(() => RegistrationComplete());
           return;

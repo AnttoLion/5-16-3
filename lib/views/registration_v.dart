@@ -145,7 +145,7 @@ class _RegistrationView extends State<RegistrationView> {
       (SkillsView).toString(),
       if (isDriver) (LicencesUploadView).toString(),
       (Availability2).toString(),
-      (DrivingTestView).toString(),
+      if (isDriver) (DrivingTestView).toString(),
       if (isQuizTest) (CompetencyTest).toString(),
       if (isQuizTest) (OnboardingWizard).toString(),
     ];
