@@ -3,6 +3,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/choose_code_v.dart';
 import 'package:extra_staff/views/enter_code_v.dart';
+import 'package:extra_staff/views/enter_code_login_v.dart';
 import 'package:extra_staff/views/forgot_passcode_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -94,7 +95,7 @@ class _LoginViewState extends State<LoginView> {
             if (controller.withoutPassword) {
               Get.to(() => EnterCode(), arguments: controller.result);
             } else {
-              Get.to(() => ChooseCode());
+              Get.to(() => EnterCodeLogin(), arguments: controller.result);
             }
           } else {
             abShowMessage(message);

@@ -83,24 +83,29 @@ class _HMRCChecklistReViewState extends State<HMRCChecklistReView> {
           for (var quezIndex = 0;
               quezIndex < controller.questionsForReview.length;
               quezIndex++) ...[
-            abStatusButtonWidget(
-                quezWidget(
-                    '${quezIndex + 1}/${controller.questionsForReview.length} ${controller.questionsForReview[quezIndex]}',
-                    quezIndex == 3
-                        ? (controller.answers[quezIndex + 1].value == '1'
-                            ? 'plan1'.tr
-                            : (controller.answers[quezIndex + 1].value == '2'
-                                ? 'plan2'.tr
-                                : 'both'.tr))
-                        : (controller.answers[quezIndex + 1].value == '1'
-                            ? 'yes'.tr
-                            : 'no'.tr),
-                    null),
-                null,
-                () {},
-                expanded: true,
-                hideStatus: true),
-            SizedBox(height: 16),
+            controller.answers[quezIndex + 1].value != ''
+                ? abStatusButtonWidget(
+                    quezWidget(
+                        '${quezIndex + 1}/${controller.questionsForReview.length} ${controller.questionsForReview[quezIndex]}',
+                        quezIndex == 3
+                            ? (controller.answers[quezIndex + 1].value == '1'
+                                ? 'plan1'.tr
+                                : (controller.answers[quezIndex + 1].value ==
+                                        '2'
+                                    ? 'plan2'.tr
+                                    : 'both'.tr))
+                            : (controller.answers[quezIndex + 1].value == '1'
+                                ? 'yes'.tr
+                                : 'no'.tr),
+                        null),
+                    null,
+                    () {},
+                    expanded: true,
+                    hideStatus: true)
+                : Container(),
+            controller.answers[quezIndex + 1].value != ''
+                ? SizedBox(height: 16)
+                : Container(),
           ]
         ],
       ),
