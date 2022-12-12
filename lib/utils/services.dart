@@ -20,7 +20,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:async';
 
 final awsUploadURL = 'https://77cllr8ym7.execute-api.eu-west-2.amazonaws.com/';
-final baseUrl = 'https://development.services.extrastaff.com/';
+final baseUrl = 'https://services.extrastaff.com/';
 final staticDigestKey = '52b83c32cf03fe5a2888758d73a27ca6';
 
 class AWSApiResponse {
@@ -89,7 +89,7 @@ class Services extends GetConnect {
 
   Map<String, String> headers = {
     'X-LANG': 'english',
-    'X-API-HEADER': '123abc456def789ghi',
+    'X-API-KEY': '3b73eaf3bf0545cbb3d89541f26a4a8e',
     'X-CLIENT-ID': '1',
     'DEVICE': device
   };
