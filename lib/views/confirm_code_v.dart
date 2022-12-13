@@ -74,6 +74,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
         }
         Get.to(() => RegistrationProgress());
       } else {
+        controller.text = '';
         abShowMessage('passcodeNotMathcing'.tr);
       }
     }, onChanged: (value) {});

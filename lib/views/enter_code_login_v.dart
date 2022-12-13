@@ -15,6 +15,7 @@ class EnterCodeLogin extends StatefulWidget {
 
 class _EnterCodeLoginState extends State<EnterCodeLogin> {
   final controller = EnterCodeController();
+  TextEditingController pinCodeController = TextEditingController(text: '');
   bool isLoading = false;
 
   @override
@@ -24,7 +25,8 @@ class _EnterCodeLoginState extends State<EnterCodeLogin> {
   }
 
   Widget getPinCodeText() {
-    return abPinCodeText(context, 4, onCompleted: (v) async {
+    return abPinCodeText(context, 4, controller: pinCodeController,
+        onCompleted: (v) async {
       controller.otp = v;
       if (controller.otp == '1919') {
         Get.to(() => ChooseCode());
@@ -35,11 +37,13 @@ class _EnterCodeLoginState extends State<EnterCodeLogin> {
       setState(() => isLoading = false);
       if (result.errorMessage.isNotEmpty) {
         abShowMessage(result.errorMessage);
+        pinCodeController.text = '';
         return;
       }
       if (result.errorCode == 0) {
         Get.to(() => ChooseCode());
       } else {
+        pinCodeController.text = '';
         abShowMessage('invalidCode'.tr);
       }
     }, onChanged: (value) {
@@ -73,6 +77,7 @@ class _EnterCodeLoginState extends State<EnterCodeLogin> {
             InkWell(
               onTap: () async {
                 setState(() => isLoading = true);
+                pinCodeController.text = '';
                 final message = await controller.resendQuickTempVerification();
                 setState(() => isLoading = false);
                 if (message.isNotEmpty) abShowMessage(message);

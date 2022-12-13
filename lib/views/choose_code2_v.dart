@@ -17,6 +17,7 @@ class ChooseCode2 extends StatefulWidget {
 }
 
 class _ChooseCode2State extends State<ChooseCode2> {
+  TextEditingController pinCodeController = TextEditingController(text: '');
   bool isLoading = false;
   String code = '';
 
@@ -27,7 +28,8 @@ class _ChooseCode2State extends State<ChooseCode2> {
   }
 
   Widget getPinCodeText() {
-    return abPinCodeText(context, 4, onCompleted: (v) async {
+    return abPinCodeText(context, 4, controller: pinCodeController,
+        onCompleted: (v) async {
       if (v == code) {
         setState(() => isLoading = true);
         final name = userName;
@@ -79,6 +81,7 @@ class _ChooseCode2State extends State<ChooseCode2> {
           }
         }
       } else {
+        pinCodeController.text = '';
         abShowMessage('passcodeNotMathcing'.tr);
       }
     }, onChanged: (value) {
