@@ -24,8 +24,11 @@ bool get isDriver => localStorage?.getBool('isDriver') ?? false;
 
 bool is35T = false;
 bool isQuizTest = false;
-final bool isWebApp = (defaultTargetPlatform != TargetPlatform.android &&
-    defaultTargetPlatform != TargetPlatform.iOS);
+// final bool isWebApp = (defaultTargetPlatform != TargetPlatform.android &&
+//     defaultTargetPlatform != TargetPlatform.iOS);
+
+final bool isWebApp = kIsWeb;
+
 String get device => localStorage?.getString('device') ?? '';
 
 DateTime? stringToDate(String dateTime, bool isServer) {

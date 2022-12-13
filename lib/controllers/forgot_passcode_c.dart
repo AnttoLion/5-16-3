@@ -53,16 +53,18 @@ class ForgotPasscodeController extends GetxController {
     Map<String, dynamic> deviceData = <String, dynamic>{};
 
     try {
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};
-      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-        deviceData = {
-          'device': (await deviceInfoPlugin.iosInfo).identifierForVendor
-        };
-      } else {
+      if (isWebApp) {
         final ipv4 = await Ipify.ipv4();
         //web
         deviceData = {'device': 'AppWebBrowser_' + ipv4};
+      } else {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};
+        } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+          deviceData = {
+            'device': (await deviceInfoPlugin.iosInfo).identifierForVendor
+          };
+        }
       }
     } on PlatformException {
       deviceData = <String, dynamic>{
