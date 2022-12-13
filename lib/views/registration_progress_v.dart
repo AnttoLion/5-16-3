@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
+import 'package:extra_staff/views/page_controller_v.dart';
+import 'package:extra_staff/views/splash_screen.dart';
 
 class RegistrationProgress extends StatefulWidget {
   const RegistrationProgress({Key? key}) : super(key: key);
@@ -88,20 +90,25 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
   }
 
   Widget getBottomBar() {
-    return abBottomNew(
-      context,
-      top: progress != 0 ? 'resume'.tr.toUpperCase() : 'start'.tr.toUpperCase(),
-      bottom: null,
-      onTap: (i) {
-        if (i == 0) {
-          if (progress != 0) {
-            Resume.shared.navigate();
-          } else {
-            Get.to(() => ListToUploadView());
-          }
+    return abBottomNew(context,
+        top: progress != 0
+            ? 'resume'.tr.toUpperCase()
+            : 'start'.tr.toUpperCase(),
+        bottom: 'Logout'.toUpperCase(), onTap: (i) async {
+      if (i == 0) {
+        if (progress != 0) {
+          Resume.shared.navigate();
+        } else {
+          Get.to(() => ListToUploadView());
         }
-      },
-    );
+      } else {
+        await removeAllSharedPref();
+        if (isWebApp)
+          Get.offAll(() => PageControllerView());
+        else
+          Get.offAll(() => SplashPage());
+      }
+    });
   }
 
   @override
