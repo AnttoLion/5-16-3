@@ -243,7 +243,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
 
   next(bool showError) async {
     if (isReviewing) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'LicencesUploadView');
       Get.to(() => Availability2());
       return;
     }
@@ -263,7 +263,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     await controller.changeType();
     setState(() {});
     if (controller.allFinished) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'LicencesUploadView');
       Get.to(() => Availability2());
     }
   }

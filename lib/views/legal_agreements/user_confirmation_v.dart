@@ -129,7 +129,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
           abShowMessage(message);
           return;
         }
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'UserConfirmationView');
         Get.bottomSheet(
           NewInfoView(8, () {
             Get.to(() => Interview());

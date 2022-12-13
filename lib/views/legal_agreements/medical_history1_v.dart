@@ -73,7 +73,7 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
       onTap: (i) async {
         if (i == 0) {
           if (isReviewing) {
-            await Resume.shared.setDone();
+            await Resume.shared.setDone(name: 'MedicalHistory1');
             Get.to(() => MedicalHistory2(),
                 arguments: {'medicalHistory': controller});
             return;
@@ -89,9 +89,9 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
             final message = await controller.updateTempMedicalInfo();
             setState(() => isLoading = false);
             if (message.isEmpty) {
-              await Resume.shared.setDone();
-              await Resume.shared.setDone(name: (MedicalHistory2).toString());
-              await Resume.shared.setDone(name: (MedicalHistory3).toString());
+              await Resume.shared.setDone(name: 'MedicalHistory1');
+              await Resume.shared.setDone(name: 'MedicalHistory2');
+              await Resume.shared.setDone(name: 'MedicalHistory3');
               Get.bottomSheet(
                 NewInfoView(6, () {
                   Get.off(() => RegistrationComplete());

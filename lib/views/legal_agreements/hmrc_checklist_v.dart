@@ -44,7 +44,7 @@ class _HMRCChecklistViewState extends State<HMRCChecklistView>
       return;
     }
     await localStorage?.setBool('isHMRCCompleted', true);
-    await Resume.shared.setDone();
+    await Resume.shared.setDone(name: 'HMRCChecklistView');
     Get.to(() => AgreementsView(), arguments: Get.arguments);
   }
 

@@ -122,7 +122,7 @@ class _BankDetails extends State<BankDetails> {
 
   next() async {
     if (isReviewing) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'BankDetails');
       Get.to(() => EqualityMonitoring(), arguments: allData);
       return;
     }
@@ -138,7 +138,7 @@ class _BankDetails extends State<BankDetails> {
       isLoading = false;
     });
     if (message.isEmpty) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'BankDetails');
       Get.to(() => EqualityMonitoring(), arguments: allData);
     } else {
       abShowMessage(message);

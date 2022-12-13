@@ -57,7 +57,7 @@ class _AvailabilityState extends State<Availability> {
       setState(() => isLoading = false);
       if (message.isEmpty) {
         await localStorage?.setString('dob', controller.data.dob);
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'Availability');
         Get.bottomSheet(
           NewInfoView(5, () {
             Get.to(() => BankDetails(), arguments: allData);

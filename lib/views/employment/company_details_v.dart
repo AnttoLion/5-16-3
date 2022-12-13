@@ -195,7 +195,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
           isLoading = false;
         });
         if (message.isEmpty) {
-          await Resume.shared.setDone();
+          await Resume.shared.setDone(name: 'CompanyDetails');
           Get.back();
           Get.back();
         } else {

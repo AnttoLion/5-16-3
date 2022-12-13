@@ -77,7 +77,7 @@ class _RolesViewState extends State<RolesView> {
       if (i == 0) {
         if (isReviewing) {
           await controller.setDataInStorage();
-          await Resume.shared.setDone();
+          await Resume.shared.setDone(name: 'RolesView');
           Get.to(() => SkillsView());
           return;
         }
@@ -87,7 +87,7 @@ class _RolesViewState extends State<RolesView> {
           return;
         }
         await controller.setDataInStorage();
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'RolesView');
         Get.to(() => SkillsView());
       } else {
         Get.back(result: true);

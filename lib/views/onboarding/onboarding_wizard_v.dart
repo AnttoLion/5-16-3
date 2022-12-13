@@ -195,8 +195,8 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
         }
         if (counter == controller.questions.length - 1) {
           await localStorage?.setBool('isCompetencyTestCompleted', true);
-          await Resume.shared.setDone();
-          await Resume.shared.setDone(name: (CompetencyTest).toString());
+          await Resume.shared.setDone(name: 'OnboardingWizard');
+          await Resume.shared.setDone(name: 'CompetencyTest');
           Get.to(() => CompetencyTest())?.then((value) => getData());
         }
       }).then((value) => reset());

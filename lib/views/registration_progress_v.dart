@@ -32,6 +32,8 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
     await getTempDeskInfo();
     setState(() {
       progress = Resume.shared.progress;
+      print('registraion_progress');
+      print(progress);
       if (progress < 10) {
         progress = 10;
       }

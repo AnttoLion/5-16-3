@@ -116,7 +116,7 @@ class _EmploymentHistoryState extends State<EmploymentHistory> {
         if (controller.companies.isEmpty) {
           abShowMessage('addCompanyMessage'.tr);
         } else {
-          await Resume.shared.setDone();
+          await Resume.shared.setDone(name: 'EmploymentHistory');
           Get.back(result: true);
         }
       }

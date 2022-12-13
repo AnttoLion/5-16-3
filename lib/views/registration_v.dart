@@ -104,10 +104,10 @@ class _RegistrationView extends State<RegistrationView> {
 
   aboutYouNestedNavigation() {
     final screens = [
-      (Address).toString(),
-      (Availability).toString(),
-      (BankDetails).toString(),
-      (EqualityMonitoring).toString(),
+      'Address',
+      'Availability',
+      'BankDetails',
+      'EqualityMonitoring',
     ];
 
     final fd = Resume.shared.allClasses
@@ -141,13 +141,13 @@ class _RegistrationView extends State<RegistrationView> {
 
   workingWithUsNestedNavigation() {
     final screens = [
-      (RolesView).toString(),
-      (SkillsView).toString(),
-      if (isDriver) (LicencesUploadView).toString(),
-      (Availability2).toString(),
-      if (isDriver) (DrivingTestView).toString(),
-      if (isQuizTest) (CompetencyTest).toString(),
-      if (isQuizTest) (OnboardingWizard).toString(),
+      'RolesView',
+      'SkillsView',
+      if (isDriver) 'LicencesUploadView',
+      'Availability2',
+      if (isDriver) 'DrivingTestView',
+      if (isQuizTest) 'CompetencyTest',
+      if (isQuizTest) 'OnboardingWizard',
     ];
 
     final fd = Resume.shared.allClasses

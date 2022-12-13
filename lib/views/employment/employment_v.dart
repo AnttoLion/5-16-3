@@ -58,7 +58,7 @@ class _EmploymentViewState extends State<EmploymentView> {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
         await localStorage?.setBool('isEmploymentHistoryCompleted', true);
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'EmploymentView');
         Get.off(() => RegistrationView());
       }
     });
@@ -89,7 +89,7 @@ class _EmploymentViewState extends State<EmploymentView> {
     }
     if (result) {
       await localStorage?.setBool('isEmploymentHistoryCompleted', true);
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'EmploymentView');
       Get.off(() => RegistrationView());
     }
   }

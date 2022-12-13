@@ -200,7 +200,7 @@ class _AddressState extends State<Address> {
 
   next() async {
     if (isReviewing) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'Address');
       Get.to(() => Availability(), arguments: allData);
       return;
     }
@@ -208,7 +208,7 @@ class _AddressState extends State<Address> {
     final message = await controller.updateTempInfo();
     setState(() => isLoading = false);
     if (message.isEmpty) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'Address');
       Get.to(() => Availability(), arguments: allData);
     } else {
       abShowMessage(message);

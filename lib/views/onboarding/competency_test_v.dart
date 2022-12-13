@@ -71,7 +71,7 @@ class _CompetencyTestState extends State<CompetencyTest> {
       context,
       bottom: 'back'.tr,
       onTap: (i) async {
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'CompetencyTest');
         if (i == 0) {
           await localStorage?.setBool('isCompetencyTestCompleted', true);
           Get.off(() => RegistrationView());

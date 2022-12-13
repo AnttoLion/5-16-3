@@ -89,28 +89,27 @@ class _SavePhotoState extends State<SavePhoto> {
     if (message.isNotEmpty) {
       abShowMessage(message);
     } else {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'SavePhoto');
       Get.back(result: true);
     }
   }
 
   Widget showImage() {
-
-      if (controller.image != null) {
-        return Image.file(File(controller.image!.path), fit: BoxFit.contain);
-      } else {
-        return Column(
-          children: [
-            Image(
-              image: AssetImage('lib/images/face.png'),
-              height: 125,
-              width: 125,
-            ),
-            SizedBox(height: 32),
-            abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
-          ],
-        );
-      }
+    if (controller.image != null) {
+      return Image.file(File(controller.image!.path), fit: BoxFit.contain);
+    } else {
+      return Column(
+        children: [
+          Image(
+            image: AssetImage('lib/images/face.png'),
+            height: 125,
+            width: 125,
+          ),
+          SizedBox(height: 32),
+          abWords('photoOfYourself'.tr, 'hPhotoOfYourself'.tr, null),
+        ],
+      );
+    }
   }
 
   Widget simpleButton(String title, String image, int index) {
@@ -119,25 +118,24 @@ class _SavePhotoState extends State<SavePhoto> {
     final frontColor = backColor != null ? MyColors.white : MyColors.darkBlue;
     return InkWell(
       onTap: () async {
-
-          if (index == 2) {
-            if (controller.image == null) {
-              final img = await picker.pickImage(source: ImageSource.gallery);
-              if (img != null) {
-                setState(() => controller.image = img);
-              }
-            } else {
-              await next();
-            }
-          } else {
-            final img = await picker.pickImage(
-              source: ImageSource.camera,
-              preferredCameraDevice: CameraDevice.front,
-            );
+        if (index == 2) {
+          if (controller.image == null) {
+            final img = await picker.pickImage(source: ImageSource.gallery);
             if (img != null) {
               setState(() => controller.image = img);
             }
+          } else {
+            await next();
           }
+        } else {
+          final img = await picker.pickImage(
+            source: ImageSource.camera,
+            preferredCameraDevice: CameraDevice.front,
+          );
+          if (img != null) {
+            setState(() => controller.image = img);
+          }
+        }
       },
       child: AnimatedContainer(
         duration: duration,

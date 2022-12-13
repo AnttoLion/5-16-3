@@ -98,7 +98,7 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
 
   next() async {
     if (isReviewing) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'MedicalHistory3');
       Get.off(() => RegistrationComplete());
       return;
     }
@@ -112,7 +112,7 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
     final message = await controller.updateTempMedicalInfo();
     setState(() => isLoading = false);
     if (message.isEmpty) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'MedicalHistory3');
       Get.bottomSheet(
         NewInfoView(6, () {
           Get.off(() => RegistrationComplete());

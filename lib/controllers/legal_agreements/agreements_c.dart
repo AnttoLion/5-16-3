@@ -42,8 +42,6 @@ class AgreementsController extends GetxController {
         signatureBlob = data.signature.substring(index + 7);
       else
         signatureBlob = data.signature;
-      print(signatureBlob);
-      // signatureBlob = data.signature;
     }
     return response.errorMessage;
   }

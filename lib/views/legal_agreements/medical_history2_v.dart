@@ -153,7 +153,7 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
 
   next() async {
     if (isReviewing) {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'MedicalHistory2');
       Get.to(() => MedicalHistory3(),
           arguments: {'medicalHistory': controller});
       return;
@@ -163,7 +163,7 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
       abShowMessage(msg);
       return;
     }
-    await Resume.shared.setDone();
+    await Resume.shared.setDone(name: 'MedicalHistory2');
     Get.to(() => MedicalHistory3(), arguments: {'medicalHistory': controller});
   }
 }

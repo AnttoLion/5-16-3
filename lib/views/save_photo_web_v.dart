@@ -90,7 +90,7 @@ class _SavePhotoState extends State<SavePhoto> {
     if (message.isNotEmpty) {
       abShowMessage(message);
     } else {
-      await Resume.shared.setDone();
+      await Resume.shared.setDone(name: 'SavePhoto');
       Get.back(result: true);
     }
   }

@@ -319,7 +319,7 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
           (!controller.isSingleImage() &&
               isCompleted.first &&
               isCompleted.last)) {
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'UploadDocumentsView');
         if (controller.showAnalyzer) {
           await Get.to(() => AnalysingDocs(seconds: Duration(seconds: 6)));
           Future.delayed(duration * 2, () {

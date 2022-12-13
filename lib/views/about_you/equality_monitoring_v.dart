@@ -168,7 +168,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
     return abBottomNew(context, bottom: 'skip'.tr, onTap: (i) async {
       if (isReviewing) {
         await localStorage?.setBool('isAboutYouCompleted', true);
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'EqualityMonitoring');
         Get.off(() => RegistrationView());
         return;
       }
@@ -177,7 +177,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
       setState(() => isLoading = false);
       if (message.isEmpty) {
         await localStorage?.setBool('isAboutYouCompleted', true);
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'EqualityMonitoring');
         Get.off(() => RegistrationView());
       } else {
         abShowMessage(message);

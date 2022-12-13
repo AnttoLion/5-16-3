@@ -69,7 +69,8 @@ class _HMRCChecklistStartViewState extends State<HMRCChecklistStartView> {
                         controller.answers[0].value = '${index + 1}';
                       });
                       Future.delayed(duration * 2, () async {
-                        await Resume.shared.setDone();
+                        await Resume.shared
+                            .setDone(name: 'HMRCChecklistStartView');
                         passedData['answers'] = controller.answers[0];
                         Get.to(() => HMRCChecklistView(),
                             arguments: passedData);

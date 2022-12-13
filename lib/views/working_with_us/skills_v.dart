@@ -77,7 +77,7 @@ class _SkillsViewState extends State<SkillsView> {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
         if (isReviewing) {
-          await Resume.shared.setDone();
+          await Resume.shared.setDone(name: 'SkillsView');
           Get.to(() => isDriver ? LicencesUploadView() : Availability2());
           return;
         }
@@ -86,7 +86,7 @@ class _SkillsViewState extends State<SkillsView> {
           abShowMessage(message);
           return;
         }
-        await Resume.shared.setDone();
+        await Resume.shared.setDone(name: 'SkillsView');
         Get.to(() => isDriver ? LicencesUploadView() : Availability2());
       } else {
         Get.back(result: true);

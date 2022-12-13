@@ -50,6 +50,8 @@ class Resume {
   int get progress {
     if (allClasses.isEmpty) return 0;
     final completed = allClasses.where((item) => item.done == true).length;
+    print('resume_navigation completed');
+    print(completed);
     return (completed / allClasses.length * 100).round();
   }
 
@@ -63,37 +65,37 @@ class Resume {
       } else {
         allClasses = [
           // Start screens
-          Todo(title: (ListToUploadView).toString(), done: false),
-          Todo(title: (UploadDocumentsView).toString(), done: false),
-          Todo(title: (SavePhoto).toString(), done: false),
-          Todo(title: (RegistrationView).toString(), done: false),
+          Todo(title: 'ListToUploadView', done: false),
+          Todo(title: 'UploadDocumentsView', done: false),
+          Todo(title: 'SavePhoto', done: false),
+          Todo(title: 'RegistrationView', done: false),
           // About you
-          Todo(title: (Address).toString(), done: false),
-          Todo(title: (Availability).toString(), done: false),
-          Todo(title: (BankDetails).toString(), done: false),
-          Todo(title: (EqualityMonitoring).toString(), done: false),
+          Todo(title: 'Address', done: false),
+          Todo(title: 'Availability', done: false),
+          Todo(title: 'BankDetails', done: false),
+          Todo(title: 'EqualityMonitoring', done: false),
           // Employment history
-          Todo(title: (EmploymentView).toString(), done: false),
-          Todo(title: (EmploymentHistory).toString(), done: false),
-          Todo(title: (CompanyDetails).toString(), done: false),
+          Todo(title: 'EmploymentView', done: false),
+          Todo(title: 'EmploymentHistory', done: false),
+          Todo(title: 'CompanyDetails', done: false),
           // Working with us
-          Todo(title: (RolesView).toString(), done: false),
-          Todo(title: (SkillsView).toString(), done: false),
-          Todo(title: (LicencesUploadView).toString(), done: false),
-          Todo(title: (Availability2).toString(), done: false),
-          Todo(title: (DrivingTestView).toString(), done: false),
-          Todo(title: (CompetencyTest).toString(), done: false),
-          Todo(title: (OnboardingWizard).toString(), done: false),
+          Todo(title: 'RolesView', done: false),
+          Todo(title: 'SkillsView', done: false),
+          Todo(title: 'LicencesUploadView', done: false),
+          Todo(title: 'Availability2', done: false),
+          Todo(title: 'DrivingTestView', done: false),
+          Todo(title: 'CompetencyTest', done: false),
+          Todo(title: 'OnboardingWizard', done: false),
           // Leagal agreements and checklist
-          Todo(title: (HMRCChecklistStartView).toString(), done: false),
-          Todo(title: (HMRCChecklistView).toString(), done: false),
-          Todo(title: (AgreementsView).toString(), done: false),
-          Todo(title: (Agreement1).toString(), done: false),
-          Todo(title: (UserConfirmationView).toString(), done: false),
-          Todo(title: (Interview).toString(), done: false),
-          Todo(title: (MedicalHistory1).toString(), done: false),
-          Todo(title: (MedicalHistory2).toString(), done: false),
-          Todo(title: (MedicalHistory3).toString(), done: false),
+          Todo(title: 'HMRCChecklistStartView', done: false),
+          Todo(title: 'HMRCChecklistView', done: false),
+          Todo(title: 'AgreementsView', done: false),
+          Todo(title: 'Agreement1', done: false),
+          Todo(title: 'UserConfirmationView', done: false),
+          Todo(title: 'Interview', done: false),
+          Todo(title: 'MedicalHistory1', done: false),
+          Todo(title: 'MedicalHistory2', done: false),
+          Todo(title: 'MedicalHistory3', done: false),
         ];
 
         List<String> list = [];
@@ -133,8 +135,7 @@ class Resume {
     final goTo = allClasses.firstWhere((e) => e.done == false,
         orElse: () => Todo(title: 'RegistrationView', done: false));
     print(goTo.title);
-    print((RegistrationView).toString());
-    if (goTo.title == (RegistrationView).toString()) {
+    if (goTo.title == 'RegistrationView') {
       Get.to(() => RegistrationView(), arguments: true);
     } else {
       Get.to(() => ListToUploadView());

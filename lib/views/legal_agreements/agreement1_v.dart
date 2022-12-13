@@ -129,8 +129,8 @@ class _Agreement1State extends State<Agreement1> {
             return;
           }
           if (controller.currentIndex == controller.allAgreements.length) {
-            await Resume.shared.setDone();
-            await Resume.shared.setDone(name: (AgreementsView).toString());
+            await Resume.shared.setDone(name: 'Agreement1');
+            await Resume.shared.setDone(name: 'AgreementsView');
             Get.to(() => UserConfirmationView());
             return;
           }

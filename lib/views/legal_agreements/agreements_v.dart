@@ -46,7 +46,7 @@ class _AgreementsViewState extends State<AgreementsView> {
   }
 
   navigate() async {
-    await Resume.shared.setDone();
+    await Resume.shared.setDone(name: 'AgreementsView');
     if (controller.allAccepted()) {
       Get.to(() => UserConfirmationView());
       return;

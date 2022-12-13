@@ -392,7 +392,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
         if (isReviewing) {
-          await Resume.shared.setDone();
+          await Resume.shared.setDone(name: 'DrivingTestView');
           if (isQuizTest && !is35T) {
             Get.bottomSheet(
               NewInfoView(7, () async {
@@ -414,7 +414,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
           final success = await controller.updateTempDrivingTestInfo();
           setState(() => isLoading = false);
           if (success) {
-            await Resume.shared.setDone();
+            await Resume.shared.setDone(name: 'DrivingTestView');
             if (isQuizTest && !is35T) {
               Get.bottomSheet(
                 NewInfoView(7, () async {

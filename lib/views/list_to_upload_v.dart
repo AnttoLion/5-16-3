@@ -273,7 +273,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     await controller.updateTempComplianceDocExpiry();
 
     await localStorage?.setBool('isDocumentsUploaded', true);
-    await Resume.shared.setDone();
+    await Resume.shared.setDone(name: 'ListToUploadView');
     Get.to(() => AnalysingDocs());
   }
 }

@@ -90,7 +90,7 @@ class _InterviewState extends State<Interview> {
               abShowMessage(message);
               return;
             }
-            await Resume.shared.setDone();
+            await Resume.shared.setDone(name: 'Interview');
             Get.to(() => MedicalHistory1());
           }
         }
