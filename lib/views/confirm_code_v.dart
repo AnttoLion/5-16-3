@@ -95,7 +95,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
             onPressed: () {
               Get.to(() => LoginView(), arguments: true);
             },
-            child: Text('Forgot passcode'.toUpperCase()),
+            child: Text('Forgot Password'.toUpperCase()),
           ),
         )
       ]);
@@ -126,7 +126,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
                       onPressed: () {
                         Get.to(() => LoginView(), arguments: true);
                       },
-                      child: Text('Forgot passcode'.toUpperCase()),
+                      child: Text('Forgot Password'.toUpperCase()),
                     ),
                   ),
                 ],

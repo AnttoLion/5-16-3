@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
               onPressed: () {
                 Get.to(() => ForgotPasscodeView(), arguments: true);
               },
-              child: Text('Forgot passcode'.toUpperCase()),
+              child: Text('Forgot Password'.toUpperCase()),
             ),
           ),
         ],

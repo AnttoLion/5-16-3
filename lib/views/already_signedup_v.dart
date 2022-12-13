@@ -58,7 +58,7 @@ class _AlreadySignedUpState extends State<AlreadySignedUp> {
                           Get.to(() => EnterConfrimCode(isFromStart: false))),
                 if (isPassCodeSet) SizedBox(height: 32),
                 if (isPassCodeSet)
-                  abSimpleButton('Forgot Passcode'.toUpperCase(),
+                  abSimpleButton('Forgot Password'.toUpperCase(),
                       onTap: () => Get.offAll(() => WelcomeView())),
                 if (isBiometricSet) SizedBox(height: 32),
                 if (isBiometricSet)
