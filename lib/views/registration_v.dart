@@ -230,7 +230,7 @@ class _RegistrationView extends State<RegistrationView> {
   }
 
   Widget getBottomBar() {
-    return abBottomNew(context, onTap: (i) {
+    return abBottomNew(context, bottom: 'back'.tr, onTap: (i) {
       if (i == 0) {
         for (int i = 0; i < controller.completedValues.length; i++) {
           final v = controller.completedValues[i];
@@ -239,6 +239,11 @@ class _RegistrationView extends State<RegistrationView> {
             return;
           }
         }
+      } else {
+        if (isReviewing)
+          Get.offAll(() => RegistrationComplete());
+        else
+          Get.back();
       }
     });
   }
