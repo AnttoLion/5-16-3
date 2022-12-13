@@ -64,6 +64,7 @@ class Messages extends Translations {
           'agreementAbove': 'I have read and understood the agreement above',
           'uploadAllDocuments': 'Please upload all documents',
           'onTheFlow': 'Please complete all sections in order',
+          'onTheFlow-review': 'Please review all sections in order',
           'plan1': 'Plan 1',
           'plan2': 'Plan 2',
           'both': 'Both',

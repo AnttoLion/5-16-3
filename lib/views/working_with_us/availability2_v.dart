@@ -34,6 +34,7 @@ class _Availability2State extends State<Availability2> {
   }
 
   setData() async {
+    listToUploadController.sendScreenID = false;
     controller.getDataFromStorage();
     setState(() => isLoading = true);
     await controller.apiCalls();

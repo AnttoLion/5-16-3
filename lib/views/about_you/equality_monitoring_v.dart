@@ -170,6 +170,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
         await localStorage?.setBool('isAboutYouCompleted', true);
         await Resume.shared.setDone();
         Get.off(() => RegistrationView());
+        return;
       }
       setState(() => isLoading = true);
       final message = await controller.updateTempEqualityInfo();

@@ -192,7 +192,10 @@ class _RegistrationView extends State<RegistrationView> {
       status,
       () async {
         if (!controller.onTheFlow(index)) {
-          abShowMessage('onTheFlow'.tr);
+          if (isReviewing)
+            abShowMessage('onTheFlow-review'.tr);
+          else
+            abShowMessage('onTheFlow'.tr);
           return;
         }
         switchTheFlow(index);
