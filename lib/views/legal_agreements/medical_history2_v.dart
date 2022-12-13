@@ -119,7 +119,7 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: content),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),

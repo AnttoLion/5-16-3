@@ -78,7 +78,7 @@ class _AgreementsReViewState extends State<AgreementsReView> {
         if (controller.signatureBlob != '') ...[
           Container(
             child: Image.memory(signatureImage),
-            margin: EdgeInsets.symmetric(horizontal: 100),
+            margin: EdgeInsets.symmetric(horizontal: 24),
           )
         ],
       ],

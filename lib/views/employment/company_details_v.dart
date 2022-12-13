@@ -241,7 +241,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                           fit: FlexFit.loose,
                           flex: 2,
                           child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 100),
+                              padding: EdgeInsets.symmetric(horizontal: 24),
                               child: content),
                         ),
                         if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),

@@ -1203,7 +1203,7 @@ Widget abBottomNew(
                 fit: FlexFit.loose,
                 flex: 2,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 100),
+                  padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -1474,7 +1474,7 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
                         fit: FlexFit.loose,
                         flex: 2,
                         child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 100),
+                            padding: EdgeInsets.symmetric(horizontal: 24),
                             child: content),
                       ),
                       if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1528,7 +1528,7 @@ Widget abMainWidgetWithLoadingOverlayScaffoldScrollView(
                 fit: FlexFit.loose,
                 flex: 2,
                 child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 100),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     child: content),
               ),
               if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1566,7 +1566,7 @@ Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
                 fit: FlexFit.loose,
                 flex: 2,
                 child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 100),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     child: content),
               ),
               if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1658,7 +1658,7 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
                       fit: FlexFit.loose,
                       flex: 2,
                       child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          padding: EdgeInsets.symmetric(horizontal: 24),
                           child: content),
                     ),
                     if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1712,7 +1712,7 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
                       fit: FlexFit.loose,
                       flex: 2,
                       child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          padding: EdgeInsets.symmetric(horizontal: 24),
                           child: content),
                     ),
                     if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1764,7 +1764,7 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffold(
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: content),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1812,7 +1812,7 @@ Widget abMainWidgetWithBottomBarScaffoldScrollView(BuildContext context,
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: content),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
@@ -1861,7 +1861,7 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: content),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),

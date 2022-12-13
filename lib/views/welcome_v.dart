@@ -57,7 +57,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     fit: FlexFit.loose,
                     flex: 2,
                     child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        padding: EdgeInsets.symmetric(horizontal: 24),
                         child: getContent()),
                   ),
                   if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
