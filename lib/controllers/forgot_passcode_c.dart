@@ -54,9 +54,8 @@ class ForgotPasscodeController extends GetxController {
 
     try {
       if (isWebApp) {
-        final ipv4 = await Ipify.ipv4();
         //web
-        deviceData = {'device': 'AppWebBrowser_' + ipv4};
+        deviceData = {'device': 'AppWebBrowser'};
       } else {
         if (defaultTargetPlatform == TargetPlatform.android) {
           deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};

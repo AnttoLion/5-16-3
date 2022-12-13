@@ -22,6 +22,7 @@ class UserConfirmationView extends StatefulWidget {
 class _UserConfirmationViewState extends State<UserConfirmationView> {
   final sign = GlobalKey<SignatureState>();
   final controller = AgreementsController();
+  bool isLoading = false;
   var data = [
     {"Extrastaff's Workplace Pension": false},
     {'Now Pension': false},
@@ -120,11 +121,13 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
           abShowMessage('requireSign'.tr);
           return;
         }
+        setState(() => isLoading = true);
         final image = await si?.getData();
         var iData = await image?.toByteData(format: ui.ImageByteFormat.png);
         final xFile = XFile.fromData(iData!.buffer.asUint8List());
         si?.clear();
         final message = await controller.putSignature(xFile);
+        setState(() => isLoading = false);
         if (message != 'OK') {
           abShowMessage(message);
           return;
@@ -144,7 +147,8 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
 
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithBottomBarScaffoldScrollView(context,
+    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+        context, isLoading,
         appBar: getAppBar(), content: getContent(), bottomBar: getBottomBar());
   }
 }

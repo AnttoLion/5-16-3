@@ -287,7 +287,10 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
         );
         setState(() => isPdfOrDocSelected = result != null);
         if (result != null) {
-          controller.image = XFile(result.files.single.path!);
+          if (isWebApp)
+            controller.image = XFile.fromData(result.files.single.bytes!);
+          else
+            controller.image = XFile(result.files.single.path!);
           await getImageFrom(ImageSource.camera, 0, isDoc: true);
         } else {
           print('User canceled the picker');
