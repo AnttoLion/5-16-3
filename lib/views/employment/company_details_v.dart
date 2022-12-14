@@ -179,6 +179,11 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   Widget getBottomBar() {
     return abBottomNew(context, top: 'save'.tr, bottom: null, onTap: (i) async {
       if (i == 0) {
+        if (isReviewing) {
+          Get.back();
+          Get.back();
+          return;
+        }
         if (!controller.formKey.currentState!.validate()) {
           abShowMessage('error'.tr);
           return;

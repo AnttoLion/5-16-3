@@ -6,6 +6,7 @@ import 'package:extra_staff/views/employment/company_details_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class EmploymentHistory extends StatefulWidget {
   const EmploymentHistory({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class EmploymentHistory extends StatefulWidget {
 class _EmploymentHistoryState extends State<EmploymentHistory> {
   final controller = EmploymentHistoryController();
   bool isLoading = false;
+  bool isReviewing = Services.shared.completed == "Yes";
 
   @override
   void initState() {
@@ -90,17 +92,18 @@ class _EmploymentHistoryState extends State<EmploymentHistory> {
             );
           },
         ),
-        abSimpleButton('addCompany'.tr.toUpperCase(), onTap: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CompanyDetails()),
-          ).then((value) async {
-            Future.delayed(duration, () async {
-              await getUserTempData();
+        if (!isReviewing)
+          abSimpleButton('addCompany'.tr.toUpperCase(), onTap: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CompanyDetails()),
+            ).then((value) async {
+              Future.delayed(duration, () async {
+                await getUserTempData();
+              });
             });
-          });
-          Get.to(() => CompanyDetails());
-        }),
+            Get.to(() => CompanyDetails());
+          }),
         SizedBox(height: 32),
       ],
     );
@@ -113,11 +116,15 @@ class _EmploymentHistoryState extends State<EmploymentHistory> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (i) async {
       if (i == 0) {
-        if (controller.companies.isEmpty) {
-          abShowMessage('addCompanyMessage'.tr);
-        } else {
-          await Resume.shared.setDone(name: 'EmploymentHistory');
+        if (isReviewing) {
           Get.back(result: true);
+        } else {
+          if (controller.companies.isEmpty) {
+            abShowMessage('addCompanyMessage'.tr);
+          } else {
+            await Resume.shared.setDone(name: 'EmploymentHistory');
+            Get.back(result: true);
+          }
         }
       }
     });

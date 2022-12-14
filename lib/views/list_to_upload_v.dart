@@ -42,10 +42,8 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     }).toList();
     setState(() => isLoading = true);
     await controller.getUploadDocDropdownInfo();
-    if (isReviewing) {
-      await controller.getTempPhotoInfo();
-      await controller.getTempCompDocInfo();
-    }
+    await controller.getTempPhotoInfo();
+    await controller.getTempCompDocInfo();
 
     await controller.getTempDeskInfo();
     setState(() => isLoading = false);
@@ -93,8 +91,8 @@ class _ListToUploadViewState extends State<ListToUploadView> {
             }
             setState(() => controller.data[index].status = data);
             if (controller.showAnalyzer && data == true) {
-              // await controller.getTempCompDocInfo();
-              // setState(() {});
+              await controller.getTempCompDocInfo();
+              setState(() {});
             }
             await allDocsUploaded(false);
           } else {

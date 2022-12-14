@@ -32,22 +32,37 @@ class _EmploymentViewState extends State<EmploymentView> {
   }
 
   Widget getContent() {
-    return Column(
-      children: [
-        SizedBox(height: 32),
-        abSimpleButton(
-          'Upload CV',
-          onTap: () async => {if (!isReviewing) await action(0)},
-          backgroundColor: controller.isCVUploaded ? MyColors.green : null,
-        ),
-        SizedBox(height: 16),
-        abTitle('Or'),
-        SizedBox(height: 16),
-        abSimpleButton('Enter manually',
-            onTap: () async => {if (!isReviewing) await action(1)}),
-        SizedBox(height: 32),
-      ],
-    );
+    if (isReviewing) {
+      return Column(
+        children: [
+          SizedBox(height: 32),
+          controller.isCVUploaded
+              ? abSimpleButton(
+                  'CV Uploaded',
+                  onTap: () {},
+                  backgroundColor: MyColors.green,
+                )
+              : abSimpleButton('Manual History', onTap: () async => action(1)),
+          SizedBox(height: 32),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          SizedBox(height: 32),
+          abSimpleButton(
+            'Upload CV',
+            onTap: () async => await action(0),
+            backgroundColor: controller.isCVUploaded ? MyColors.green : null,
+          ),
+          SizedBox(height: 16),
+          abTitle('Or'),
+          SizedBox(height: 16),
+          abSimpleButton('Enter manually', onTap: () async => await action(1)),
+          SizedBox(height: 32),
+        ],
+      );
+    }
   }
 
   PreferredSizeWidget getAppBar() {
