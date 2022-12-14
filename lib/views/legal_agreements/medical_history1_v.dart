@@ -43,11 +43,11 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16),
-        Icon(
-          Icons.history,
-          size: 125,
-          color: MyColors.lightBlue,
-        ),
+        // Icon(
+        //   Icons.history,
+        //   size: 125,
+        //   color: MyColors.lightBlue,
+        // ),
         SizedBox(height: 32),
         abTitle('medicalPhysicalMental'.tr),
         SizedBox(height: 32),
