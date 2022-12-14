@@ -156,9 +156,12 @@ class Services extends GetConnect {
       Map<String, dynamic>? query,
       T Function(dynamic)? decoder,
       dynamic Function(double)? uploadProgress,
-      bool sendScreenID = true}) {
-    body['completed'] = completed;
-    body['progress'] = '${Resume.shared.progress}';
+      bool sendScreenID = true,
+      bool sendProgress = true}) {
+    if (sendProgress) {
+      body['completed'] = completed;
+      body['progress'] = '${Resume.shared.progress}';
+    }
     final str = url?.split('/').last ?? '';
     final index = screens.indexWhere((element) => element.id.contains(str));
     if (index > 0 && sendScreenID) {
@@ -789,15 +792,16 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempLogInfo() async => await post(
-        baseUrl + 'updateTempLogInfo',
-        {
-          'user_id': '$userId',
-          'tid': '$tid',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-          'log': 'Yes',
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+          baseUrl + 'updateTempLogInfo',
+          {
+            'user_id': '$userId',
+            'tid': '$tid',
+            'digest': generateMd5(staticDigestKey + '$userId'),
+            'log': 'Yes',
+          },
+          headers: headers,
+          sendProgress: false)
+      .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> tempVerificationByEmail(String email) async =>
       await get(
@@ -920,15 +924,16 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempPassInfo() async => await post(
-        baseUrl + 'updateTempPassInfo',
-        {
-          'pass_set': 1,
-          'tid': '$tid',
-          'user_id': '$userId',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+          baseUrl + 'updateTempPassInfo',
+          {
+            'pass_set': 1,
+            'tid': '$tid',
+            'user_id': '$userId',
+            'digest': generateMd5(staticDigestKey + '$userId'),
+          },
+          headers: headers,
+          sendProgress: false)
+      .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempCompDocInfo() async => await get(
         baseUrl + 'getTempCompDocInfo',
@@ -1026,14 +1031,15 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> addDeviceDetails(String email, String device) async =>
       await post(
-        baseUrl + 'addDeviceDetails',
-        {
-          'email': email,
-          'device': device,
-          'digest': generateMd5(staticDigestKey + email),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+              baseUrl + 'addDeviceDetails',
+              {
+                'email': email,
+                'device': device,
+                'digest': generateMd5(staticDigestKey + email),
+              },
+              headers: headers,
+              sendProgress: false)
+          .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> tempPassportExpiryInfo(String date) async =>
       await post(
@@ -1050,14 +1056,15 @@ class Services extends GetConnect {
   Future<BaseApiResponse> verifyUserFromEmailPwd(
           String email, String password) async =>
       await post(
-        baseUrl + 'verifyUserFromEmailPwd',
-        {
-          'email': email,
-          'password': password,
-          'digest': generateMd5(staticDigestKey + email),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+              baseUrl + 'verifyUserFromEmailPwd',
+              {
+                'email': email,
+                'password': password,
+                'digest': generateMd5(staticDigestKey + email),
+              },
+              headers: headers,
+              sendProgress: false)
+          .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> verifyUserFromEmailPhone(
           String email, String password) async =>

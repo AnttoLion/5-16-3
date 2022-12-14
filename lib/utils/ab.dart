@@ -12,6 +12,7 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:extra_staff/utils/services.dart';
+import 'package:extra_staff/utils/resume_navigation.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -1422,7 +1423,11 @@ Future localStorageInit() async {
   localStorage = await SharedPreferences.getInstance();
 }
 
-removeAllSharedPref() async => await localStorage?.clear();
+removeAllSharedPref() async {
+  Services.shared.completed = 'No';
+  Resume.shared.init();
+  await localStorage?.clear();
+}
 
 class ResponsiveWidget extends StatelessWidget {
   //Large screen is any screen whose width is more than 1200 pixels

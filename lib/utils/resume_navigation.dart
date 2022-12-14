@@ -55,6 +55,10 @@ class Resume {
     return (completed / allClasses.length * 100).round();
   }
 
+  init() {
+    allClasses = [];
+  }
+
   Future getClass() async {
     if (allClasses.isEmpty) {
       final list = localStorage?.getStringList('resume');

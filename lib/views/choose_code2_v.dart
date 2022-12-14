@@ -36,6 +36,7 @@ class _ChooseCode2State extends State<ChooseCode2> {
         final post = isDriver;
         final storedDevice = device;
         await removeAllSharedPref();
+        await Resume.shared.getClass();
         await localStorage?.setString('device', storedDevice);
         await localStorage?.setString('userName', name);
         await localStorage?.setBool('isDriver', post);
