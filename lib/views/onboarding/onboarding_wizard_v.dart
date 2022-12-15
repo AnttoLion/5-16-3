@@ -99,7 +99,7 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
                             controller.question.questionImg,
                             height: 100,
                             fit: BoxFit.contain,
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.center,
                             errorBuilder: (context, exception, stackTrace) {
                               return Container();
                             },
@@ -175,7 +175,7 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
 
   next() async {
     if (!isWebApp) fallBackTimer(false);
-    scrollController.animateTo(0, duration: duration2, curve: Curves.ease);
+    // scrollController.animateTo(0, duration: duration2, curve: Curves.ease);
     if (!controller.isCompleted && controller.selection < 0) {
       abShowMessage('pleaseSelectOption'.tr);
     } else {

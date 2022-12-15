@@ -17,7 +17,7 @@ class AgreementsController extends GetxController {
     KeyValue('3', 'GDPR / Privacy Statement'),
     KeyValue('4', 'Code of Conduct'),
     KeyValue('5', 'Manual Handling'),
-    KeyValue('6', 'Employment Status'),
+    KeyValue('6', 'Terms of Engagement'),
   ];
 
   nextAgreement() async {

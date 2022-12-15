@@ -29,7 +29,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
     {'The Code of Conduct': false},
     {'Privacy Statement': false},
     {'Manual Handling Guide': false},
-    {'Employment Status': false},
+    {'Terms of Engagement': false},
   ];
   bool isReviewing = Services.shared.completed == "Yes";
 
