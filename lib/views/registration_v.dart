@@ -22,6 +22,7 @@ import 'package:extra_staff/controllers/registration_c.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/legal_agreements/hmrc_checklist_review_v.dart';
+import 'package:extra_staff/views/registration_progress_v.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -246,7 +247,7 @@ class _RegistrationView extends State<RegistrationView> {
         if (isReviewing)
           Get.offAll(() => RegistrationComplete());
         else
-          Get.back();
+          Get.offAll(() => RegistrationProgress());
       }
     });
   }

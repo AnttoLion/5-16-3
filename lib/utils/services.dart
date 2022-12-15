@@ -100,7 +100,7 @@ class Services extends GetConnect {
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
   List<KeyValue> screens = [
-    KeyValue('updateTempComplianceDocExpiry', '1'),
+    KeyValue('updateTempComplianceDocExpiry', '3'),
     KeyValue('profileUploadUrl', '3'),
     KeyValue('updateTempInfo', '5'),
     KeyValue('updateTempEqualityInfo', '8'),
@@ -164,7 +164,7 @@ class Services extends GetConnect {
     }
     final str = url?.split('/').last ?? '';
     final index = screens.indexWhere((element) => element.id.contains(str));
-    if (index > 0 && sendScreenID) {
+    if (index >= 0 && sendScreenID) {
       body['screen_id'] = screens[index].value;
     }
     log('Post:===========================API===========================');

@@ -48,6 +48,14 @@ class _ChooseCode2State extends State<ChooseCode2> {
         final message2 = await Services.shared.updateTempPassInfo();
         final message3 = await Services.shared.getTempProgressInfo();
         final deskInfo = await Services.shared.getTempDeskInfo();
+        final tempCompDocInfo = await Services.shared.getTempCompDocInfo();
+        if (tempCompDocInfo.result is Map) {
+          (tempCompDocInfo.result as Map).forEach((key, value) async {
+            if (key == 'is_have_ni') {
+              await localStorage?.setBool('isNiUploaded', value['id'] != '1');
+            }
+          });
+        }
         await getTempUserData();
         setState(() => isLoading = false);
         if (message.errorMessage.isNotEmpty ||
