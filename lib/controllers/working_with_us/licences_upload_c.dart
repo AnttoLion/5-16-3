@@ -6,10 +6,14 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:extra_staff/models/user_data_m.dart';
+import 'package:extra_staff/models/drop_donws_m.dart';
 
 enum LicenceType { licence, tacho, qualification }
 
 class LicencesUploadController extends GetxController {
+  UserData data = UserData.fromJson({});
+  DropDowns dropDowns = DropDowns.fromJson({});
   DateTime? expDate;
   DateTime? passDate;
 

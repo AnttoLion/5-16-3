@@ -32,8 +32,10 @@ class Availability2Controller extends GetxController {
   bool? requireSafetyBoots;
 
   KeyValue selectedItem = KeyValue.fromJson({});
+  KeyValue selectedItemHearUs = KeyValue.fromJson({});
   UserData data = UserData.fromJson({});
   DropDowns dropDowns = DropDowns.fromJson({});
+  DropDowns dropDownsSafetyBootSize = DropDowns.fromJson({});
 
   final contactRelationship = [
     KeyValue('Family Member', 'Family Member'),
@@ -83,11 +85,18 @@ class Availability2Controller extends GetxController {
     }
 
     if (data.safetyBootSize.isNotEmpty) {
-      final index = dropDowns.safetyBootSize
+      final index = dropDownsSafetyBootSize.safetyBootSize
           .indexWhere((element) => element.id == data.safetyBootSize);
-      selectedItem = dropDowns.safetyBootSize[index];
+      selectedItem = dropDownsSafetyBootSize.safetyBootSize[index];
     } else {
-      selectedItem = dropDowns.safetyBootSize.first;
+      selectedItem = dropDownsSafetyBootSize.safetyBootSize.first;
+    }
+    if (data.hearAboutUS.isNotEmpty) {
+      final index = dropDowns.hearEs
+          .indexWhere((element) => element.id == data.hearAboutUS);
+      selectedItemHearUs = dropDowns.hearEs[index];
+    } else {
+      selectedItemHearUs = dropDowns.hearEs.first;
     }
   }
 
@@ -119,7 +128,7 @@ class Availability2Controller extends GetxController {
 
   Future<String> getSafetyDropdownInfo() async {
     final response = await Services.shared.getSafetyDropdownInfo();
-    dropDowns = DropDowns.fromJson(response.result);
+    dropDownsSafetyBootSize = DropDowns.fromJson(response.result);
     return response.errorMessage;
   }
 

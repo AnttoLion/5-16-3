@@ -15,6 +15,7 @@ class RolesView extends StatefulWidget {
 }
 
 class _RolesViewState extends State<RolesView> {
+  Map<String, dynamic> allData = {};
   final controller = RolesViewController();
   bool isLoading = false;
   bool isReviewing = Services.shared.completed == "Yes";
@@ -22,6 +23,9 @@ class _RolesViewState extends State<RolesView> {
   @override
   void initState() {
     super.initState();
+    controller.data = Get.arguments['aboutYou'];
+    controller.dropDowns = Get.arguments['dropDowns'];
+    allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
     setData();
   }
 
@@ -78,7 +82,7 @@ class _RolesViewState extends State<RolesView> {
         if (isReviewing) {
           await controller.setDataInStorage();
           await Resume.shared.setDone(name: 'RolesView');
-          Get.to(() => SkillsView());
+          Get.to(() => SkillsView(), arguments: allData);
           return;
         }
         final message = await controller.updateTempRolesInfo();
@@ -88,7 +92,7 @@ class _RolesViewState extends State<RolesView> {
         }
         await controller.setDataInStorage();
         await Resume.shared.setDone(name: 'RolesView');
-        Get.to(() => SkillsView());
+        Get.to(() => SkillsView(), arguments: allData);
       } else {
         Get.back(result: true);
       }

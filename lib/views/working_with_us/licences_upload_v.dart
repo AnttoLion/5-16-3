@@ -18,6 +18,7 @@ class LicencesUploadView extends StatefulWidget {
 }
 
 class _LicencesUploadViewState extends State<LicencesUploadView> {
+  Map<String, dynamic> allData = {};
   final controller = LicencesUploadController();
   final ImagePicker picker = ImagePicker();
   VideoPlayerController? _controller;
@@ -27,6 +28,9 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
   @override
   void initState() {
     super.initState();
+    controller.data = Get.arguments['aboutYou'];
+    controller.dropDowns = Get.arguments['dropDowns'];
+    allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
     controller.getDataFromStorage();
     setData();
 
@@ -244,7 +248,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
   next(bool showError) async {
     if (isReviewing) {
       await Resume.shared.setDone(name: 'LicencesUploadView');
-      Get.to(() => Availability2());
+      Get.to(() => Availability2(), arguments: allData);
       return;
     }
     final str = controller.validate();
@@ -264,7 +268,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     setState(() {});
     if (controller.allFinished) {
       await Resume.shared.setDone(name: 'LicencesUploadView');
-      Get.to(() => Availability2());
+      Get.to(() => Availability2(), arguments: allData);
     }
   }
 

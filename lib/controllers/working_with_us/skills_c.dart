@@ -4,8 +4,12 @@ import 'package:extra_staff/models/key_value_m.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:get/get.dart';
+import 'package:extra_staff/models/user_data_m.dart';
+import 'package:extra_staff/models/drop_donws_m.dart';
 
 class SkillsViewController extends GetxController {
+  UserData data = UserData.fromJson({});
+  DropDowns dropDowns = DropDowns.fromJson({});
   List<KeyValue> skills = [];
   String selectedSkills = '';
   String selectedRoles = '';

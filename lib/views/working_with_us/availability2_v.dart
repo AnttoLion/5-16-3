@@ -22,6 +22,7 @@ class Availability2 extends StatefulWidget {
 }
 
 class _Availability2State extends State<Availability2> {
+  Map<String, dynamic> allData = {};
   final controller = Availability2Controller();
   final listToUploadController = ListToUploadController();
 
@@ -30,6 +31,9 @@ class _Availability2State extends State<Availability2> {
   @override
   void initState() {
     super.initState();
+    controller.data = Get.arguments['aboutYou'];
+    controller.dropDowns = Get.arguments['dropDowns'];
+    allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
     setData();
   }
 
@@ -37,6 +41,7 @@ class _Availability2State extends State<Availability2> {
     listToUploadController.sendScreenID = false;
     controller.getDataFromStorage();
     setState(() => isLoading = true);
+    controller.selectedItemHearUs = controller.dropDowns.hearEs.first;
     await controller.apiCalls();
     setState(() {
       isLoading = false;
@@ -181,9 +186,8 @@ class _Availability2State extends State<Availability2> {
         SizedBox(height: 16),
         abTitle('shoeSize'.tr),
         SizedBox(height: 8),
-        abDropDownButton(
-            controller.selectedItem, controller.dropDowns.safetyBootSize,
-            (value) {
+        abDropDownButton(controller.selectedItem,
+            controller.dropDownsSafetyBootSize.safetyBootSize, (value) {
           setState(() {
             controller.data.safetyBootSize = value.id;
             controller.selectedItem = value;
@@ -224,6 +228,12 @@ class _Availability2State extends State<Availability2> {
           }, hideStatus: true),
           SizedBox(height: 16),
         ],
+        abTitle('How did you hear about Extrastaff?'),
+        SizedBox(height: 8),
+        abDropDownButton(controller.selectedItemHearUs,
+            controller.dropDowns.hearEs, (value) {},
+            disable: true),
+        SizedBox(height: 16),
         ...[
           InkWell(
             onTap: () {

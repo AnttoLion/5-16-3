@@ -5,8 +5,12 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:get/get.dart';
+import 'package:extra_staff/models/user_data_m.dart';
+import 'package:extra_staff/models/drop_donws_m.dart';
 
 class RolesViewController extends GetxController {
+  UserData data = UserData.fromJson({});
+  DropDowns dropDowns = DropDowns.fromJson({});
   List<KeyValue> roles = [];
   String selectedRoles = '';
   bool get isForklift => selectedRoles.contains('24');

@@ -16,12 +16,16 @@ class SkillsView extends StatefulWidget {
 }
 
 class _SkillsViewState extends State<SkillsView> {
+  Map<String, dynamic> allData = {};
   final controller = SkillsViewController();
   bool isLoading = false;
   bool isReviewing = Services.shared.completed == "Yes";
   @override
   void initState() {
     super.initState();
+    controller.data = Get.arguments['aboutYou'];
+    controller.dropDowns = Get.arguments['dropDowns'];
+    allData = {'aboutYou': controller.data, 'dropDowns': controller.dropDowns};
     setData();
   }
 
@@ -78,7 +82,8 @@ class _SkillsViewState extends State<SkillsView> {
       if (i == 0) {
         if (isReviewing) {
           await Resume.shared.setDone(name: 'SkillsView');
-          Get.to(() => isDriver ? LicencesUploadView() : Availability2());
+          Get.to(() => isDriver ? LicencesUploadView() : Availability2(),
+              arguments: allData);
           return;
         }
         final message = await controller.updateTempSkillsInfo();
@@ -87,7 +92,8 @@ class _SkillsViewState extends State<SkillsView> {
           return;
         }
         await Resume.shared.setDone(name: 'SkillsView');
-        Get.to(() => isDriver ? LicencesUploadView() : Availability2());
+        Get.to(() => isDriver ? LicencesUploadView() : Availability2(),
+            arguments: allData);
       } else {
         Get.back(result: true);
       }
