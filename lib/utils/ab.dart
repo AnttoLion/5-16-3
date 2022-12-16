@@ -382,7 +382,10 @@ Widget abDropDownButton(
         isExpanded: true,
         icon: RotatedBox(
           quarterTurns: 1,
-          child: Icon(Icons.arrow_forward_ios, color: MyColors.darkBlue),
+          child: Icon(Icons.arrow_forward_ios,
+              color: disable == null || disable == false
+                  ? MyColors.darkBlue
+                  : MyColors.grey),
         ),
         value: selected,
         onChanged: disable == null || disable == false
