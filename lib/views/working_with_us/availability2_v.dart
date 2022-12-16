@@ -224,7 +224,7 @@ class _Availability2State extends State<Availability2> {
           }, hideStatus: true),
           SizedBox(height: 16),
         ],
-        if (!isDriver) ...[
+        ...[
           InkWell(
             onTap: () {
               abShowAlert(context, '48hours'.tr, 'ok');
