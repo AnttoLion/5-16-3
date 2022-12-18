@@ -406,6 +406,43 @@ Widget abDropDownButton(
   );
 }
 
+Widget abDropDownButtonFormField(
+    KeyValue selected, List<KeyValue> options, Function(KeyValue) onChange,
+    {Color? bordercolor, bool? disable}) {
+  return Container(
+    height: buttonHeight,
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    decoration: abOutline(borderColor: bordercolor),
+    child: DropdownButtonHideUnderline(
+      child: DropdownButtonFormField<KeyValue>(
+        isExpanded: true,
+        icon: RotatedBox(
+          quarterTurns: 1,
+          child: Icon(Icons.arrow_forward_ios,
+              color: disable == null || disable == false
+                  ? MyColors.darkBlue
+                  : MyColors.grey),
+        ),
+        value: selected,
+        validator: (value) => value?.id == '' ? 'Required' : null,
+        onChanged: disable == null || disable == false
+            ? (KeyValue? newValue) async => onChange(newValue!)
+            : null,
+        // onChanged: null,
+        items: options
+            .map((value) => DropdownMenuItem(
+                  value: value,
+                  child: Text(
+                    value.value,
+                    style: MyFonts.regular(17, color: MyColors.black),
+                  ),
+                ))
+            .toList(),
+      ),
+    ),
+  );
+}
+
 Widget abStatusButtonWidget(Widget title, bool? status, Function() onTap,
     {bool hideStatus = false, bool expanded = false, double? borderWidth}) {
   final color = status != null

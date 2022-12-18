@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/models/driving_test_m.dart';
+import 'package:extra_staff/models/key_value_m.dart';
 
 class DrivingTestController extends GetxController {
   final drivingTest = GlobalKey<FormState>();
@@ -11,6 +12,51 @@ class DrivingTestController extends GetxController {
   DrivingTestModel test = DrivingTestModel.fromJson({});
 
   String licenseDateApp = '';
+
+  final selectData = [
+    KeyValue('', '-'),
+    KeyValue('9', '9'),
+    KeyValue('9', '9'),
+    KeyValue('4.5', '4.5'),
+    KeyValue('15', '15'),
+    KeyValue('56', '56'),
+    KeyValue('11', '11'),
+    KeyValue('15', '15'),
+    KeyValue('30', '30'),
+    KeyValue('2', '2'),
+    KeyValue('45', '45'),
+    KeyValue('10', '10'),
+    KeyValue('45', '45'),
+    KeyValue('90', '90'),
+    KeyValue('24', '24'),
+    KeyValue('48', '48'),
+    KeyValue('6', '6'),
+    KeyValue('35', '35'),
+    KeyValue('30', '30'),
+    KeyValue('45', '45'),
+    KeyValue('60', '60'),
+  ];
+
+  KeyValue selected_maxDriHours = KeyValue.fromJson({});
+  KeyValue selected_breakMinutes = KeyValue.fromJson({});
+  KeyValue selected_repBreakMinutes = KeyValue.fromJson({});
+  KeyValue selected_folBreakMinutes = KeyValue.fromJson({});
+  KeyValue selected_dayHours = KeyValue.fromJson({});
+  KeyValue selected_weekOcca = KeyValue.fromJson({});
+  KeyValue selected_maxHour = KeyValue.fromJson({});
+  KeyValue selected_weekMaxHour = KeyValue.fromJson({});
+  KeyValue selected_exceedHour = KeyValue.fromJson({});
+  KeyValue selected_dayMinHours = KeyValue.fromJson({});
+  KeyValue selected_dayRestMinHours = KeyValue.fromJson({});
+  KeyValue selected_weekRestHour = KeyValue.fromJson({});
+  KeyValue selected_weekRedRestHour = KeyValue.fromJson({});
+  KeyValue selected_trainingHours = KeyValue.fromJson({});
+  KeyValue selected_maxHourLim = KeyValue.fromJson({});
+  KeyValue selected_minBreakMinutes = KeyValue.fromJson({});
+  KeyValue selected_totalBreakMin = KeyValue.fromJson({});
+  KeyValue selected_breakMin = KeyValue.fromJson({});
+  KeyValue selected_totalHours = KeyValue.fromJson({});
+  KeyValue selected_weekMaxHourLim = KeyValue.fromJson({});
 
   final row1 = [
     '9',
@@ -79,8 +125,35 @@ class DrivingTestController extends GetxController {
   }
 
   Future<bool> getTempDrivingTestInfo() async {
+    selected_maxDriHours = selectData.first;
+    selected_breakMinutes = selectData.first;
+    selected_repBreakMinutes = selectData.first;
+    selected_folBreakMinutes = selectData.first;
+    selected_dayHours = selectData.first;
+    selected_weekOcca = selectData.first;
+    selected_maxHour = selectData.first;
+    selected_weekMaxHour = selectData.first;
+    selected_exceedHour = selectData.first;
+    selected_dayMinHours = selectData.first;
+    selected_dayRestMinHours = selectData.first;
+    selected_weekRestHour = selectData.first;
+    selected_weekRedRestHour = selectData.first;
+    selected_trainingHours = selectData.first;
+    selected_maxHourLim = selectData.first;
+    selected_minBreakMinutes = selectData.first;
+    selected_totalBreakMin = selectData.first;
+    selected_breakMin = selectData.first;
+    selected_totalHours = selectData.first;
+    selected_weekMaxHourLim = selectData.first;
+
     final response = await Services.shared.getTempDrivingTestInfo();
+    if (response.errorMessage.isNotEmpty) {
+      abShowMessage(response.errorMessage);
+      return false;
+    }
+
     test.driverName = userName;
+
     if (response.errorCode == 0 && response.result is Map) {
       test = DrivingTestModel.fromJson(response.result);
       if (test.licenseDate.isNotEmpty) {
@@ -88,10 +161,107 @@ class DrivingTestController extends GetxController {
         licenseDateApp =
             date != null ? formatDate(date) : dateToString(getNow, false) ?? '';
       }
-    }
-    if (response.errorMessage.isNotEmpty) {
-      abShowMessage(response.errorMessage);
-      return false;
+
+      if (test.maxDriHours.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.maxDriHours);
+        selected_maxDriHours = selectData[index];
+      }
+      if (test.breakMinutes.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.breakMinutes);
+        selected_breakMinutes = selectData[index];
+      }
+      if (test.repBreakMinutes.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.repBreakMinutes);
+        selected_repBreakMinutes = selectData[index];
+      }
+      if (test.folBreakMinutes.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.folBreakMinutes);
+        selected_folBreakMinutes = selectData[index];
+      }
+      if (test.dayHours.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.dayHours);
+        selected_dayHours = selectData[index];
+      }
+      if (test.weekOcca.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.weekOcca);
+        selected_weekOcca = selectData[index];
+      }
+      if (test.maxHour.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.maxHour);
+        selected_maxHour = selectData[index];
+      }
+      if (test.weekMaxHour.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.weekMaxHour);
+        selected_weekMaxHour = selectData[index];
+      }
+      if (test.exceedHour.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.exceedHour);
+        selected_exceedHour = selectData[index];
+      }
+      if (test.dayMinHours.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.dayMinHours);
+        selected_dayMinHours = selectData[index];
+      }
+      if (test.dayRestMinHours.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.dayRestMinHours);
+        selected_dayRestMinHours = selectData[index];
+      }
+      if (test.weekRestHour.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.weekRestHour);
+        selected_weekRestHour = selectData[index];
+      }
+      if (test.weekRedRestHour.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.weekRedRestHour);
+        selected_weekRedRestHour = selectData[index];
+      }
+      if (test.trainingHours.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.trainingHours);
+        selected_trainingHours = selectData[index];
+      }
+      if (test.maxHourLim.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.maxHourLim);
+        selected_maxHourLim = selectData[index];
+      }
+      if (test.minBreakMinutes.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.minBreakMinutes);
+        selected_minBreakMinutes = selectData[index];
+      }
+      if (test.totalBreakMin.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.totalBreakMin);
+        selected_totalBreakMin = selectData[index];
+      }
+      if (test.breakMin.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.breakMin);
+        selected_breakMin = selectData[index];
+      }
+      if (test.totalHours.isNotEmpty) {
+        final index =
+            selectData.indexWhere((element) => element.id == test.totalHours);
+        selected_totalHours = selectData[index];
+      }
+      if (test.weekMaxHourLim.isNotEmpty) {
+        final index = selectData
+            .indexWhere((element) => element.id == test.weekMaxHourLim);
+        selected_weekMaxHourLim = selectData[index];
+      }
     }
     return true;
   }
