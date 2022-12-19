@@ -70,6 +70,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
       Text(title, style: MyFonts.regular(16, color: color ?? MyColors.black));
 
   Widget getContent() {
+    print(controller.test.driverName);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

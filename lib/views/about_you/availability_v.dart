@@ -148,7 +148,7 @@ class _AvailabilityState extends State<Availability> {
             return 'enterText'.tr;
           }
           return null;
-        }, readOnly: isReviewing),
+        }, maxLines: 3, readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('emergencyContactName'.tr),
         SizedBox(height: 8),

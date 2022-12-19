@@ -46,17 +46,18 @@ class _BankDetails extends State<BankDetails> {
         abTitle('sortCode'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.bankSortcode, (text) {
-          controller.data.bankSortcode = text;
+          controller.data.bankSortcode = text.replaceAll("-", "");
         }, validator: (value) {
           if (value == null || value.isEmpty) {
             return 'enterText'.tr;
           }
-          if (!RegExp(r'[0-9]{6}$').hasMatch(value)) {
+          final temp = value.replaceAll("-", "");
+          if (!RegExp(r'[0-9]{6}$').hasMatch(temp)) {
             return 'bankSortCode'.tr;
           }
           return null;
         },
-            maxLength: 6,
+            maxLength: 8,
             keyboardType: TextInputType.phone,
             readOnly: isReviewing),
         SizedBox(height: 16),
