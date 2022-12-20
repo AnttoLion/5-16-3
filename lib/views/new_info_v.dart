@@ -10,7 +10,7 @@ class NewInfoView extends StatelessWidget {
 
   final int index;
   final Function() onTap;
-  final Uri url = Uri.parse('https://www.extrastaff.com/');
+  final Uri url = Uri.parse('https://www.extrastaff.com/?v=' + versionStr);
 
   final List<InfoModel> allData = [
     InfoModel(

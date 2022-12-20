@@ -1461,6 +1461,7 @@ Future abShowMessage(String message) async {
 SharedPreferences? localStorage;
 Future localStorageInit() async {
   localStorage = await SharedPreferences.getInstance();
+  localStorage?.setString('version', versionStr);
 }
 
 removeAllSharedPref() async {
