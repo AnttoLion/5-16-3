@@ -134,45 +134,52 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
                 color: MyColors.darkBlue,
                 size: 125,
               )
-            : AspectRatio(
-                aspectRatio: 192 / 108,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        setState(() => isVisiable = true);
-                        Future.delayed(Duration(seconds: 3), () {
-                          setState(() => isVisiable = false);
-                        });
-                      },
-                      child: VideoPlayer(_controller!),
-                    ),
-                    Visibility(
-                      visible: isVisiable,
-                      child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        color: MyColors.black.withAlpha(50),
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _controller!.value.isPlaying
-                                  ? _controller!.pause()
-                                  : _controller!.play();
+            : ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 200.0,
+                ),
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio: 192 / 108,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            setState(() => isVisiable = true);
+                            Future.delayed(Duration(seconds: 3), () {
+                              setState(() => isVisiable = false);
                             });
                           },
-                          icon: Icon(
-                            _controller!.value.isPlaying
-                                ? Icons.pause_circle
-                                : Icons.play_circle,
-                            color: MyColors.darkBlue,
-                            size: 50,
-                          ),
+                          child: VideoPlayer(_controller!),
                         ),
-                      ),
-                    )
-                  ],
+                        Visibility(
+                          visible: isVisiable,
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: MyColors.black.withAlpha(50),
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _controller!.value.isPlaying
+                                      ? _controller!.pause()
+                                      : _controller!.play();
+                                });
+                              },
+                              icon: Icon(
+                                _controller!.value.isPlaying
+                                    ? Icons.pause_circle
+                                    : Icons.play_circle,
+                                color: MyColors.darkBlue,
+                                size: 50,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
         SizedBox(height: 32),

@@ -64,7 +64,8 @@ class Availability2Controller extends GetxController {
   String dateToShow() => data.dbsDate.isNotEmpty ? data.dbsDate : 'dd/mm/yyyy';
 
   setData() {
-    selected48Hour = data.hourOutput == '1' ? hours48.first : hours48.last;
+    if (data.hourOutput != '2') data.hourOutput = '1';
+    selected48Hour = data.hourOutput == '2' ? hours48.last : hours48.first;
     dMon = data.monday.isNotEmpty && data.monday == 'true' ? true : false;
     dTue = data.tuesday.isNotEmpty && data.tuesday == 'true' ? true : false;
     dWed = data.wednesday.isNotEmpty && data.wednesday == 'true' ? true : false;
@@ -137,8 +138,6 @@ class Availability2Controller extends GetxController {
     if (response.result is Map) {
       data = UserData.fromJson(response.result);
       isQuizTest = data.quizTest == '1';
-      print('isQuizTest');
-      print(isQuizTest);
     }
     return response.errorMessage;
   }

@@ -47,6 +47,7 @@ class RolesViewController extends GetxController {
       'isForklift': isForklift,
       'selectedRoles': selectedRoles,
       'isOnly35T': isOnly35T,
+      'is35T': is35T
     };
     final map = json.encode(arguments);
     await localStorage?.setString('RolesView', map);

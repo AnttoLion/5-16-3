@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/views/registration_progress_v.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
+import 'dart:convert';
 
 class ChooseCode2 extends StatefulWidget {
   const ChooseCode2({Key? key}) : super(key: key);
@@ -49,6 +50,31 @@ class _ChooseCode2State extends State<ChooseCode2> {
         final message3 = await Services.shared.getTempProgressInfo();
         final deskInfo = await Services.shared.getTempDeskInfo();
         final tempCompDocInfo = await Services.shared.getTempCompDocInfo();
+        final tempRolesInfo = await Services.shared.getTempRolesInfo();
+        if (tempRolesInfo.result is Map &&
+            tempRolesInfo.result['roles'] is String) {
+          String selectedRoles = tempRolesInfo.result['roles'];
+          bool isForklift = selectedRoles.contains('24');
+          bool isOnly35T = false;
+          is35T = false;
+          if (selectedRoles.isNotEmpty) {
+            final values = selectedRoles.split(',');
+            is35T = values.contains('4');
+            if (values.length == 1 && values.first == '4') {
+              isOnly35T = true;
+            }
+          }
+
+          final arguments = {
+            'isForklift': isForklift,
+            'selectedRoles': selectedRoles,
+            'isOnly35T': isOnly35T,
+            'is35T': is35T
+          };
+          final map = json.encode(arguments);
+          await localStorage?.setString('RolesView', map);
+        }
+
         if (tempCompDocInfo.result is Map) {
           (tempCompDocInfo.result as Map).forEach((key, value) async {
             if (key == 'is_have_ni') {

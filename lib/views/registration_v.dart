@@ -146,9 +146,9 @@ class _RegistrationView extends State<RegistrationView> {
       'SkillsView',
       if (isDriver) 'LicencesUploadView',
       'Availability2',
-      if (isDriver) 'DrivingTestView',
-      if (isQuizTest) 'CompetencyTest',
-      if (isQuizTest) 'OnboardingWizard',
+      if (isDriver && !is35T) 'DrivingTestView',
+      if (isQuizTest && !is35T) 'CompetencyTest',
+      if (isQuizTest && !is35T) 'OnboardingWizard',
     ];
 
     final fd = Resume.shared.allClasses

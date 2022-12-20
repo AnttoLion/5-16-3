@@ -73,9 +73,18 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
       onTap: (i) async {
         if (i == 0) {
           if (isReviewing) {
-            await Resume.shared.setDone(name: 'MedicalHistory1');
-            Get.to(() => MedicalHistory2(),
-                arguments: {'medicalHistory': controller});
+            if (controller.hasMedicalCondition == false) {
+              await Resume.shared.markAllDone();
+              await Resume.shared.setDone(name: 'MedicalHistory1');
+              await Resume.shared.setDone(name: 'MedicalHistory2');
+              await Resume.shared.setDone(name: 'MedicalHistory3');
+              Get.off(() => RegistrationComplete());
+            } else {
+              await Resume.shared.setDone(name: 'MedicalHistory1');
+              Get.to(() => MedicalHistory2(),
+                  arguments: {'medicalHistory': controller});
+            }
+
             return;
           }
           final msg = controller.validate1();

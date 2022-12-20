@@ -26,6 +26,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
   );
   final filter = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
   bool isReviewing = Services.shared.completed == "Yes";
+  final licenseCategoryController = TextEditingController();
   @override
   initState() {
     super.initState();
@@ -35,6 +36,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
   apicall() async {
     setState(() => isLoading = true);
     await controller.getTempDrivingTestInfo();
+    licenseCategoryController.text = controller.test.licenseCategory;
     setState(() => isLoading = false);
   }
 
@@ -75,21 +77,14 @@ class _DrivingTestViewState extends State<DrivingTestView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16),
-        abTitle('Name'),
-        SizedBox(height: 16),
-        abTextField(
-            controller.test.driverName, (e) => controller.test.driverName = e,
-            hintText: '',
-            validator: (e) => textValidate(e),
-            readOnly: isReviewing),
-        SizedBox(height: 16),
         abTitle('Licence Category:'),
         SizedBox(height: 16),
         abTextField(controller.test.licenseCategory,
             (e) => controller.test.licenseCategory = e,
             hintText: '',
             validator: (e) => textValidate(e),
-            readOnly: isReviewing),
+            readOnly: isReviewing,
+            controller: licenseCategoryController),
         SizedBox(height: 16),
         abTitle('Date'),
         SizedBox(height: 16),

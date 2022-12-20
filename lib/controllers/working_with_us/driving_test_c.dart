@@ -146,8 +146,6 @@ class DrivingTestController extends GetxController {
     selected_totalHours = selectData.first;
     selected_weekMaxHourLim = selectData.first;
 
-    test.driverName = userName;
-
     final response = await Services.shared.getTempDrivingTestInfo();
     if (response.errorMessage.isNotEmpty) {
       abShowMessage(response.errorMessage);
@@ -269,6 +267,7 @@ class DrivingTestController extends GetxController {
   }
 
   Future<bool> updateTempDrivingTestInfo() async {
+    print(test.driverName);
     final response = await Services.shared.updateTempDrivingTestInfo(test);
     if (response.errorMessage.isEmpty) {
       return true;
