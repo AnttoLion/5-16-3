@@ -113,6 +113,11 @@ class DrivingTestController extends GetxController {
     'The maximum time that can he worked in any one week is ＿ hours.',
   ];
 
+  bool validate() {
+    drivingTest.currentState!.validate();
+    return true;
+  }
+
   bool validated() {
     if (test.licenseDate.isEmpty) {
       abShowMessage('Please enter Licence date.');

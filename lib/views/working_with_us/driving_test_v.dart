@@ -116,6 +116,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.maxDriHours = value.id;
                 controller.selected_maxDriHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[2]),
@@ -129,6 +130,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.breakMinutes = value.id;
                 controller.selected_breakMinutes = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[3]),
@@ -142,6 +144,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.repBreakMinutes = value.id;
                 controller.selected_repBreakMinutes = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         rowSelect(
@@ -153,6 +156,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.folBreakMinutes = value.id;
                 controller.selected_folBreakMinutes = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[4]),
@@ -165,6 +169,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.dayHours = value.id;
                 controller.selected_dayHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[5]),
@@ -177,6 +182,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.weekOcca = value.id;
                 controller.selected_weekOcca = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         rowSelect(
@@ -187,6 +193,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.maxHour = value.id;
                 controller.selected_maxHour = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[6]),
@@ -200,6 +207,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.weekMaxHour = value.id;
                 controller.selected_weekMaxHour = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         rowSelect(
@@ -210,6 +218,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.exceedHour = value.id;
                 controller.selected_exceedHour = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         Row(
@@ -239,6 +248,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.dayMinHours = value.id;
                 controller.selected_dayMinHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[10]),
@@ -252,6 +262,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.dayRestMinHours = value.id;
                 controller.selected_dayRestMinHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         abTitle(controller.longTexts[11]),
@@ -283,6 +294,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.weekRestHour = value.id;
                 controller.selected_weekRestHour = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         rowSelect(
@@ -294,6 +306,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.weekRedRestHour = value.id;
                 controller.selected_weekRedRestHour = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[15]),
@@ -307,6 +320,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.trainingHours = value.id;
                 controller.selected_trainingHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         abTitle(controller.longTexts[16]),
@@ -345,6 +359,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.maxHourLim = value.id;
                 controller.selected_maxHourLim = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[21]),
@@ -358,6 +373,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.minBreakMinutes = value.id;
                 controller.selected_minBreakMinutes = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[22]),
@@ -371,6 +387,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.totalBreakMin = value.id;
                 controller.selected_totalBreakMin = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[23]),
@@ -383,6 +400,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.breakMin = value.id;
                 controller.selected_breakMin = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[24]),
@@ -395,6 +413,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.totalHours = value.id;
                 controller.selected_totalHours = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
         smallText(controller.longTexts[25]),
@@ -408,6 +427,7 @@ class _DrivingTestViewState extends State<DrivingTestView> {
                 controller.test.weekMaxHourLim = value.id;
                 controller.selected_weekMaxHourLim = value;
               });
+              controller.validate();
             }, disable: isReviewing)),
         SizedBox(height: 16),
       ],
