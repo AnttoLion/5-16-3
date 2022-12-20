@@ -58,12 +58,12 @@ class LoginController extends GetxController {
   }
 
   Future<bool> isBiometricsAvaliable() async {
-    bool isBiometricSupported = await localAuth.isDeviceSupported();
+    // bool isBiometricSupported = await localAuth.isDeviceSupported();
     bool canCheckBiometrics = await localAuth.canCheckBiometrics;
 
-    abShowMessage('isBiometricSupported:' + isBiometricSupported.toString());
-    print('isBiometricSupported:' + isBiometricSupported.toString());
-    print('canCheckBiometrics:' + canCheckBiometrics.toString());
+    // abShowMessage('isBiometricSupported:' + isBiometricSupported.toString());
+    // print('isBiometricSupported:' + isBiometricSupported.toString());
+    // print('canCheckBiometrics:' + canCheckBiometrics.toString());
 
     if (!canCheckBiometrics) {
       return false;
