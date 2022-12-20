@@ -37,7 +37,8 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
   }
 
   void authBiometric() async {
-    final isBiomatricAvaliable = await loginController.isBiometricsAvaliable();
+    final isBiomatricAvaliable =
+        true; //await loginController.isBiometricsAvaliable();
     if (isBiomatricAvaliable) {
       final isAuth = await loginController.checkAuth();
       if (isAuth) {
@@ -192,7 +193,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
       return IconButton(
         onPressed: () async {
           final isBiomatricAvaliable =
-              await loginController.isBiometricsAvaliable();
+              true; //await loginController.isBiometricsAvaliable();
           if (isBiomatricAvaliable) {
             final isAuth = await loginController.checkAuth();
             if (isAuth) {
