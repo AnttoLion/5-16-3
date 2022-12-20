@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
 import 'package:extra_staff/utils/ab.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:dart_ipify/dart_ipify.dart';
 
 class LoginController extends GetxController {
   String password = '';
