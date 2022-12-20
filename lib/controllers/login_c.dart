@@ -44,11 +44,12 @@ class LoginController extends GetxController {
 
     try {
       bool didAuthenticate = await localAuth.authenticate(
-        localizedReason: 'authenticateBiometric'.tr,
-        useErrorDialogs: true,
-        stickyAuth: true,
-        biometricOnly: true,
-      );
+          localizedReason: 'authenticateBiometric'.tr,
+          options: const AuthenticationOptions(
+            useErrorDialogs: true,
+            stickyAuth: true,
+            biometricOnly: true,
+          ));
       print(didAuthenticate);
       return didAuthenticate;
     } on PlatformException catch (e) {
