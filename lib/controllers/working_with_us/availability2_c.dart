@@ -101,13 +101,7 @@ class Availability2Controller extends GetxController {
     }
   }
 
-  getDataFromStorage() {
-    final storedData = localStorage?.getString('RolesView') ?? '';
-    if (storedData.length > 0) {
-      final map = json.decode(storedData);
-      isForklift = map['isForklift'];
-    }
-  }
+  getDataFromStorage() {}
 
   Future<String> updateTempWorkInfo() async {
     final response = await Services.shared.updateTempWorkInfo(data);
@@ -125,11 +119,33 @@ class Availability2Controller extends GetxController {
     }
     message = await getSafetyDropdownInfo();
     if (message.isNotEmpty) abShowMessage(message);
+
+    isForklift = false;
+    if (!isDriver) {
+      message = await getTempForkliftInfo();
+      if (message.isNotEmpty) abShowMessage(message);
+    }
   }
 
   Future<String> getSafetyDropdownInfo() async {
     final response = await Services.shared.getSafetyDropdownInfo();
     dropDownsSafetyBootSize = DropDowns.fromJson(response.result);
+    return response.errorMessage;
+  }
+
+  Future<String> getTempForkliftInfo() async {
+    final response = await Services.shared.getTempForkliftInfo();
+    if (response.result is Map) {
+      (response.result as Map).forEach((key, value) async {
+        if (key == 'forklift_exist') {
+          if (value == "Yes") {
+            isForklift = !isDriver;
+          }
+        }
+      });
+    }
+
+    // dropDownsSafetyBootSize = DropDowns.fromJson(response.result);
     return response.errorMessage;
   }
 

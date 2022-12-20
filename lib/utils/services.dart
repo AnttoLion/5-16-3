@@ -702,6 +702,15 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
+  Future<BaseApiResponse> getTempForkliftInfo() async => await get(
+        baseUrl + 'getTempForkliftInfo',
+        query: {
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+
   Future<BaseApiResponse> updateTempWorkInfo(UserData userData) async =>
       await post(
         baseUrl + 'updateTempWorkInfo',
