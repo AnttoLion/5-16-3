@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
@@ -86,14 +87,18 @@ class LoginController extends GetxController {
     if (index == 0) {
       bool next = await checkAuth();
       if (next) {
+        await localStorage?.setBool('BioAuthEnabled', true);
         final response = await Services.shared.updateTempBioInfo();
         if (response.errorMessage.isNotEmpty) {
           abShowMessage(response.errorMessage);
           return false;
         }
+      } else {
+        await localStorage?.setBool('BioAuthEnabled', false);
       }
       return next;
     }
+    await localStorage?.setBool('BioAuthEnabled', false);
     return true;
   }
 

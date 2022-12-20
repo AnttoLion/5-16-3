@@ -39,7 +39,6 @@ class ExtraStaff extends StatelessWidget {
         objABBottom.hideBottom = isKeyboardVisible;
         objABBottom.update();
       }
-      print(localStorage?.getString('passcode'));
       return KeyboardDismissOnTap(
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,

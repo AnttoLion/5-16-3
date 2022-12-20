@@ -37,9 +37,8 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
   }
 
   void authBiometric() async {
-    final isBiomatricAvaliable =
-        true; //await loginController.isBiometricsAvaliable();
-    if (isBiomatricAvaliable) {
+    final bioAuthEnabled = localStorage?.getBool('BioAuthEnabled') ?? false;
+    if (bioAuthEnabled) {
       final isAuth = await loginController.checkAuth();
       if (isAuth) {
         final message3 = await Services.shared.getTempProgressInfo();
