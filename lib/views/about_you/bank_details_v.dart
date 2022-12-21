@@ -3,6 +3,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/about_you/equality_monitoring_v.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
 
@@ -46,19 +47,21 @@ class _BankDetails extends State<BankDetails> {
         abTitle('sortCode'.tr),
         SizedBox(height: 8),
         abTextField(controller.data.bankSortcode, (text) {
-          controller.data.bankSortcode = text.replaceAll("-", "");
+          controller.data.bankSortcode = text;
         }, validator: (value) {
           if (value == null || value.isEmpty) {
             return 'enterText'.tr;
           }
-          final temp = value.replaceAll("-", "");
-          if (!RegExp(r'[0-9]{6}$').hasMatch(temp)) {
+          if (!RegExp(r'[0-9]{6}$').hasMatch(value)) {
             return 'bankSortCode'.tr;
           }
           return null;
         },
-            maxLength: 8,
-            keyboardType: TextInputType.phone,
+            maxLength: 6,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('bankAccountNumber'.tr),
@@ -75,6 +78,9 @@ class _BankDetails extends State<BankDetails> {
           return null;
         },
             keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             maxLength: 8,
             readOnly: isReviewing),
         SizedBox(height: 16),

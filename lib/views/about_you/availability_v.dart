@@ -5,6 +5,7 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/about_you/bank_details_v.dart';
 import 'package:extra_staff/views/new_info_v.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:extra_staff/utils/services.dart';
 
@@ -175,6 +176,9 @@ class _AvailabilityState extends State<Availability> {
         },
             keyboardType: TextInputType.number,
             maxLength: 11,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             readOnly: isReviewing),
         SizedBox(height: 16),
         abTitle('emergencyContactRelationship'.tr),
