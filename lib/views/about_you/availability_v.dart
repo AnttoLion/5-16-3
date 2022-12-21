@@ -156,7 +156,8 @@ class _AvailabilityState extends State<Availability> {
           }
           return null;
         },
-            maxLines: 3,
+            maxLines: 4,
+            maxLength: 1024,
             controller: criminalDescController,
             readOnly: isReviewing || (controller.data.criminal == "2")),
         SizedBox(height: 16),

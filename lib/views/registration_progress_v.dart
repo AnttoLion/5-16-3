@@ -88,7 +88,8 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abHeaderNew(context, 'dashboard'.tr);
+    return abHeaderNew(context, 'dashboard'.tr,
+        showBack: false, showHome: false);
   }
 
   Widget getBottomBar() {

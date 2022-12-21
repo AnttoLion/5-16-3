@@ -212,8 +212,7 @@ class LicencesUploadController extends GetxController {
   bool changeTypeOnBack() {
     reset();
     bool isChanged = true;
-    if (Get.previousRoute.substring(1) == 'RegistrationView' ||
-        type == LicenceType.licence) {
+    if (type == LicenceType.licence) {
       isChanged = false;
       Get.back();
     } else if (type == LicenceType.qualification) {

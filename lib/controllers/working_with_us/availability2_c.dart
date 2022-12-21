@@ -49,6 +49,7 @@ class Availability2Controller extends GetxController {
     KeyValue('1', 'Opt Out'),
     KeyValue('2', 'Opt In'),
   ];
+  bool isOnly35T = false;
 
   KeyValue get selectedRelationship {
     final ind = contactRelationship.indexWhere(
@@ -101,9 +102,16 @@ class Availability2Controller extends GetxController {
     }
   }
 
-  getDataFromStorage() {}
+  getDataFromStorage() {
+    final storedData = localStorage?.getString('RolesView') ?? '';
+    if (storedData.length > 0) {
+      final map = json.decode(storedData);
+      isOnly35T = map['isOnly35T'];
+    }
+  }
 
   Future<String> updateTempWorkInfo() async {
+    print(data.ownTrasport);
     final response = await Services.shared.updateTempWorkInfo(data);
     return response.errorMessage;
   }

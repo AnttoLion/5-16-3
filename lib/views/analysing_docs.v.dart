@@ -45,14 +45,6 @@ class AnalysingDocs extends StatelessWidget {
             children: [
               if (seconds != null) topImage(),
               Spacer(),
-              Image.asset(
-                'lib/images/EFOS-Analysing-standard.gif',
-                gaplessPlayback: true,
-                repeat: ImageRepeat.repeat,
-                fit: BoxFit.fitWidth,
-                width: 150,
-              ),
-              SizedBox(height: 50),
               Container(
                 padding: gHPadding,
                 child: abWords(
@@ -60,6 +52,14 @@ class AnalysingDocs extends StatelessWidget {
                   'analysing',
                   WrapAlignment.center,
                 ),
+              ),
+              SizedBox(height: 50),
+              Image.asset(
+                'lib/images/EFOS-Analysing-standard.gif',
+                gaplessPlayback: true,
+                repeat: ImageRepeat.repeat,
+                fit: BoxFit.fitWidth,
+                width: 150,
               ),
               Spacer(),
               Spacer(),

@@ -110,7 +110,7 @@ class _ChooseCode2State extends State<ChooseCode2> {
           }
 
           if (isWebApp) {
-            Get.to(() => RegistrationProgress());
+            Get.offAll(() => RegistrationProgress());
           } else {
             Get.to(() => BiometricView(true));
           }

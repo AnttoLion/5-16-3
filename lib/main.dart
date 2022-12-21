@@ -1,4 +1,5 @@
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/analysing_docs.v.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class ExtraStaff extends StatelessWidget {
                 ? SplashPage()
                 : ((localStorage?.getString('passcode') ?? '').isNotEmpty
                     ? EnterConfrimCode(isFromStart: true)
+                    // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
                     : PageControllerView()),
             enableLog: false,
             debugShowCheckedModeBanner: false,

@@ -307,8 +307,7 @@ class _Availability2State extends State<Availability2> {
         }
 
         await Resume.shared.setDone(name: 'Availability2');
-        print(is35T);
-        if (isDriver && !is35T) {
+        if (isDriver && !controller.isOnly35T) {
           Get.to(() => DrivingTestView());
         } else if (isQuizTest && !is35T) {
           Get.bottomSheet(

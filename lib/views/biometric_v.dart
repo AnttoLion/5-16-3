@@ -35,7 +35,7 @@ class BiometricView extends StatelessWidget {
               if (i == 0 && !next) {
                 abShowMessage('error'.tr);
               } else {
-                Get.to(() => RegistrationProgress());
+                Get.offAll(() => RegistrationProgress());
               }
             },
           ),

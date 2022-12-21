@@ -50,7 +50,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
           Get.offAll(() => RegistrationComplete());
           return;
         }
-        Get.to(() => RegistrationProgress());
+        Get.offAll(() => RegistrationProgress());
       }
     }
   }
@@ -72,7 +72,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
           Get.offAll(() => RegistrationComplete());
           return;
         }
-        Get.to(() => RegistrationProgress());
+        Get.offAll(() => RegistrationProgress());
       } else {
         controller.text = '';
         abShowMessage('passcodeNotMathcing'.tr);
@@ -200,7 +200,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
                 Get.offAll(() => RegistrationComplete());
                 return;
               }
-              Get.to(() => RegistrationProgress());
+              Get.offAll(() => RegistrationProgress());
             } else {
               abShowMessage('passcodeNotMathcing'.tr);
             }

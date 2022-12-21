@@ -39,7 +39,7 @@ class _RegistrationView extends State<RegistrationView> {
   bool isLoading = true;
   Map<String, dynamic> allData = {};
   bool isReviewing = Services.shared.completed == "Yes";
-
+  bool isOnly35T = false;
   @override
   void initState() {
     super.initState();
@@ -63,6 +63,13 @@ class _RegistrationView extends State<RegistrationView> {
         'agreementsStatus': controller.status,
       };
       setState(() => isLoading = false);
+
+      final storedData = localStorage?.getString('RolesView') ?? '';
+      if (storedData.length > 0) {
+        final map = json.decode(storedData);
+        isOnly35T = map['isOnly35T'];
+      }
+
       if (message1.isEmpty && message2.isEmpty && Get.arguments == true) {
         for (int i = 0; i < controller.completedValues.length; i++) {
           final v = controller.completedValues[i];
@@ -146,7 +153,7 @@ class _RegistrationView extends State<RegistrationView> {
       'SkillsView',
       if (isDriver) 'LicencesUploadView',
       'Availability2',
-      if (isDriver && !is35T) 'DrivingTestView',
+      if (isDriver && !isOnly35T) 'DrivingTestView',
       if (isQuizTest && !is35T) 'CompetencyTest',
       if (isQuizTest && !is35T) 'OnboardingWizard',
     ];

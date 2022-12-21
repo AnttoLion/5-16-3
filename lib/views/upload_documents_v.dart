@@ -136,7 +136,7 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
               )
             : ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: 200.0,
+                  maxHeight: 240.0,
                 ),
                 child: Center(
                   child: AspectRatio(

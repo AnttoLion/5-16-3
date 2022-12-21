@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+import 'package:extra_staff/views/registration_progress_v.dart';
+import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 
 class LicencesUploadView extends StatefulWidget {
   const LicencesUploadView({Key? key}) : super(key: key);
@@ -82,7 +84,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
         SizedBox(height: 16),
         ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: 200.0,
+            maxHeight: 240.0,
           ),
           child: Center(
             child: AspectRatio(
@@ -232,8 +234,17 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
 
   PreferredSizeWidget getAppBar() {
     return abHeaderNew(context, controller.title, onTap: (i) async {
-      final isChanged = controller.changeTypeOnBack();
-      if (isChanged) await setData();
+      if (i == 1) {
+        //back button
+        final isChanged = controller.changeTypeOnBack();
+        if (isChanged) await setData();
+      } else {
+        //home button
+        if (isReviewing)
+          Get.offAll(() => RegistrationComplete());
+        else
+          Get.offAll(() => RegistrationProgress());
+      }
     });
   }
 

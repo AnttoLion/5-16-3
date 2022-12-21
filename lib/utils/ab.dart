@@ -199,7 +199,7 @@ PreferredSize abQuestionsNew(
                                   alignment: AlignmentDirectional.centerEnd,
                                   child: IconButton(
                                     onPressed: () {
-                                      Get.to(() => RegistrationProgress());
+                                      Get.offAll(() => RegistrationProgress());
                                     },
                                     icon: Icon(
                                       Icons.home,
@@ -297,7 +297,7 @@ PreferredSize abQuestionsNew(
                             alignment: AlignmentDirectional.centerEnd,
                             child: IconButton(
                               onPressed: () {
-                                Get.to(() => RegistrationProgress());
+                                Get.offAll(() => RegistrationProgress());
                               },
                               icon: Icon(
                                 Icons.home,
@@ -905,7 +905,8 @@ PreferredSize abHeaderNew(
                               onPressed: () => onTap == null
                                   ? (isReviewing
                                       ? Get.offAll(() => RegistrationComplete())
-                                      : Get.to(() => RegistrationProgress()))
+                                      : Get.offAll(
+                                          () => RegistrationProgress()))
                                   : onTap(2),
                               icon: Icon(
                                 Icons.home,
@@ -974,7 +975,7 @@ PreferredSize abHeaderNew(
                         onPressed: () => onTap == null
                             ? (isReviewing
                                 ? Get.offAll(() => RegistrationComplete())
-                                : Get.to(() => RegistrationProgress()))
+                                : Get.offAll(() => RegistrationProgress()))
                             : onTap(2),
                         icon: Icon(
                           Icons.home,
