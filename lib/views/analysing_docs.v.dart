@@ -50,7 +50,7 @@ class AnalysingDocs extends StatelessWidget {
                 gaplessPlayback: true,
                 repeat: ImageRepeat.repeat,
                 fit: BoxFit.fitWidth,
-                height: 100,
+                width: 150,
               ),
               SizedBox(height: 50),
               Container(

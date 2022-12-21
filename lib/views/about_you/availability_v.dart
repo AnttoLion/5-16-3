@@ -23,6 +23,7 @@ class _AvailabilityState extends State<Availability> {
   bool isLoading = false;
   final isNiUploaded = localStorage?.getBool('isNiUploaded') ?? false;
   bool isReviewing = Services.shared.completed == "Yes";
+  final criminalDescController = TextEditingController();
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _AvailabilityState extends State<Availability> {
 
   setData() async {
     await controller.setData();
+    criminalDescController.text = controller.data.criminalDesc;
     if (!isNiUploaded) controller.data.nationalInsurance = '';
 
     setState(() {});
@@ -136,6 +138,10 @@ class _AvailabilityState extends State<Availability> {
           if (isReviewing) return;
           setState(() {
             controller.data.criminal = b! ? '1' : '2';
+            if (controller.data.criminal == "2") {
+              criminalDescController.text = "";
+              controller.data.criminalDesc = "";
+            }
             controller.hasCriminalConvictions = b;
           });
         }, showIcon: true),
@@ -149,7 +155,10 @@ class _AvailabilityState extends State<Availability> {
             return 'enterText'.tr;
           }
           return null;
-        }, maxLines: 3, readOnly: isReviewing),
+        },
+            maxLines: 3,
+            controller: criminalDescController,
+            readOnly: isReviewing || (controller.data.criminal == "2")),
         SizedBox(height: 16),
         abTitle('emergencyContactName'.tr),
         SizedBox(height: 8),
