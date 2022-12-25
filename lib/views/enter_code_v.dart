@@ -27,10 +27,10 @@ class _EnterCodeState extends State<EnterCode> {
     return abPinCodeText(context, 4, controller: pinCodeController,
         onCompleted: (v) async {
       controller.otp = v;
-      if (controller.otp == '1919') {
-        Get.to(() => SetPassword());
-        return;
-      }
+      // if (controller.otp == '1919') {
+      //   Get.to(() => SetPassword());
+      //   return;
+      // }
       setState(() => isLoading = true);
       final result = await controller.getQuickTempVerification();
       setState(() => isLoading = false);

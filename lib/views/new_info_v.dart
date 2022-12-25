@@ -46,7 +46,7 @@ class NewInfoView extends StatelessWidget {
     InfoModel(
       '7',
       'Brilliant',
-      "We like to know about our temps. If you want to know more about us checkout www.extrastaff.com.",
+      "We like to know about our temps. If you want to know more about us checkout www.extrastaff.com",
     ),
     InfoModel(
       '8',

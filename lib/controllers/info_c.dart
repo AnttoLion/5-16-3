@@ -42,7 +42,7 @@ class InfoController extends GetxController {
     InfoModel(
       '7',
       'Keep up the good work',
-      "We like to know who you are. If you want to know more about us, check out www.extrastaff.com.",
+      "We like to know who you are. If you want to know more about us, check out www.extrastaff.com",
     ),
     InfoModel(
       '8',
