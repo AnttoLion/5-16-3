@@ -310,16 +310,18 @@ class LicencesUploadController extends GetxController {
         type == LicenceType.qualification ? dateToString(expDate, true) : null;
     String? digiCt =
         type == LicenceType.qualification ? selectedCountry.id : null;
+    bool sendScreenID = false;
+    if (type == LicenceType.qualification) sendScreenID = true;
     final result = await Services.shared.updateTempLicenseAdditionalInfo(
-      typeToSend,
-      docId,
-      drivingDExp ?? '',
-      drivingDIssue ?? '',
-      tachoDExp ?? '',
-      tachoCt ?? '',
-      digiDExp ?? '',
-      digiCt ?? '',
-    );
+        typeToSend,
+        docId,
+        drivingDExp ?? '',
+        drivingDIssue ?? '',
+        tachoDExp ?? '',
+        tachoCt ?? '',
+        digiDExp ?? '',
+        digiCt ?? '',
+        sendScreenID: sendScreenID);
     return result.errorMessage;
   }
 

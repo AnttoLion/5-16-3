@@ -265,8 +265,12 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
 
   next(bool showError) async {
     if (isReviewing) {
-      await Resume.shared.setDone(name: 'LicencesUploadView');
-      Get.to(() => Availability2(), arguments: allData);
+      await controller.changeType();
+      setState(() {});
+      if (controller.allFinished) {
+        await Resume.shared.setDone(name: 'LicencesUploadView');
+        Get.to(() => Availability2(), arguments: allData);
+      }
       return;
     }
     final str = controller.validate();

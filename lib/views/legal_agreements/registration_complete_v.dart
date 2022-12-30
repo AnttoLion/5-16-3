@@ -61,11 +61,13 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    SizedBox(height: 8),
                     Text(
                       'Coming Soon ...',
                       textAlign: TextAlign.center,
                       style: MyFonts.regular(30, color: MyColors.darkBlue),
                     ),
+                    SizedBox(height: 8),
                     isWebApp
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,6 +116,8 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                     'isEmploymentHistoryCompleted', false);
                 await localStorage?.setBool('isCompetencyTestCompleted', false);
                 await localStorage?.setBool('isAgreementsCompleted', false);
+                await localStorage?.setString(
+                    'LicenceType', 'LicenceType.licence');
                 await Resume.shared.markAllNotDone();
 
                 Get.offAll(() => RegistrationView());

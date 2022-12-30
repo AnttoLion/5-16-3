@@ -1011,32 +1011,33 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempLicenseAdditionalInfo(
-    String type,
-    String docId,
-    String drivingDateExpiry,
-    String drivingIssueDate,
-    String tachoDateExpiry,
-    String tachoCountry,
-    String digicardDateExpiry,
-    String digicardCountry,
-  ) async =>
+          String type,
+          String docId,
+          String drivingDateExpiry,
+          String drivingIssueDate,
+          String tachoDateExpiry,
+          String tachoCountry,
+          String digicardDateExpiry,
+          String digicardCountry,
+          {bool sendScreenID = true}) async =>
       await post(
-        baseUrl + 'updateTempLicenseAdditionalInfo',
-        {
-          'type': type,
-          'doc_id': docId,
-          'driving_date_expiry': drivingDateExpiry,
-          'driving_issue_date': drivingIssueDate,
-          'tacho_date_expiry': tachoDateExpiry,
-          'tacho_country': tachoCountry,
-          'digicard_date_expiry': digicardDateExpiry,
-          'digicard_country': digicardCountry,
-          'tid': '$tid',
-          'user_id': '$userId',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+              baseUrl + 'updateTempLicenseAdditionalInfo',
+              {
+                'type': type,
+                'doc_id': docId,
+                'driving_date_expiry': drivingDateExpiry,
+                'driving_issue_date': drivingIssueDate,
+                'tacho_date_expiry': tachoDateExpiry,
+                'tacho_country': tachoCountry,
+                'digicard_date_expiry': digicardDateExpiry,
+                'digicard_country': digicardCountry,
+                'tid': '$tid',
+                'user_id': '$userId',
+                'digest': generateMd5(staticDigestKey + '$userId'),
+              },
+              headers: headers,
+              sendScreenID: sendScreenID)
+          .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> addDeviceDetails(String email, String device) async =>
       await post(
