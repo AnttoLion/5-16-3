@@ -27,7 +27,7 @@ class LicencesUploadController extends GetxController {
   LicenceType type = LicenceType.licence;
 
   bool allFinished = false;
-
+  bool isWorking = false;
   String get title {
     switch (type) {
       case LicenceType.licence:

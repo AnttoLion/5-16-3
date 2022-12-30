@@ -251,7 +251,11 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
   Widget getBottomBar() {
     return abBottomNew(context, onTap: (e) async {
       if (e == 0) {
-        next(true);
+        if (controller.isWorking == false) {
+          controller.isWorking = true;
+          next(true);
+          controller.isWorking = false;
+        }
       }
     });
   }
@@ -282,7 +286,9 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
       if (showError) abShowMessage('uploadAllDocuments'.tr);
       return;
     }
+    setState(() => isLoading = true);
     final message = await controller.updateTempLicenseAdditionalInfo();
+    setState(() => isLoading = false);
     if (message.isNotEmpty) {
       abShowMessage(message);
     }
