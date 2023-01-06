@@ -52,7 +52,7 @@ class ExtraStaff extends StatelessWidget {
             }
           },
           child: GetMaterialApp(
-            title: 'es'.tr,
+            title: 'Extrastaff Registration',
             theme: ThemeData.light(),
             darkTheme: ThemeData.light(),
             // home: SplashPage(),
