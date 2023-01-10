@@ -37,8 +37,24 @@ class _AgreementsViewState extends State<AgreementsView> {
         SizedBox(height: 16),
         abStatusButton(index.value, controller.status.contains(index.id),
             () async {
-          controller.currentIndex = int.parse(index.id);
-          await navigate();
+          bool bClickable = false;
+          if (controller.status.contains(index.id)) {
+            bClickable = true;
+          } else {
+            var beforeId = int.parse(index.id) - 1;
+            if (beforeId > 0) {
+              String tempId = beforeId.toString();
+              if (controller.status.contains(tempId)) {
+                bClickable = true;
+              }
+            } else {
+              bClickable = true;
+            }
+          }
+          if (bClickable) {
+            controller.currentIndex = int.parse(index.id);
+            await navigate();
+          }
         }, hideStatus: true),
         SizedBox(height: 16),
       ],
