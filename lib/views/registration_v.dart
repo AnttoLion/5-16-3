@@ -44,7 +44,7 @@ class _RegistrationView extends State<RegistrationView> {
   void initState() {
     super.initState();
     getUserTempData();
-    if (!isWebApp) fallBackTimer(true);
+    if (!disableFallbackTimer) fallBackTimer(true);
   }
 
   getUserTempData() async {
@@ -85,7 +85,7 @@ class _RegistrationView extends State<RegistrationView> {
   }
 
   switchTheFlow(int index) async {
-    if (!isWebApp) fallBackTimer(false);
+    if (!disableFallbackTimer) fallBackTimer(false);
     switch (index) {
       case 0:
         aboutYouNestedNavigation();

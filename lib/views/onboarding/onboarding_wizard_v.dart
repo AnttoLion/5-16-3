@@ -174,7 +174,7 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
   }
 
   next() async {
-    if (!isWebApp) fallBackTimer(false);
+    if (!disableFallbackTimer) fallBackTimer(false);
     // scrollController.animateTo(0, duration: duration2, curve: Curves.ease);
     if (!controller.isCompleted && controller.selection < 0) {
       abShowMessage('pleaseSelectOption'.tr);

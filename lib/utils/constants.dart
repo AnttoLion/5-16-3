@@ -24,11 +24,12 @@ bool get isDriver => localStorage?.getBool('isDriver') ?? false;
 
 bool is35T = false;
 bool isQuizTest = false;
-String versionStr = "20230110";
+String versionStr = "20230112";
 // final bool isWebApp = (defaultTargetPlatform != TargetPlatform.android &&
 //     defaultTargetPlatform != TargetPlatform.iOS);
 
 final bool isWebApp = kIsWeb;
+final bool disableFallbackTimer = false;
 
 String get device => localStorage?.getString('device') ?? '';
 

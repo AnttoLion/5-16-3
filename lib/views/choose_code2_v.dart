@@ -104,13 +104,13 @@ class _ChooseCode2State extends State<ChooseCode2> {
               'completed', message3.result['completed']);
           await Services.shared.setData();
 
-          if (Services.shared.completed == "Yes") {
-            Get.offAll(() => RegistrationComplete());
-            return;
-          }
-
           if (isWebApp) {
-            Get.offAll(() => RegistrationProgress());
+            if (Services.shared.completed == "Yes") {
+              Get.offAll(() => RegistrationComplete());
+              return;
+            } else {
+              Get.offAll(() => RegistrationProgress());
+            }
           } else {
             Get.to(() => BiometricView(true));
           }

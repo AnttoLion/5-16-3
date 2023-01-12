@@ -45,7 +45,7 @@ class ExtraStaff extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTapDown: (e) {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (!isWebApp) {
+            if (!disableFallbackTimer) {
               if (timer != null) {
                 fallBackTimer(false);
               }

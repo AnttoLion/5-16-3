@@ -30,7 +30,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
   @override
   void initState() {
     super.initState();
-    if (!isWebApp) fallBackTimer(false);
+    if (!disableFallbackTimer) fallBackTimer(false);
     setData();
   }
 
