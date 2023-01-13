@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:extra_staff/utils/ab.dart';
-import 'package:device_info/device_info.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/models/quick_add_tem_add_m.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dart_ipify/dart_ipify.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class ForgotPasscodeController extends GetxController {
   String phoneNo = '';
@@ -55,7 +55,11 @@ class ForgotPasscodeController extends GetxController {
     try {
       if (isWebApp) {
         //web
-        deviceData = {'device': 'AppWebBrowser'};
+        WebBrowserInfo browserInfo = await deviceInfoPlugin.webBrowserInfo;
+        deviceData = {
+          'device': 'AppWebBrowser:' + describeEnum(browserInfo.browserName)
+        };
+        //deviceData = {'device': 'AppWebBrowser'};
       } else {
         if (defaultTargetPlatform == TargetPlatform.android) {
           deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};

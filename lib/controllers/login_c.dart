@@ -140,7 +140,11 @@ class LoginController extends GetxController {
     try {
       if (isWebApp) {
         //web
-        deviceData = {'device': 'AppWebBrowser'};
+        WebBrowserInfo browserInfo = await deviceInfoPlugin.webBrowserInfo;
+        deviceData = {
+          'device': 'AppWebBrowser:' + describeEnum(browserInfo.browserName)
+        };
+        // deviceData = {'device': 'AppWebBrowser'};
       } else {
         if (defaultTargetPlatform == TargetPlatform.android) {
           deviceData = {'device': (await deviceInfoPlugin.androidInfo).display};

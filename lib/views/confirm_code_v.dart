@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
+import 'dart:convert';
+import 'package:extra_staff/models/user_data_m.dart';
 
 class EnterConfrimCode extends StatefulWidget {
   final bool isFromStart;
@@ -41,18 +43,97 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
     if (bioAuthEnabled) {
       final isAuth = await loginController.checkAuth();
       if (isAuth) {
-        final message3 = await Services.shared.getTempProgressInfo();
-        await Resume.shared.completedProgress(message3.result['screen_id']);
-        await localStorage?.setString(
-            'completed', message3.result['completed']);
-        await Services.shared.setData();
-        if (Services.shared.completed == "Yes") {
-          Get.offAll(() => RegistrationComplete());
-          return;
-        }
-        Get.offAll(() => RegistrationProgress());
+        final code = localStorage?.getString('passcode') ?? '';
+        authProcess(code);
       }
     }
+  }
+
+  void authProcess(String passcode) async {
+    setState(() => isLoading = true);
+    final message3 = await Services.shared.getTempProgressInfo();
+    if (message3.result['screen_id'] == 0 &&
+        message3.result['completed'] == "No") {
+      //new start or re-reg
+
+      final tempTid = localStorage?.getInt('tid') ?? -1;
+      final tempUserId = localStorage?.getInt('userId') ?? -1;
+      final name = userName;
+      final post = isDriver;
+      final storedDevice = device;
+      await removeAllSharedPref();
+      await Resume.shared.getClass();
+      await localStorage?.setString('device', storedDevice);
+      await localStorage?.setString('userName', name);
+      await localStorage?.setBool('isDriver', post);
+      await localStorage?.setInt('userId', tempUserId);
+      await localStorage?.setInt('tid', tempTid);
+      await Services.shared.setData();
+      await localStorage?.setString('passcode', passcode);
+      final message = await Services.shared.updateTempLogInfo();
+      final message2 = await Services.shared.updateTempPassInfo();
+      final deskInfo = await Services.shared.getTempDeskInfo();
+      final tempCompDocInfo = await Services.shared.getTempCompDocInfo();
+      final tempRolesInfo = await Services.shared.getTempRolesInfo();
+      if (tempRolesInfo.result is Map &&
+          tempRolesInfo.result['roles'] is String) {
+        String selectedRoles = tempRolesInfo.result['roles'];
+        bool isForklift = selectedRoles.contains('24');
+        bool isOnly35T = false;
+        is35T = false;
+        if (selectedRoles.isNotEmpty) {
+          final values = selectedRoles.split(',');
+          is35T = values.contains('4');
+          if (values.length == 1 && values.first == '4') {
+            isOnly35T = true;
+          }
+        }
+
+        final arguments = {
+          'isForklift': isForklift,
+          'selectedRoles': selectedRoles,
+          'isOnly35T': isOnly35T,
+          'is35T': is35T
+        };
+        final map = json.encode(arguments);
+        await localStorage?.setString('RolesView', map);
+      }
+
+      if (tempCompDocInfo.result is Map) {
+        (tempCompDocInfo.result as Map).forEach((key, value) async {
+          if (key == 'is_have_ni') {
+            await localStorage?.setBool('isNiUploaded', value['id'] != '1');
+          }
+        });
+      }
+      await getTempUserData();
+      if (message.errorMessage.isNotEmpty ||
+          message2.errorMessage.isNotEmpty ||
+          message3.errorMessage.isNotEmpty) {
+        abShowMessage(
+            '${message.errorMessage} ${message2.errorMessage} ${message3.errorMessage}');
+      } else {
+        if (deskInfo.errorMessage.isNotEmpty) {
+          abShowMessage(deskInfo.errorMessage);
+        } else {
+          if (deskInfo.result.containsKey('isDriver') &&
+              deskInfo.result['isDriver'] is bool) {
+            await localStorage?.setBool(
+                'isDriver', deskInfo.result['isDriver']);
+          }
+        }
+      }
+    }
+
+    setState(() => isLoading = false);
+    await Resume.shared.completedProgress(message3.result['screen_id']);
+    await localStorage?.setString('completed', message3.result['completed']);
+    await Services.shared.setData();
+    if (Services.shared.completed == "Yes") {
+      Get.offAll(() => RegistrationComplete());
+      return;
+    }
+    Get.offAll(() => RegistrationProgress());
   }
 
   Widget getPinCodeText() {
@@ -63,16 +144,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
         onCompleted: (v) async {
       final code = localStorage?.getString('passcode') ?? '';
       if (code == v) {
-        final message3 = await Services.shared.getTempProgressInfo();
-        await Resume.shared.completedProgress(message3.result['screen_id']);
-        await localStorage?.setString(
-            'completed', message3.result['completed']);
-        await Services.shared.setData();
-        if (Services.shared.completed == "Yes") {
-          Get.offAll(() => RegistrationComplete());
-          return;
-        }
-        Get.offAll(() => RegistrationProgress());
+        authProcess(v);
       } else {
         controller.text = '';
         pin = '';
@@ -226,5 +298,18 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
         ),
       );
     }
+  }
+}
+
+Future getTempUserData() async {
+  await Services.shared.setData();
+  final response = await Services.shared.getTempUserData();
+  UserData data = UserData.fromJson({});
+  if (response.result is Map) data = UserData.fromJson(response.result);
+  if (response.errorMessage.isEmpty) {
+    await localStorage?.setString(
+        'userName', data.firstName + ' ' + data.lastName);
+  } else {
+    abShowMessage(response.errorMessage);
   }
 }
