@@ -18,6 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'dart:async';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 
 final awsUploadURL = 'https://77cllr8ym7.execute-api.eu-west-2.amazonaws.com/';
 final baseUrl = 'https://services.extrastaff.com/';
@@ -129,6 +131,22 @@ class Services extends GetConnect {
     completed = localStorage?.getString('completed') ?? 'No';
     print(
         'tid -> $tid, userId -> $userId, tempTid -> $tempTid, tempUserId -> $tempUserId, completed -> $completed');
+  }
+
+  void getSplashVideoName() async {
+    String filename = "lib/images/Splash.mp4";
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      filename = "lib/images/Splash_Android.mp4";
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      filename = "lib/images/Splash.mp4";
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      if (info.model != null && info.model!.toLowerCase().contains("ipad")) {
+        filename = "lib/images/Splash_iPad.mp4";
+      }
+    }
+    Services.shared.splashName = filename;
   }
 
   @override

@@ -26,7 +26,6 @@ class _SplashPageState extends State<SplashPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    getSplashVideoName();
     print(Services.shared.splashName);
     _controller = VideoPlayerController.asset(Services.shared.splashName);
     _controller!.initialize().then((_) {
