@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'package:extra_staff/utils/ab.dart';
+import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/page_controller_v.dart';
 import 'package:extra_staff/views/confirm_code_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -22,8 +26,9 @@ class _SplashPageState extends State<SplashPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-
-    _controller = VideoPlayerController.asset('lib/images/Splash.mp4');
+    getSplashVideoName();
+    print(Services.shared.splashName);
+    _controller = VideoPlayerController.asset(Services.shared.splashName);
     _controller!.initialize().then((_) {
       _controller!.setLooping(true);
       Timer(Duration(milliseconds: 100), () {
@@ -61,6 +66,22 @@ class _SplashPageState extends State<SplashPage> {
       duration: Duration(milliseconds: 1000),
       child: VideoPlayer(_controller!),
     );
+  }
+
+  void getSplashVideoName() async {
+    String filename = "lib/images/Splash.mp4";
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      filename = "lib/images/Splash_Android.mp4";
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      filename = "lib/images/Splash.mp4";
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      if (info.model != null && info.model!.toLowerCase().contains("ipad")) {
+        filename = "lib/images/Splash_iPad.mp4";
+      }
+    }
+    Services.shared.splashName = filename;
   }
 
   @override

@@ -99,6 +99,7 @@ class Services extends GetConnect {
   int tempTid = -1;
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
+  String splashName = '';
   List<KeyValue> screens = [
     KeyValue('updateTempComplianceDocExpiry', '3'),
     KeyValue('profileUploadUrl', '3'),
