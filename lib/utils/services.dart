@@ -101,7 +101,6 @@ class Services extends GetConnect {
   int tempTid = -1;
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
-  String splashName = '';
   List<KeyValue> screens = [
     KeyValue('updateTempComplianceDocExpiry', '3'),
     KeyValue('profileUploadUrl', '3'),
@@ -131,22 +130,6 @@ class Services extends GetConnect {
     completed = localStorage?.getString('completed') ?? 'No';
     print(
         'tid -> $tid, userId -> $userId, tempTid -> $tempTid, tempUserId -> $tempUserId, completed -> $completed');
-  }
-
-  void getSplashVideoName() async {
-    String filename = "lib/images/Splash.mp4";
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      filename = "lib/images/Splash_Android.mp4";
-    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      filename = "lib/images/Splash.mp4";
-
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      IosDeviceInfo info = await deviceInfo.iosInfo;
-      if (info.model != null && info.model!.toLowerCase().contains("ipad")) {
-        filename = "lib/images/Splash_iPad.mp4";
-      }
-    }
-    Services.shared.splashName = filename;
   }
 
   @override

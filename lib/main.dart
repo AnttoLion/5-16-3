@@ -68,7 +68,6 @@ class ExtraStaff extends StatelessWidget {
             locale: Locale('en', ''),
             fallbackLocale: Locale('en', ''),
             onInit: () async {
-              Services.shared.getSplashVideoName();
               await localStorageInit();
               await Resume.shared.getClass();
               Services.shared.setData();

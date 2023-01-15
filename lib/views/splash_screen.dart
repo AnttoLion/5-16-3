@@ -26,8 +26,9 @@ class _SplashPageState extends State<SplashPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    print(Services.shared.splashName);
-    _controller = VideoPlayerController.asset(Services.shared.splashName);
+    String splashName = getSplashVideoName();
+    print(splashName);
+    _controller = VideoPlayerController.asset(splashName);
     _controller!.initialize().then((_) {
       _controller!.setLooping(true);
       Timer(Duration(milliseconds: 100), () {
@@ -67,20 +68,19 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  void getSplashVideoName() async {
+  String getSplashVideoName() {
     String filename = "lib/images/Splash.mp4";
     if (defaultTargetPlatform == TargetPlatform.android) {
       filename = "lib/images/Splash_Android.mp4";
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       filename = "lib/images/Splash.mp4";
-
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      IosDeviceInfo info = await deviceInfo.iosInfo;
-      if (info.model != null && info.model!.toLowerCase().contains("ipad")) {
+      final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+      if (data.size.shortestSide >= 600) {
+        //tablet
         filename = "lib/images/Splash_iPad.mp4";
       }
     }
-    Services.shared.splashName = filename;
+    return filename;
   }
 
   @override
