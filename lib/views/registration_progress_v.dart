@@ -106,6 +106,13 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
         }
       } else {
         await removeAllSharedPref();
+        if (!disableFallbackTimer) {
+          if (timer != null) {
+            print('fallbackTimer stopped');
+            fallBackTimer(true);
+          }
+        }
+
         if (isWebApp)
           Get.offAll(() => PageControllerView());
         else

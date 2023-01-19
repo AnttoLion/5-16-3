@@ -30,6 +30,7 @@ fallBackTimer(bool stop) {
     timer = null;
     return;
   }
+  print('fallBackTimer');
   timer = Timer(Duration(minutes: 3), () {
     timer = null;
     Get.offAll(() => EnterConfrimCode(isFromStart: true));

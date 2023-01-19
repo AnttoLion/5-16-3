@@ -123,6 +123,12 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
                 Get.offAll(() => RegistrationView());
               } else {
                 await removeAllSharedPref();
+                if (!disableFallbackTimer) {
+                  if (timer != null) {
+                    print('fallbackTimer stopped');
+                    fallBackTimer(true);
+                  }
+                }
                 if (isWebApp)
                   Get.offAll(() => PageControllerView());
                 else
