@@ -18,6 +18,7 @@ import 'package:extra_staff/views/confirm_code_v.dart';
 Future<void> main() async {
   if (isWebApp) {
     await localStorageInit();
+    initBaseUrl();
   }
   await SentryFlutter.init(
     (options) {
