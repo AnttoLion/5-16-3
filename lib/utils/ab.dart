@@ -1470,9 +1470,9 @@ Future localStorageInit() async {
 void initBaseUrl() {
   String url = window.location.href;
   if (url == "https://temp.extrastaff.com/") {
-    Services.shared.baseUrl = "https://services.extrastaff.com/";
+    Services.shared.baseApiUrl = "https://services.extrastaff.com/";
   } else {
-    Services.shared.baseUrl = "https://development.services.extrastaff.com/";
+    Services.shared.baseApiUrl = "https://development.services.extrastaff.com/";
   }
   print(url);
 }

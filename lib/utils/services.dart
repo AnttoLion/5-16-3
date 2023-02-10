@@ -22,7 +22,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 
 final awsUploadURL = 'https://77cllr8ym7.execute-api.eu-west-2.amazonaws.com/';
-final baseUrl = 'https://services.extrastaff.com/';
+// final baseApiUrl = 'https://services.extrastaff.com/';
 final staticDigestKey = '52b83c32cf03fe5a2888758d73a27ca6';
 
 class AWSApiResponse {
@@ -101,6 +101,7 @@ class Services extends GetConnect {
   int tempTid = -1;
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
+  String baseApiUrl = 'https://services.extrastaff.com/';
   List<KeyValue> screens = [
     KeyValue('updateTempComplianceDocExpiry', '3'),
     KeyValue('profileUploadUrl', '3'),
@@ -188,7 +189,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> postLogin(
           String email, String password, int type) async =>
       await post(
-        baseUrl + 'login',
+        baseApiUrl + 'login',
         {
           'email': email,
           'password': password,
@@ -209,7 +210,7 @@ class Services extends GetConnect {
 
   // Get data for file uploading
   Future<BaseApiResponse> getUploadDocDropdownInfo() async => await get(
-        baseUrl + 'getUploadDocDropdownInfo',
+        baseApiUrl + 'getUploadDocDropdownInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -218,7 +219,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempPhotoInfo() async => await get(
-        baseUrl + 'getTempPhotoInfo',
+        baseApiUrl + 'getTempPhotoInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -269,7 +270,7 @@ class Services extends GetConnect {
           String? digiCt,
           bool sendScreenID = true}) async =>
       await post(
-              baseUrl + 'TempCompDoc',
+              baseApiUrl + 'TempCompDoc',
               {
                 'user_id': '$userId',
                 'type': type,
@@ -296,7 +297,7 @@ class Services extends GetConnect {
       ).then((value) => awsApi(value));
 
   Future<BaseApiResponse> getTempUserData() async => await get(
-        baseUrl + 'getTempInfo',
+        baseApiUrl + 'getTempInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -305,7 +306,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempSignatureInfo() async => await get(
-        baseUrl + 'getTempSignatureInfo',
+        baseApiUrl + 'getTempSignatureInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -316,7 +317,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> getBranchInfo(
           double latitude, double longitude) async =>
       await get(
-        baseUrl + 'getBranchInfo',
+        baseApiUrl + 'getBranchInfo',
         query: {
           'latitude': '$latitude',
           'longitude': '$longitude',
@@ -326,7 +327,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getEqualityOptionInfo() async => await get(
-        baseUrl + 'getEqualityOptionInfo',
+        baseApiUrl + 'getEqualityOptionInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -335,7 +336,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempEqualityInfo() async => await get(
-        baseUrl + 'getTempEqualityInfo',
+        baseApiUrl + 'getTempEqualityInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -344,7 +345,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getDropdownInfo() async => await get(
-        baseUrl + 'getDropdownInfo',
+        baseApiUrl + 'getDropdownInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -353,7 +354,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempMedicalInfo() async => await get(
-        baseUrl + 'getTempMedicalInfo',
+        baseApiUrl + 'getTempMedicalInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -362,7 +363,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempEmployeeInfo() async => await get(
-        baseUrl + 'getTempEmployeeInfo',
+        baseApiUrl + 'getTempEmployeeInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -371,7 +372,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getCompetancyInfo() async => await get(
-        baseUrl + 'getCompetancyInfo',
+        baseApiUrl + 'getCompetancyInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -380,7 +381,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempCompetancyInfo() async => await get(
-        baseUrl + 'getTempCompetancyInfo',
+        baseApiUrl + 'getTempCompetancyInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -389,7 +390,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempHMRCInfo() async => await get(
-        baseUrl + 'getTempHMRCInfo',
+        baseApiUrl + 'getTempHMRCInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -400,7 +401,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> getQuickTempVerification(
           String code, String uniqueid) async =>
       await get(
-        baseUrl + 'getQuickTempVerification',
+        baseApiUrl + 'getQuickTempVerification',
         query: {
           'user_id': '$tempUserId',
           'digest': generateMd5(staticDigestKey + '$tempUserId'),
@@ -413,7 +414,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> resendQuickTempVerification(
           String code, String uniqueid) async =>
       await get(
-        baseUrl + 'resendQuickTempVerification',
+        baseApiUrl + 'resendQuickTempVerification',
         query: {
           'user_id': '$tempUserId',
           'digest': generateMd5(staticDigestKey + '$tempUserId'),
@@ -432,7 +433,7 @@ class Services extends GetConnect {
     String salutation,
   ) async =>
       await post(
-        baseUrl + 'addQuickTemp',
+        baseApiUrl + 'addQuickTemp',
         {
           'salutation': salutation,
           'email': email,
@@ -450,7 +451,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> addPassword(
           String password, String rePassword) async =>
       await post(
-        baseUrl + 'addupdatepassword',
+        baseApiUrl + 'addupdatepassword',
         {
           'repassword': rePassword,
           'password': password,
@@ -463,7 +464,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempEqualityInfo(UserData userData) async =>
       await post(
-        baseUrl + 'updateTempEqualityInfo',
+        baseApiUrl + 'updateTempEqualityInfo',
         {
           'user_id': userData.userId,
           'digest': generateMd5(staticDigestKey + userData.userId),
@@ -482,7 +483,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempInfo(UserData userData) async => await post(
-        baseUrl + 'updateTempInfo',
+        baseApiUrl + 'updateTempInfo',
         {
           'digest': generateMd5(staticDigestKey + userData.userId),
           'tid': '$tid',
@@ -530,7 +531,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> updateTempMedicalInfo(
           MedicalHistory medicalHistory) async =>
       await post(
-        baseUrl + 'updateTempMedicalInfo',
+        baseApiUrl + 'updateTempMedicalInfo',
         {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -558,7 +559,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempEmployeeInfo(Company company) async =>
       await post(
-        baseUrl + 'updateTempEmployeeInfo',
+        baseApiUrl + 'updateTempEmployeeInfo',
         {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -577,7 +578,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempCompetancyInfo(data) async => await post(
-        baseUrl + 'updateTempCompetancyInfo',
+        baseApiUrl + 'updateTempCompetancyInfo',
         {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -588,7 +589,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempCompetancyInfoOne(data) async => await post(
-        baseUrl + 'updateTempCompetancyInfoOne',
+        baseApiUrl + 'updateTempCompetancyInfoOne',
         {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -600,7 +601,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempHMRCInfo(HMRCChecklist company) async =>
       await post(
-        baseUrl + 'updateTempHMRCInfo',
+        baseApiUrl + 'updateTempHMRCInfo',
         {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -618,7 +619,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempPhotoInfo(String photo) async => await post(
-        baseUrl + 'updateTempPhotoInfo',
+        baseApiUrl + 'updateTempPhotoInfo',
         {
           'tid': '$tid',
           'photo': photo,
@@ -630,7 +631,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempAgreementInfo(String documentType) async =>
       await post(
-        baseUrl + 'updateTempAgreementInfo',
+        baseApiUrl + 'updateTempAgreementInfo',
         {
           'tid': '$tid',
           'document_type': documentType,
@@ -641,7 +642,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempAgreementInfo() async => await get(
-        baseUrl + 'getTempAgreementInfo',
+        baseApiUrl + 'getTempAgreementInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -650,7 +651,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getAgreementInfo(String typeId) async => await get(
-        baseUrl + 'getAgreementInfo',
+        baseApiUrl + 'getAgreementInfo',
         query: {
           'type_id': typeId,
           'user_id': '$userId',
@@ -660,7 +661,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getInterviewDropdownInfo() async => await get(
-        baseUrl + 'getInterviewDropdownInfo',
+        baseApiUrl + 'getInterviewDropdownInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -671,7 +672,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> updateTempInterviewInfo(String interviewMethod,
           String interviewDate, String interviewTime) async =>
       await post(
-        baseUrl + 'updateTempInterviewInfo',
+        baseApiUrl + 'updateTempInterviewInfo',
         {
           'tid': '$tid',
           'user_id': '$userId',
@@ -684,7 +685,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<String> putSignature(String imageBlob) async => await post(
-        baseUrl + 'putSignature',
+        baseApiUrl + 'putSignature',
         {
           'tid': '$tid',
           'user_id': '$userId',
@@ -696,7 +697,7 @@ class Services extends GetConnect {
       ).then((value) => value.statusCode == 200 ? 'OK' : 'Error');
 
   Future<BaseApiResponse> getSafetyDropdownInfo() async => await get(
-        baseUrl + 'getSafetyDropdownInfo',
+        baseApiUrl + 'getSafetyDropdownInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -705,7 +706,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempForkliftInfo() async => await get(
-        baseUrl + 'getTempForkliftInfo',
+        baseApiUrl + 'getTempForkliftInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -715,7 +716,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempWorkInfo(UserData userData) async =>
       await post(
-        baseUrl + 'updateTempWorkInfo',
+        baseApiUrl + 'updateTempWorkInfo',
         {
           'tid': '$tid',
           'user_id': '$userId',
@@ -740,7 +741,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getRolesDropdownInfo() async => await get(
-        baseUrl + 'getRolesDropdownInfo',
+        baseApiUrl + 'getRolesDropdownInfo',
         query: {
           'user_id': '$userId',
           'tid': '$tid',
@@ -751,7 +752,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> getSkillsDropdownInfo(String roles) async =>
       await get(
-        baseUrl + 'getSkillsDropdownInfo',
+        baseApiUrl + 'getSkillsDropdownInfo',
         query: {
           'user_id': '$userId',
           'roles': roles,
@@ -762,7 +763,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempRolesInfo() async => await get(
-        baseUrl + 'getTempRolesInfo',
+        baseApiUrl + 'getTempRolesInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -771,7 +772,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempSkillsInfo() async => await get(
-        baseUrl + 'getTempSkillsInfo',
+        baseApiUrl + 'getTempSkillsInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -780,7 +781,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempRolesInfo(String roles) async => await post(
-        baseUrl + 'updateTempRolesInfo',
+        baseApiUrl + 'updateTempRolesInfo',
         {
           'user_id': '$userId',
           'tid': '$tid',
@@ -792,7 +793,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> updateTempSkillsInfo(String skills) async =>
       await post(
-        baseUrl + 'updateTempSkillsInfo',
+        baseApiUrl + 'updateTempSkillsInfo',
         {
           'user_id': '$userId',
           'tid': '$tid',
@@ -803,7 +804,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempLogInfo() async => await post(
-          baseUrl + 'updateTempLogInfo',
+          baseApiUrl + 'updateTempLogInfo',
           {
             'user_id': '$userId',
             'tid': '$tid',
@@ -816,7 +817,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> tempVerificationByEmail(String email) async =>
       await get(
-        baseUrl + 'tempVerificationByEmail',
+        baseApiUrl + 'tempVerificationByEmail',
         query: {
           'email': email,
           'digest': generateMd5(staticDigestKey + email),
@@ -825,7 +826,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempDrivingTestInfo() async => await get(
-        baseUrl + 'getTempDrivingTestInfo',
+        baseApiUrl + 'getTempDrivingTestInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -836,7 +837,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> updateTempDrivingTestInfo(
           DrivingTestModel data) async =>
       await post(
-        baseUrl + 'updateTempDrivingTestInfo',
+        baseApiUrl + 'updateTempDrivingTestInfo',
         {
           'user_id': '$userId',
           'tid': '$tid',
@@ -898,7 +899,7 @@ class Services extends GetConnect {
       });
 
   Future<BaseApiResponse> getCountryDropdownInfo() async => await get(
-        baseUrl + 'getCountryDropdownInfo',
+        baseApiUrl + 'getCountryDropdownInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -907,13 +908,13 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getSalutationDropdownInfo() async => await get(
-        baseUrl + 'getSalutationDropdownInfo',
+        baseApiUrl + 'getSalutationDropdownInfo',
         query: {'digest': generateMd5(staticDigestKey)},
         headers: headers,
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempPwdInfo() async => await post(
-        baseUrl + 'updateTempPwdInfo',
+        baseApiUrl + 'updateTempPwdInfo',
         {
           'pwd_set': 1,
           'tid': '$tempTid',
@@ -924,7 +925,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempBioInfo() async => await post(
-        baseUrl + 'updateTempBioInfo',
+        baseApiUrl + 'updateTempBioInfo',
         {
           'bio_set': 1,
           'tid': '$tid',
@@ -935,7 +936,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempPassInfo() async => await post(
-          baseUrl + 'updateTempPassInfo',
+          baseApiUrl + 'updateTempPassInfo',
           {
             'pass_set': 1,
             'tid': '$tid',
@@ -947,7 +948,7 @@ class Services extends GetConnect {
       .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempCompDocInfo() async => await get(
-        baseUrl + 'getTempCompDocInfo',
+        baseApiUrl + 'getTempCompDocInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -962,7 +963,7 @@ class Services extends GetConnect {
           bool isHaveNi,
           String niReason) async =>
       await post(
-        baseUrl + 'updateTempComplianceDocExpiry',
+        baseApiUrl + 'updateTempComplianceDocExpiry',
         {
           'tid': '$tid',
           'user_id': '$userId',
@@ -977,7 +978,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempCVInfo() async => await get(
-        baseUrl + 'getTempCVInfo',
+        baseApiUrl + 'getTempCVInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -986,7 +987,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempLicenseInfo() async => await get(
-        baseUrl + 'getTempLicenseInfo',
+        baseApiUrl + 'getTempLicenseInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -995,7 +996,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempProgressInfo() async => await get(
-        baseUrl + 'getTempProgressInfo',
+        baseApiUrl + 'getTempProgressInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -1004,7 +1005,7 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getTempDeskInfo() async => await get(
-        baseUrl + 'getTempDeskInfo',
+        baseApiUrl + 'getTempDeskInfo',
         query: {
           'user_id': '$userId',
           'digest': generateMd5(staticDigestKey + '$userId'),
@@ -1023,7 +1024,7 @@ class Services extends GetConnect {
           String digicardCountry,
           {bool sendScreenID = true}) async =>
       await post(
-              baseUrl + 'updateTempLicenseAdditionalInfo',
+              baseApiUrl + 'updateTempLicenseAdditionalInfo',
               {
                 'type': type,
                 'doc_id': docId,
@@ -1043,7 +1044,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> addDeviceDetails(String email, String device) async =>
       await post(
-              baseUrl + 'addDeviceDetails',
+              baseApiUrl + 'addDeviceDetails',
               {
                 'email': email,
                 'device': device,
@@ -1055,7 +1056,7 @@ class Services extends GetConnect {
 
   Future<BaseApiResponse> tempPassportExpiryInfo(String date) async =>
       await post(
-        baseUrl + 'tempPassportExpiryInfo',
+        baseApiUrl + 'tempPassportExpiryInfo',
         {
           'user_id': '$userId',
           'expiry_date': date,
@@ -1068,7 +1069,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> verifyUserFromEmailPwd(
           String email, String password) async =>
       await post(
-              baseUrl + 'verifyUserFromEmailPwd',
+              baseApiUrl + 'verifyUserFromEmailPwd',
               {
                 'email': email,
                 'password': password,
@@ -1081,7 +1082,7 @@ class Services extends GetConnect {
   Future<BaseApiResponse> verifyUserFromEmailPhone(
           String email, String password) async =>
       await post(
-        baseUrl + 'verifyUserFromEmailPhone',
+        baseApiUrl + 'verifyUserFromEmailPhone',
         {
           'email': email,
           'password': password,
