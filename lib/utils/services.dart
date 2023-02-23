@@ -684,7 +684,7 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
-  Future<String> putSignature(String imageBlob) async => await post(
+  Future<BaseApiResponse> putSignature(String imageBlob) async => await post(
         baseApiUrl + 'putSignature',
         {
           'tid': '$tid',
@@ -694,7 +694,7 @@ class Services extends GetConnect {
           'image': imageBlob,
         },
         headers: headers,
-      ).then((value) => value.statusCode == 200 ? 'OK' : 'Error');
+      ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> getSafetyDropdownInfo() async => await get(
         baseApiUrl + 'getSafetyDropdownInfo',

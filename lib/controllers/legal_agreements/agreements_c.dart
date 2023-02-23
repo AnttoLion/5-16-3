@@ -81,7 +81,12 @@ class AgreementsController extends GetxController {
     try {
       final binaryData = await img.readAsBytes();
       String signatureBlob = Base64Codec().encode(binaryData);
-      return await Services.shared.putSignature(signatureBlob);
+      final response = await Services.shared.putSignature(signatureBlob);
+      if (response.errorCode == 0) {
+        return 'OK';
+      } else {
+        return response.errorMessage;
+      }
     } catch (e) {
       print(e.toString());
       return 'error'.tr;
