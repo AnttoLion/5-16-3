@@ -13,7 +13,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
-import 'dart:html';
+
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -1465,16 +1465,6 @@ SharedPreferences? localStorage;
 Future localStorageInit() async {
   localStorage = await SharedPreferences.getInstance();
   localStorage?.setString('version', versionStr);
-}
-
-void initBaseUrl() {
-  String url = window.location.href;
-  if (url == "https://temp.extrastaff.com/") {
-    Services.shared.baseApiUrl = "https://services.extrastaff.com/";
-  } else {
-    Services.shared.baseApiUrl = "https://development.services.extrastaff.com/";
-  }
-  print(url);
 }
 
 removeAllSharedPref() async {
