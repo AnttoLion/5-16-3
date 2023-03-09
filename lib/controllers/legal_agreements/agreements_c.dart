@@ -30,7 +30,13 @@ class AgreementsController extends GetxController {
     status = [
       ...{...status}
     ];
-    return status.length == allAgreements.length;
+    print(status.length);
+
+    if(status.contains('1') && status.contains('2') && status.contains('3') && status.contains('4') && status.contains('5') && (status.contains('6') || status.contains('7'))){
+      return true;
+    }
+    else
+      return false;
   }
 
   Future<String> getTempSignatureInfo() async {
