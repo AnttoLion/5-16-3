@@ -131,8 +131,23 @@ class _Agreement1State extends State<Agreement1> {
           if (controller.currentIndex == controller.allAgreements.length) {
             await Resume.shared.setDone(name: 'Agreement1');
             await Resume.shared.setDone(name: 'AgreementsView');
-            Get.to(() => UserConfirmationView());
-            return;
+
+            final message = await controller.getTempAgreementInfo();
+            if (message.isNotEmpty){
+              abShowMessage(message);
+              return;
+            }
+
+            if(controller.allAccepted()){
+              Get.to(() => UserConfirmationView());
+              return;
+            }
+            else{
+              Get.to(() => AgreementsView());
+              abShowMessage("We are unable to generate document. Please try again. If problem persist then please contact Extrastaff support.");
+              return;
+            }
+
           }
           controller.nextAgreement();
           final value = await apiCall();

@@ -32,7 +32,7 @@ class AgreementsController extends GetxController {
     ];
     print(status.length);
 
-    if(status.contains('1') && status.contains('2') && status.contains('3') && status.contains('4') && status.contains('5') && (status.contains('6') || status.contains('7'))){
+    if(status.contains('1') && status.contains('2') && status.contains('3') && status.contains('4') && status.contains('5')){
       return true;
     }
     else
