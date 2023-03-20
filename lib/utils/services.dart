@@ -460,6 +460,7 @@ class Services extends GetConnect {
           'digest': generateMd5(staticDigestKey + '$tempUserId'),
         },
         headers: headers,
+        sendProgress: false
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempEqualityInfo(UserData userData) async =>
@@ -922,6 +923,7 @@ class Services extends GetConnect {
           'digest': generateMd5(staticDigestKey + '$tempUserId'),
         },
         headers: headers,
+        sendProgress: false
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempBioInfo() async => await post(
