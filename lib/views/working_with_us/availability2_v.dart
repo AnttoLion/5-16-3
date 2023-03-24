@@ -304,9 +304,11 @@ class _Availability2State extends State<Availability2> {
             abShowMessage(message);
             return;
           }
+          await Services.shared.sendProgress('Availability2'); // screen_id == 15
         }
 
         await Resume.shared.setDone(name: 'Availability2');
+        
         if (isDriver && !controller.isOnly35T) {
           Get.to(() => DrivingTestView());
         } else if (isQuizTest && !is35T) {

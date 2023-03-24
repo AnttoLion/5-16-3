@@ -113,6 +113,7 @@ class _MedicalHistory3State extends State<MedicalHistory3> {
     setState(() => isLoading = false);
     if (message.isEmpty) {
       await Resume.shared.setDone(name: 'MedicalHistory3');
+      await Services.shared.sendProgress('MedicalHistory3'); // screen_id == 27
       Get.bottomSheet(
         NewInfoView(6, () {
           Get.off(() => RegistrationComplete());

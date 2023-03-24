@@ -272,6 +272,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
 
     await localStorage?.setBool('isDocumentsUploaded', true);
     await Resume.shared.setDone(name: 'ListToUploadView');
+    await Services.shared.sendProgress('SavePhoto'); // screen_id == 3
     Get.to(() => AnalysingDocs());
   }
 }

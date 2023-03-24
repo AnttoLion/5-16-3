@@ -55,6 +55,10 @@ class Resume {
     return (completed / allClasses.length * 100).round();
   }
 
+  int getProgressFromScreenId(int screenId){
+    return screenId * 100 ~/ 27;
+  }
+
   init() {
     allClasses = [];
   }
@@ -79,9 +83,9 @@ class Resume {
           Todo(title: 'BankDetails', done: false),
           Todo(title: 'EqualityMonitoring', done: false),
           // Employment history
-          Todo(title: 'EmploymentView', done: false),
           Todo(title: 'EmploymentHistory', done: false),
           Todo(title: 'CompanyDetails', done: false),
+          Todo(title: 'EmploymentView', done: false),
           // Working with us
           Todo(title: 'RolesView', done: false),
           Todo(title: 'SkillsView', done: false),

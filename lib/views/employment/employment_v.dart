@@ -74,6 +74,9 @@ class _EmploymentViewState extends State<EmploymentView> {
       if (i == 0) {
         await localStorage?.setBool('isEmploymentHistoryCompleted', true);
         await Resume.shared.setDone(name: 'EmploymentView');
+        if(!isReviewing) {
+          await Services.shared.sendProgress('EmploymentView');
+        } // screen_id == 11
         Get.off(() => RegistrationView());
       }
     });
@@ -105,6 +108,9 @@ class _EmploymentViewState extends State<EmploymentView> {
     if (result) {
       await localStorage?.setBool('isEmploymentHistoryCompleted', true);
       await Resume.shared.setDone(name: 'EmploymentView');
+      if(!isReviewing) {
+          await Services.shared.sendProgress('EmploymentView');
+      } // screen_id == 11
       Get.off(() => RegistrationView());
     }
   }

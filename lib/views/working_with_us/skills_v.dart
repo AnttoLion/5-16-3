@@ -92,6 +92,7 @@ class _SkillsViewState extends State<SkillsView> {
           return;
         }
         await Resume.shared.setDone(name: 'SkillsView');
+        await Services.shared.sendProgress('SkillsView'); // screen_id == 13
         Get.to(() => isDriver ? LicencesUploadView() : Availability2(),
             arguments: allData);
       } else {

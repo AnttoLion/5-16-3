@@ -92,6 +92,7 @@ class _RolesViewState extends State<RolesView> {
         }
         await controller.setDataInStorage();
         await Resume.shared.setDone(name: 'RolesView');
+        await Services.shared.sendProgress('RolesView'); // screen_id == 12
         Get.to(() => SkillsView(), arguments: allData);
       } else {
         Get.back(result: true);

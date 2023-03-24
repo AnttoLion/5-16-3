@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class Interview extends StatefulWidget {
   @override
@@ -91,6 +92,7 @@ class _InterviewState extends State<Interview> {
               return;
             }
             await Resume.shared.setDone(name: 'Interview');
+            await Services.shared.sendProgress('Interview'); // screen_id == 24
             Get.to(() => MedicalHistory1());
           }
         }

@@ -146,6 +146,7 @@ class _BankDetails extends State<BankDetails> {
     });
     if (message.isEmpty) {
       await Resume.shared.setDone(name: 'BankDetails');
+      await Services.shared.sendProgress('BankDetails'); // screen_id == 7
       Get.to(() => EqualityMonitoring(), arguments: allData);
     } else {
       abShowMessage(message);

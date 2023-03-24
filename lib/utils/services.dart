@@ -123,6 +123,36 @@ class Services extends GetConnect {
     KeyValue('updateTempMedicalInfo', '27'),
   ];
 
+  List<KeyValue> screenIdList = [
+    KeyValue('ListToUploadView', '1'),
+    KeyValue('UploadDocumentsView', '2'),
+    KeyValue('SavePhoto', '3'),
+    KeyValue('RegistrationView', '4'),
+    KeyValue('Address', '5'),
+    KeyValue('Availability', '6'),
+    KeyValue('BankDetails', '7'),
+    KeyValue('EqualityMonitoring', '8'),
+    KeyValue('EmploymentHistory', '9'),
+    KeyValue('CompanyDetails', '10'),
+    KeyValue('EmploymentView', '11'),
+    KeyValue('RolesView', '12'),
+    KeyValue('SkillsView', '13'),
+    KeyValue('LicencesUploadView', '14'),
+    KeyValue('Availability2', '15'),
+    KeyValue('DrivingTestView', '16'),
+    KeyValue('CompetencyTest', '17'),
+    KeyValue('OnboardingWizard', '18'),
+    KeyValue('HMRCChecklistStartView', '19'),
+    KeyValue('HMRCChecklistView', '20'),
+    KeyValue('AgreementsView', '21'),
+    KeyValue('Agreement1', '22'),
+    KeyValue('UserConfirmationView', '23'),
+    KeyValue('Interview', '24'),
+    KeyValue('MedicalHistory1', '25'),
+    KeyValue('MedicalHistory2', '26'),
+    KeyValue('MedicalHistory3', '27'),
+  ];
+
   setData() async {
     tid = localStorage?.getInt('tid') ?? -1;
     userId = localStorage?.getInt('userId') ?? -1;
@@ -161,15 +191,22 @@ class Services extends GetConnect {
       dynamic Function(double)? uploadProgress,
       bool sendScreenID = true,
       bool sendProgress = true}) {
-    if (sendProgress) {
-      body['completed'] = completed;
-      body['progress'] = '${Resume.shared.progress}';
-    }
+    
     final str = url?.split('/').last ?? '';
     final index = screens.indexWhere((element) => element.id.contains(str));
     if (index >= 0 && sendScreenID) {
       body['screen_id'] = screens[index].value;
     }
+
+    if (sendProgress) {
+      body['completed'] = completed;
+      body['progress'] = '${Resume.shared.progress}';
+      if (index >= 0){
+        int screenId = int.parse(screens[index].value);
+         body['progress'] = Resume.shared.getProgressFromScreenId(screenId).toString();
+      }
+    }
+
     log('Post:===========================API===========================');
     log('Headers -> $headers');
     log('URL -> $url');
@@ -185,6 +222,32 @@ class Services extends GetConnect {
 
   String generateMd5(String input) =>
       md5.convert(utf8.encode(input)).toString();
+
+  Future<BaseApiResponse> sendProgress(String screenName) async 
+  {
+      final index = screenIdList.indexWhere((element) => element.id.contains(screenName));
+      int screenId = 0;
+      if (index >= 0) {
+        screenId  = int.parse(screenIdList[index].value);
+      }
+      int progress = Resume.shared.getProgressFromScreenId(screenId);
+      print("sendProgress:" + progress.toString());
+      String completed = "No";
+      if (progress == 100) {
+        completed = "Yes";
+      }
+      return super.post(baseApiUrl + 'updateTempScreenInfo',
+        {
+          'tid': '$tid',
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+          'screen_id':screenId.toString(),
+          'progress':progress.toString(),
+          'completed':completed
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+  }
 
   Future<BaseApiResponse> postLogin(
           String email, String password, int type) async =>

@@ -101,6 +101,7 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
               await Resume.shared.setDone(name: 'MedicalHistory1');
               await Resume.shared.setDone(name: 'MedicalHistory2');
               await Resume.shared.setDone(name: 'MedicalHistory3');
+              await Services.shared.sendProgress('MedicalHistory3'); // screen_id == 27
               Get.bottomSheet(
                 NewInfoView(6, () {
                   Get.off(() => RegistrationComplete());
@@ -113,7 +114,7 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
               abShowMessage(message);
             }
           } else {
-            await Resume.shared.setDone();
+            await Resume.shared.setDone(name: 'MedicalHistory1');
             Get.to(() => MedicalHistory2(),
                 arguments: {'medicalHistory': controller});
           }

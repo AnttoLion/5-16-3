@@ -7,6 +7,7 @@ import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/models/key_value_m.dart';
 import 'package:extra_staff/controllers/legal_agreements/agreements_c.dart';
 import 'package:extra_staff/views/legal_agreements/agreement1_v.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class AgreementsView extends StatefulWidget {
   const AgreementsView({Key? key}) : super(key: key);

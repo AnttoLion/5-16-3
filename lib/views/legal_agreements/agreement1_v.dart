@@ -131,6 +131,7 @@ class _Agreement1State extends State<Agreement1> {
           if (controller.currentIndex == controller.allAgreements.length) {
             await Resume.shared.setDone(name: 'Agreement1');
             await Resume.shared.setDone(name: 'AgreementsView');
+            await Services.shared.sendProgress('AgreementsView'); // screen_id == 21
 
             final message = await controller.getTempAgreementInfo();
             if (message.isNotEmpty){

@@ -52,6 +52,7 @@ class _AvailabilityState extends State<Availability> {
     }
     if (i == 0) {
       if (isReviewing) {
+        await Resume.shared.setDone(name: 'Availability');
         Get.to(() => BankDetails(), arguments: allData);
         return;
       }
@@ -61,6 +62,7 @@ class _AvailabilityState extends State<Availability> {
       if (message.isEmpty) {
         await localStorage?.setString('dob', controller.data.dob);
         await Resume.shared.setDone(name: 'Availability');
+        await Services.shared.sendProgress('Availability'); // screen_id == 6
         Get.bottomSheet(
           NewInfoView(5, () {
             Get.to(() => BankDetails(), arguments: allData);

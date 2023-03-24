@@ -52,7 +52,7 @@ class _AgreementsReViewState extends State<AgreementsReView> {
   }
 
   navigate() async {
-    await Resume.shared.setDone(name: 'AgreementsReView');
+    await Resume.shared.setDone(name: 'AgreementsView');
     final value = await Get.to(() => Agreement1(), arguments: controller);
     if (value == null) {
       final message = await controller.getTempAgreementInfo();

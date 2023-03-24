@@ -30,10 +30,11 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
   getData() async {
     setState(() => isLoading = true);
     await getTempDeskInfo();
+    final message3 = await Services.shared.getTempProgressInfo();
+    int screenId = message3.result['screen_id'];
+    await Resume.shared.completedProgress(screenId);
     setState(() {
-      progress = Resume.shared.progress;
-      print('registraion_progress');
-      print(progress);
+      progress = Resume.shared.getProgressFromScreenId(screenId);
       if (progress < 10) {
         progress = 10;
       }

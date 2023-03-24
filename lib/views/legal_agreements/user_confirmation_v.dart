@@ -133,6 +133,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
           return;
         }
         await Resume.shared.setDone(name: 'UserConfirmationView');
+        await Services.shared.sendProgress('UserConfirmationView'); // screen_id == 23
         Get.bottomSheet(
           NewInfoView(8, () {
             Get.to(() => Interview());

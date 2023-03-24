@@ -178,6 +178,7 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
       if (message.isEmpty) {
         await localStorage?.setBool('isAboutYouCompleted', true);
         await Resume.shared.setDone(name: 'EqualityMonitoring');
+        await Services.shared.sendProgress('EqualityMonitoring'); // screen_id == 8
         Get.off(() => RegistrationView());
       } else {
         abShowMessage(message);

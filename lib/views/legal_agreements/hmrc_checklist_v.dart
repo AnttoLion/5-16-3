@@ -6,6 +6,7 @@ import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/controllers/legal_agreements/hmrc_checklist_c.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:extra_staff/utils/services.dart';
 
 class HMRCChecklistView extends StatefulWidget {
   const HMRCChecklistView({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _HMRCChecklistViewState extends State<HMRCChecklistView>
     }
     await localStorage?.setBool('isHMRCCompleted', true);
     await Resume.shared.setDone(name: 'HMRCChecklistView');
+    await Services.shared.sendProgress('HMRCChecklistView'); // screen_id == 20
     Get.to(() => AgreementsView(), arguments: Get.arguments);
   }
 

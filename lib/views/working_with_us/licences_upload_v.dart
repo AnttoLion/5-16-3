@@ -296,6 +296,7 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     setState(() {});
     if (controller.allFinished) {
       await Resume.shared.setDone(name: 'LicencesUploadView');
+      await Services.shared.sendProgress('LicencesUploadView'); // screen_id == 14
       Get.to(() => Availability2(), arguments: allData);
     }
   }

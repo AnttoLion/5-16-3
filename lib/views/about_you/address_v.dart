@@ -209,6 +209,7 @@ class _AddressState extends State<Address> {
     setState(() => isLoading = false);
     if (message.isEmpty) {
       await Resume.shared.setDone(name: 'Address');
+      await Services.shared.sendProgress('Address'); // screen_id == 5
       Get.to(() => Availability(), arguments: allData);
     } else {
       abShowMessage(message);
