@@ -325,7 +325,11 @@ class Messages extends Translations {
           'agreement_extra2':
               'I confirm I have read and agree to the Terms of Engagement',
           'signed': 'Signed:',
-          'error_internal_user_register': 'Internal users cannot register.'
+          'error_internal_user_register': 'Internal users cannot register.',
+          'v2_work_view_appbar_title': 'Map to job',
+          'v2_profile_view_appbar_title': 'My Profile',
+          'v2_work_view_notifications_title': 'Notifications',
+          'v2_settings_view_appbar_title': 'Settings',
         },
         'de': {
           'howTo': 'Cómo #',

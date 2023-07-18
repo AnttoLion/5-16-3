@@ -13,7 +13,11 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
-
+import 'package:extra_staff/views/v2/home_v.dart';
+import 'package:extra_staff/views/v2/work_v.dart';
+import 'package:extra_staff/views/v2/profile_v.dart';
+import 'package:extra_staff/views/v2/notifications_v.dart';
+import 'package:extra_staff/views/v2/settings_v.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -1936,6 +1940,274 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
           ],
         ),
       ),
+    );
+  }
+}
+
+PreferredSize abV2AppBar(
+  BuildContext context,
+  String title, {
+  Function(int)? onTap,
+  bool showBack = false,
+}) {
+  if (isWebApp) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          height: double.infinity,
+          padding: gHPadding,
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Visibility(
+                            visible: showBack,
+                            maintainState: true,
+                            maintainAnimation: true,
+                            maintainSize: true,
+                            maintainSemantics: true,
+                            child: IconButton(
+                              onPressed: () =>
+                                  onTap == null ? Get.back() : onTap(1),
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: MyColors.v2Primary,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              title,
+                              style:
+                                  MyFonts.medium(25, color: MyColors.v2Primary),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: null,
+                            icon: Icon(
+                              Icons.menu,
+                              size: 30,
+                              color: MyColors.v2Primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  } else {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(80),
+      child: SafeArea(
+        child: Container(
+          height: double.infinity,
+          padding: gHPadding,
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: showBack,
+                        maintainState: true,
+                        maintainAnimation: true,
+                        maintainSize: true,
+                        maintainSemantics: true,
+                        child: IconButton(
+                          onPressed: () =>
+                              onTap == null ? Get.back() : onTap(1),
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: MyColors.v2Primary,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: MyFonts.medium(25),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.menu,
+                          size: 30,
+                          color: MyColors.v2Primary,
+                        ),
+                      ),
+                    ]),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+BottomNavigationBar abV2BottomNavigationBarA(
+    int currentIndex, Function(int)? onTap) {
+  return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      iconSize: 28,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.work_outline),
+          label: 'Work',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle_outlined),
+          label: 'Profile',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications_outlined),
+          label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings_outlined),
+          label: 'Settings',
+        ),
+      ],
+      currentIndex: currentIndex,
+      selectedItemColor: Color(0xFF00458D),
+      onTap: onTap);
+}
+
+BottomNavigationBar abV2BottomNavigationBarB(
+    int currentIndex, Function(int)? onTap) {
+  return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      iconSize: 28,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.work_outline),
+          label: 'Work',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle_outlined),
+          label: 'Profile',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications_outlined),
+          label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings_outlined),
+          label: 'Settings',
+        ),
+      ],
+      currentIndex: currentIndex,
+      selectedItemColor: Color(0xFF00458D),
+      onTap: onTap);
+}
+
+abV2GotoBottomNavigation(toIndex, excludeIndex) {
+  if (toIndex == excludeIndex) return;
+  switch (toIndex) {
+    case 0:
+      Get.to(() => V2HomeView());
+      break;
+    case 1:
+      Get.to(() => V2WorkView());
+      break;
+    case 2:
+      Get.to(() => V2ProfileView());
+      break;
+    case 3:
+      Get.to(() => V2NotificationsView());
+      break;
+    case 4:
+      Get.to(() => V2SettingsView());
+      break;
+    default:
+  }
+}
+
+Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
+    BuildContext context, bool isLoading,
+    {required PreferredSizeWidget appBar,
+    required Widget content,
+    Widget? bottomNavigationBar}) {
+  if (isWebApp) {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+          appBar: appBar,
+          body: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: gHPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 2,
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            child: content),
+                      ),
+                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: bottomNavigationBar),
+    );
+  } else {
+    return LoadingOverlay(
+      isLoading: isLoading,
+      child: Scaffold(
+          appBar: appBar,
+          body: Column(
+            children: [
+              Expanded(
+                child:
+                    SingleChildScrollView(padding: gHPadding, child: content),
+              ),
+            ],
+          ),
+          bottomNavigationBar: bottomNavigationBar),
     );
   }
 }

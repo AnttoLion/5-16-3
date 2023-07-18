@@ -36,6 +36,7 @@ dependencies:
   image_picker_web: any
   device_info_plus: any
   dart_ipify: ^1.1.1
+  roundcheckbox: ^2.0.5
 
 dev_dependencies:
   flutter_test:

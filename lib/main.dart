@@ -14,7 +14,10 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'dart:async';
 import 'package:extra_staff/views/page_controller_v.dart';
 import 'package:extra_staff/views/confirm_code_v.dart';
-import 'package:extra_staff/utils/none.dart' if (dart.library.html) 'package:extra_staff/utils/web_ab.dart';
+import 'package:extra_staff/utils/none.dart'
+    if (dart.library.html) 'package:extra_staff/utils/web_ab.dart';
+import 'package:extra_staff/views/v2/home_v.dart';
+
 Future<void> main() async {
   if (isWebApp) {
     await localStorageInit();
@@ -56,13 +59,13 @@ class ExtraStaff extends StatelessWidget {
             title: 'Extrastaff Registration',
             theme: ThemeData.light(),
             darkTheme: ThemeData.light(),
-            // home: SplashPage(),
-            home: !isWebApp
-                ? SplashPage()
-                : ((localStorage?.getString('passcode') ?? '').isNotEmpty
-                    ? EnterConfrimCode(isFromStart: true)
-                    // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
-                    : PageControllerView()),
+            home: V2HomeView(),
+            // home: !isWebApp
+            //     ? SplashPage()
+            //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+            //         ? EnterConfrimCode(isFromStart: true)
+            //         // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
+            //         : PageControllerView()),
             enableLog: false,
             debugShowCheckedModeBanner: false,
             translations: Messages(),

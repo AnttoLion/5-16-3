@@ -130,4 +130,7 @@ class MyColors {
   static final white = Colors.white;
   static final transparent = Colors.transparent;
   static final lightGrey = Color.fromRGBO(211, 211, 211, 1);
+
+  //v2 primary
+  static final v2Primary = Color(0xFF00458D);
 }
