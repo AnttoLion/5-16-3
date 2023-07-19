@@ -113,27 +113,28 @@ class MyFonts {
 
 class MyColors {
   // Core
-  static final offWhite = Color.fromRGBO(226, 230, 253, 1);
-  static final snowWhite = Color.fromRGBO(234, 237, 246, 1);
-  static final grey = Color.fromRGBO(136, 137, 140, 1);
-  static final darkBlue = Color.fromRGBO(025, 069, 136, 1);
+  static const offWhite = Color.fromRGBO(226, 230, 253, 1);
+  static const snowWhite = Color.fromRGBO(234, 237, 246, 1);
+  static const grey = Color.fromRGBO(136, 137, 140, 1);
+  static const darkBlue = Color.fromRGBO(025, 069, 136, 1);
   // Action
-  static final green = Color.fromRGBO(108, 186, 123, 1);
-  static final yellow = Color.fromRGBO(243, 171, 067, 1);
-  static final pink = Color.fromRGBO(231, 116, 112, 1);
-  static final lightBlue = Color.fromRGBO(032, 081, 156, 1);
+  static const green = Color.fromRGBO(108, 186, 123, 1);
+  static const yellow = Color.fromRGBO(243, 171, 067, 1);
+  static const pink = Color.fromRGBO(231, 116, 112, 1);
+  static const lightBlue = Color.fromRGBO(032, 081, 156, 1);
   // Ancillary
-  static final skyBlue = Color.fromRGBO(108, 187, 234, 1);
-  static final ornage = Color.fromRGBO(237, 112, 075, 1);
-  static final black = Color.fromRGBO(026, 028, 029, 1);
+  static const skyBlue = Color.fromRGBO(108, 187, 234, 1);
+  static const ornage = Color.fromRGBO(237, 112, 075, 1);
+  static const black = Color.fromRGBO(026, 028, 029, 1);
   // Extra
-  static final white = Colors.white;
-  static final transparent = Colors.transparent;
-  static final lightGrey = Color.fromRGBO(211, 211, 211, 1);
+  static const white = Colors.white;
+  static const transparent = Colors.transparent;
+  static const lightGrey = Color.fromRGBO(211, 211, 211, 1);
 
   //v2 primary
-  static final v2Primary = Color(0xFF00458D);
-  static final v2Background = Color(0xFFF9F9FB);
-  static final v2ArrowUp = Color(0xFF14C567);
-  static final v2ArrowDown = Color(0xFFFF0000);
+  static const v2Primary = Color(0xFF00458D);
+  static const v2Background = Color(0xFFF9F9FB);
+  static const v2ArrowUp = Color(0xFF14C567);
+  static const v2ArrowDown = Color(0xFFFF0000);
+  static const v2WeekdayGrey = Color(0xFFE3E6EB);
 }

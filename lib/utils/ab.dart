@@ -18,7 +18,7 @@ import 'package:extra_staff/views/v2/work_v.dart';
 import 'package:extra_staff/views/v2/profile_v.dart';
 import 'package:extra_staff/views/v2/notifications_v.dart';
 import 'package:extra_staff/views/v2/settings_v.dart';
-import 'package:roundcheckbox/roundcheckbox.dart';
+import 'package:extra_staff/utils/theme.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -2121,7 +2121,11 @@ BottomNavigationBar abV2BottomNavigationBarB(
           label: 'Profile',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
+          icon: Image(
+            image: AssetImage('lib/images/v2/home_icon.png'),
+            height: 32,
+            width: 32,
+          ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
@@ -2138,7 +2142,7 @@ BottomNavigationBar abV2BottomNavigationBarB(
       onTap: onTap);
 }
 
-abV2GotoBottomNavigation(toIndex, excludeIndex) {
+void abV2GotoBottomNavigation(toIndex, excludeIndex) {
   if (toIndex == excludeIndex) return;
   switch (toIndex) {
     case 0:
@@ -2165,18 +2169,19 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
     {required PreferredSizeWidget appBar,
     required Widget content,
     Widget? bottomNavigationBar}) {
+  final MyThemeColors myColors = Theme.of(context).extension<MyThemeColors>()!;
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
       child: Scaffold(
           appBar: appBar,
           body: Container(
-              color: MyColors.v2Background,
+              color: myColors.canvasBackground,
               child: Column(
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: gHPadding,
+                      padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -2185,9 +2190,7 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
                           Flexible(
                             fit: FlexFit.loose,
                             flex: 2,
-                            child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: content),
+                            child: Container(child: content),
                           ),
                           if (!ResponsiveWidget.isSmallScreen(context))
                             Spacer(),
@@ -2204,96 +2207,33 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
       isLoading: isLoading,
       child: Scaffold(
           appBar: appBar,
-          body: Column(
-            children: [
-              Expanded(
-                child:
-                    SingleChildScrollView(padding: gHPadding, child: content),
-              ),
-            ],
-          ),
+          body: Container(
+              color: myColors.canvasBackground,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: content),
+                  ),
+                ],
+              )),
           bottomNavigationBar: bottomNavigationBar),
     );
   }
 }
 
-Widget getStaticWeekdayWidget(List<int> checklist) {
-  if (checklist.length != 7) return Container();
-  Widget getCircleWidget(String label, int status) {
-    Widget checkWidget = Container();
-    switch (status) {
-      case 1:
-        checkWidget = RoundCheckBox(
-          onTap: null,
-          size: 30,
-          isChecked: true,
-          checkedColor: MyColors.v2Primary,
-          disabledColor: MyColors.v2Primary,
-          uncheckedColor: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: MyColors.v2Primary,
-          ),
-        );
-        break;
-      case -1:
-        checkWidget = RoundCheckBox(
-          onTap: null,
-          size: 30,
-          isChecked: false,
-          checkedColor: MyColors.v2Primary,
-          disabledColor: MyColors.lightGrey,
-          uncheckedColor: Colors.white,
-        );
-        break;
-      case 0:
-        checkWidget = RoundCheckBox(
-          onTap: null,
-          size: 30,
-          isChecked: false,
-          checkedColor: MyColors.v2Primary,
-          disabledColor: MyColors.white,
-          uncheckedColor: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: MyColors.v2Primary,
-          ),
-        );
-        break;
-      default:
-    }
-    return Container(
-        // margin: EdgeInsets.symmetric(horizontal: 8),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-          checkWidget,
-          Text(
-            label,
-            style: MyFonts.regular(16, color: MyColors.v2Primary),
-            textAlign: TextAlign.center,
-          ),
-        ]));
-  }
-
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      getCircleWidget("M", checklist[0]),
-      Spacer(),
-      getCircleWidget("T", checklist[1]),
-      Spacer(),
-      getCircleWidget("W", checklist[2]),
-      Spacer(),
-      getCircleWidget("T", checklist[3]),
-      Spacer(),
-      getCircleWidget("F", checklist[4]),
-      Spacer(),
-      getCircleWidget("S", checklist[5]),
-      Spacer(),
-      getCircleWidget("S", checklist[6]),
-    ],
+Widget abV2PrimaryButton(String title, {required Function() onTap}) {
+  return TextButton(
+    style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(color: MyColors.v2Primary))),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
+    child: Text(title, style: MyFonts.regular(16, color: MyColors.white)),
+    onPressed: onTap,
   );
 }

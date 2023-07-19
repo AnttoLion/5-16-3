@@ -38,6 +38,8 @@ dependencies:
   dart_ipify: ^1.1.1
   roundcheckbox: ^2.0.5
   flutter_svg: ^0.23.0+1
+  flutter_advanced_switch: ^3.0.1
+  adaptive_theme: ^3.2.1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +51,8 @@ flutter:
 
   assets:
     - lib/images/
+    - lib/images/v2/
+    
 
   fonts:
     - family: Poppins
