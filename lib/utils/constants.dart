@@ -133,4 +133,7 @@ class MyColors {
 
   //v2 primary
   static final v2Primary = Color(0xFF00458D);
+  static final v2Background = Color(0xFFF9F9FB);
+  static final v2ArrowUp = Color(0xFF14C567);
+  static final v2ArrowDown = Color(0xFFFF0000);
 }

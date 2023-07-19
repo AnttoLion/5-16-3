@@ -40,10 +40,11 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
 
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+    return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
         context, isLoading,
         appBar: getAppBar(),
         content: getContent(),
-        bottomBar: abV2BottomNavigationBarA(_selectedIndex, _onItemTapped));
+        bottomNavigationBar:
+            abV2BottomNavigationBarA(_selectedIndex, _onItemTapped));
   }
 }

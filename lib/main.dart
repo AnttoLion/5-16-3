@@ -57,8 +57,8 @@ class ExtraStaff extends StatelessWidget {
           },
           child: GetMaterialApp(
             title: 'Extrastaff Registration',
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.light(),
+            theme: ThemeData(useMaterial3: true),
+            darkTheme: ThemeData(useMaterial3: true),
             home: V2HomeView(),
             // home: !isWebApp
             //     ? SplashPage()

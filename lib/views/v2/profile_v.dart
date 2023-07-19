@@ -40,10 +40,11 @@ class _V2ProfileViewState extends State<V2ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
+    return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
         context, isLoading,
         appBar: getAppBar(),
         content: getContent(),
-        bottomBar: abV2BottomNavigationBarA(_selectedIndex, _onItemTapped));
+        bottomNavigationBar:
+            abV2BottomNavigationBarA(_selectedIndex, _onItemTapped));
   }
 }

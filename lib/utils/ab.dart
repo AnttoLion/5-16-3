@@ -18,6 +18,7 @@ import 'package:extra_staff/views/v2/work_v.dart';
 import 'package:extra_staff/views/v2/profile_v.dart';
 import 'package:extra_staff/views/v2/notifications_v.dart';
 import 'package:extra_staff/views/v2/settings_v.dart';
+import 'package:roundcheckbox/roundcheckbox.dart';
 
 T ab<T>(dynamic x, {required T fallback}) => x is T ? x : fallback;
 
@@ -2169,29 +2170,33 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
       isLoading: isLoading,
       child: Scaffold(
           appBar: appBar,
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: gHPadding,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        flex: 2,
-                        child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
-                            child: content),
+          body: Container(
+              color: MyColors.v2Background,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: gHPadding,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (!ResponsiveWidget.isSmallScreen(context))
+                            Spacer(),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            flex: 2,
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12),
+                                child: content),
+                          ),
+                          if (!ResponsiveWidget.isSmallScreen(context))
+                            Spacer(),
+                        ],
                       ),
-                      if (!ResponsiveWidget.isSmallScreen(context)) Spacer(),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
+                ],
+              )),
           bottomNavigationBar: bottomNavigationBar),
     );
   } else {
@@ -2210,4 +2215,85 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
           bottomNavigationBar: bottomNavigationBar),
     );
   }
+}
+
+Widget getStaticWeekdayWidget(List<int> checklist) {
+  if (checklist.length != 7) return Container();
+  Widget getCircleWidget(String label, int status) {
+    Widget checkWidget = Container();
+    switch (status) {
+      case 1:
+        checkWidget = RoundCheckBox(
+          onTap: null,
+          size: 30,
+          isChecked: true,
+          checkedColor: MyColors.v2Primary,
+          disabledColor: MyColors.v2Primary,
+          uncheckedColor: Colors.white,
+          border: Border.all(
+            width: 1,
+            color: MyColors.v2Primary,
+          ),
+        );
+        break;
+      case -1:
+        checkWidget = RoundCheckBox(
+          onTap: null,
+          size: 30,
+          isChecked: false,
+          checkedColor: MyColors.v2Primary,
+          disabledColor: MyColors.lightGrey,
+          uncheckedColor: Colors.white,
+        );
+        break;
+      case 0:
+        checkWidget = RoundCheckBox(
+          onTap: null,
+          size: 30,
+          isChecked: false,
+          checkedColor: MyColors.v2Primary,
+          disabledColor: MyColors.white,
+          uncheckedColor: Colors.white,
+          border: Border.all(
+            width: 1,
+            color: MyColors.v2Primary,
+          ),
+        );
+        break;
+      default:
+    }
+    return Container(
+        // margin: EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          checkWidget,
+          Text(
+            label,
+            style: MyFonts.regular(16, color: MyColors.v2Primary),
+            textAlign: TextAlign.center,
+          ),
+        ]));
+  }
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      getCircleWidget("M", checklist[0]),
+      Spacer(),
+      getCircleWidget("T", checklist[1]),
+      Spacer(),
+      getCircleWidget("W", checklist[2]),
+      Spacer(),
+      getCircleWidget("T", checklist[3]),
+      Spacer(),
+      getCircleWidget("F", checklist[4]),
+      Spacer(),
+      getCircleWidget("S", checklist[5]),
+      Spacer(),
+      getCircleWidget("S", checklist[6]),
+    ],
+  );
 }

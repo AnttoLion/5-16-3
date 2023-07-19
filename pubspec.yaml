@@ -37,6 +37,7 @@ dependencies:
   device_info_plus: any
   dart_ipify: ^1.1.1
   roundcheckbox: ^2.0.5
+  flutter_svg: ^0.23.0+1
 
 dev_dependencies:
   flutter_test:
