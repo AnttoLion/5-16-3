@@ -26,7 +26,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'v2_work_view_notifications_title'.tr,
+          'v2_notifications_view_appbar_title'.tr,
           style: MyFonts.medium(25),
           textAlign: TextAlign.center,
         )

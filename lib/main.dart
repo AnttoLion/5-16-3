@@ -1,5 +1,6 @@
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/analysing_docs.v.dart';
+import 'package:extra_staff/views/v2/help_v.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class ExtraStaff extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               theme: theme,
               darkTheme: darkTheme,
-              home: V2HomeView(),
+              // home: V2HomeView(),
               // home: !isWebApp
               //     ? SplashPage()
               //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
@@ -102,6 +103,12 @@ class ExtraStaff extends StatelessWidget {
                         .requestTrackingAuthorization();
                   });
                 }
+              },
+              initialRoute: '/',
+              routes: {
+                '/': (context) => V2HomeView(),
+                '/V2HomeView': (context) => V2HomeView(),
+                '/V2HelpView': (context) => V2HelpView(),
               },
             ),
           ),

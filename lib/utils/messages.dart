@@ -328,8 +328,9 @@ class Messages extends Translations {
           'error_internal_user_register': 'Internal users cannot register.',
           'v2_work_view_appbar_title': 'Map to job',
           'v2_profile_view_appbar_title': 'My Profile',
-          'v2_work_view_notifications_title': 'Notifications',
+          'v2_notifications_view_appbar_title': 'Notifications',
           'v2_settings_view_appbar_title': 'Settings',
+          'v2_help_view_appbar_title': 'Help',
         },
         'de': {
           'howTo': 'Cómo #',

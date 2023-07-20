@@ -137,4 +137,5 @@ class MyColors {
   static const v2ArrowUp = Color(0xFF14C567);
   static const v2ArrowDown = Color(0xFFFF0000);
   static const v2WeekdayGrey = Color(0xFFE3E6EB);
+  static const v2AccordionHeader = Color(0xFFBDE3FF);
 }

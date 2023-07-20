@@ -2100,7 +2100,7 @@ BottomNavigationBar abV2BottomNavigationBarA(
         ),
       ],
       currentIndex: currentIndex,
-      selectedItemColor: Color(0xFF00458D),
+      selectedItemColor: MyColors.v2Primary,
       onTap: onTap);
 }
 
@@ -2138,7 +2138,7 @@ BottomNavigationBar abV2BottomNavigationBarB(
         ),
       ],
       currentIndex: currentIndex,
-      selectedItemColor: Color(0xFF00458D),
+      selectedItemColor: MyColors.v2Primary,
       onTap: onTap);
 }
 
@@ -2153,6 +2153,28 @@ void abV2GotoBottomNavigation(toIndex, excludeIndex) {
       break;
     case 2:
       Get.to(() => V2ProfileView());
+      break;
+    case 3:
+      Get.to(() => V2NotificationsView());
+      break;
+    case 4:
+      Get.to(() => V2SettingsView());
+      break;
+    default:
+  }
+}
+
+void abV2GotoBottomNavigationForHomePage(toIndex, excludeIndex) {
+  if (toIndex == excludeIndex) return;
+  switch (toIndex) {
+    case 0:
+      Get.to(() => V2WorkView());
+      break;
+    case 1:
+      Get.to(() => V2ProfileView());
+      break;
+    case 2:
+      Get.to(() => V2HomeView());
       break;
     case 3:
       Get.to(() => V2NotificationsView());
@@ -2223,17 +2245,34 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
   }
 }
 
-Widget abV2PrimaryButton(String title, {required Function() onTap}) {
-  return TextButton(
-    style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                side: BorderSide(color: MyColors.v2Primary))),
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
-    child: Text(title, style: MyFonts.regular(16, color: MyColors.white)),
-    onPressed: onTap,
-  );
+Widget abV2PrimaryButton(String title,
+    {required Function() onTap, bool fullWidth = false}) {
+  if (fullWidth) {
+    return TextButton(
+      style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(44)),
+          backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: MyColors.v2Primary))),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
+      child: Text(title, style: MyFonts.regular(14, color: MyColors.white)),
+      onPressed: onTap,
+    );
+  } else {
+    return TextButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: MyColors.v2Primary))),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
+      child: Text(title, style: MyFonts.regular(16, color: MyColors.white)),
+      onPressed: onTap,
+    );
+  }
 }
