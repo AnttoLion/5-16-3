@@ -1990,8 +1990,8 @@ PreferredSize abV2AppBar(
                           Expanded(
                             child: Text(
                               title,
-                              style:
-                                  MyFonts.medium(25, color: MyColors.v2Primary),
+                              style: MyFonts.regular(23,
+                                  color: MyColors.v2Primary),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -2246,16 +2246,18 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
 }
 
 Widget abV2PrimaryButton(String title,
-    {required Function() onTap, bool fullWidth = false}) {
+    {required Function() onTap, bool fullWidth = false, bool success = false}) {
   if (fullWidth) {
     return TextButton(
       style: ButtonStyle(
           minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(44)),
-          backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
+          backgroundColor: MaterialStateProperty.all<Color>(
+              success ? MyColors.v2Green : MyColors.v2Primary),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
-                  side: BorderSide(color: MyColors.v2Primary))),
+                  side: BorderSide(
+                      color: success ? MyColors.v2Green : MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
       child: Text(title, style: MyFonts.regular(14, color: MyColors.white)),

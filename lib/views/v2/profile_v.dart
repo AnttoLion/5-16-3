@@ -1,5 +1,6 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/v2/profile/payments_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,16 +23,22 @@ class _V2ProfileViewState extends State<V2ProfileView> {
   }
 
   Widget getContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'v2_profile_view_appbar_title'.tr,
-          style: MyFonts.medium(25),
-          textAlign: TextAlign.center,
-        )
-      ],
-    );
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 24),
+            abV2PrimaryButton('PAYMENTS',
+                onTap: () => {Get.to(() => V2ProfilePaymentsView())},
+                fullWidth: true),
+            SizedBox(height: 20),
+            abV2PrimaryButton('MY DETAILS', onTap: () => {}, fullWidth: true),
+            SizedBox(height: 20),
+            abV2PrimaryButton('HOLIDAY/AVAILABILITY',
+                onTap: () => {}, fullWidth: true),
+          ],
+        ));
   }
 
   PreferredSizeWidget getAppBar() {

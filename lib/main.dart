@@ -1,6 +1,8 @@
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/analysing_docs.v.dart';
 import 'package:extra_staff/views/v2/help_v.dart';
+import 'package:extra_staff/views/v2/profile/validate_account_v.dart';
+import 'package:extra_staff/views/v2/profile_v.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -109,6 +111,9 @@ class ExtraStaff extends StatelessWidget {
                 '/': (context) => V2HomeView(),
                 '/V2HomeView': (context) => V2HomeView(),
                 '/V2HelpView': (context) => V2HelpView(),
+                '/V2ProfileView': (context) => V2ProfileView(),
+                '/V2ProfileValidateAccountView': (context) =>
+                    V2ProfileValidateAccountView(),
               },
             ),
           ),
