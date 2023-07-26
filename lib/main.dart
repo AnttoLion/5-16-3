@@ -1,6 +1,7 @@
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/analysing_docs.v.dart';
 import 'package:extra_staff/views/v2/help_v.dart';
+import 'package:extra_staff/views/v2/work_v.dart';
 import 'package:extra_staff/views/v2/profile/payments_payehistory_v.dart';
 import 'package:extra_staff/views/v2/profile/validate_account_v.dart';
 import 'package:extra_staff/views/v2/profile_v.dart';
@@ -119,6 +120,7 @@ class ExtraStaff extends StatelessWidget {
                 '/V2ProfilePaymentsView': (context) => V2ProfilePaymentsView(),
                 '/V2ProfilePaymentsPayeHistoryView': (context) =>
                     V2ProfilePaymentsPayeHistoryView(),
+                '/V2WorkView': (context) => V2WorkView(),
               },
             ),
           ),

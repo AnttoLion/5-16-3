@@ -344,6 +344,7 @@ class Messages extends Translations {
           'v2_send_to_email': 'Send to Email',
           'v2_button_text_paye_history': 'PAYE HISTORY',
           'v2_button_text_paye_documents': 'PAYE DOCUMENTS',
+          'v2_this_weeks_shift_selector': 'This weeks shift selector'
         },
         'de': {
           'howTo': 'Cómo #',
