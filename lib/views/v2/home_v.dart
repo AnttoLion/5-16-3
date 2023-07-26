@@ -28,7 +28,7 @@ class V2HomeView extends StatefulWidget {
 
 class _V2HomeViewState extends State<V2HomeView>
     with SingleTickerProviderStateMixin {
-  late TabController _controller;
+  late TabController _tabcontroller;
   bool _isLoading = false;
   int _selectedIndex = 2;
   final _themeTogglecontroller = ValueNotifier<bool>(false);
@@ -39,7 +39,7 @@ class _V2HomeViewState extends State<V2HomeView>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _tabcontroller = TabController(length: 2, vsync: this);
     _themeTogglecontroller.addListener(() {
       if (_themeTogglecontroller.value) {
         AdaptiveTheme.of(context).setDark();
@@ -124,19 +124,19 @@ class _V2HomeViewState extends State<V2HomeView>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        getCircleWidget("M", checklist[0]),
+        getCircleWidget('v2_abbr_week_monday'.tr, checklist[0]),
         Spacer(),
-        getCircleWidget("T", checklist[1]),
+        getCircleWidget('v2_abbr_week_tuesday'.tr, checklist[1]),
         Spacer(),
-        getCircleWidget("W", checklist[2]),
+        getCircleWidget('v2_abbr_week_wednesday'.tr, checklist[2]),
         Spacer(),
-        getCircleWidget("T", checklist[3]),
+        getCircleWidget('v2_abbr_week_thursday'.tr, checklist[3]),
         Spacer(),
-        getCircleWidget("F", checklist[4]),
+        getCircleWidget('v2_abbr_week_friday'.tr, checklist[4]),
         Spacer(),
-        getCircleWidget("S", checklist[5]),
+        getCircleWidget('v2_abbr_week_saturday'.tr, checklist[5]),
         Spacer(),
-        getCircleWidget("S", checklist[6]),
+        getCircleWidget('v2_abbr_week_sunday'.tr, checklist[6]),
       ],
     );
   }
@@ -158,30 +158,30 @@ class _V2HomeViewState extends State<V2HomeView>
     Widget secondWidget = Container();
     String prefix = "";
     String suffix = "";
-    if (title == "Projected wage") {
+    if (title == 'v2_projected_wage') {
       prefix = "£";
     }
-    if (title == "Avg Shift") {
+    if (title == 'v2_hours_worked') {
       suffix = value1 > 1 ? "hrs" : "hr";
     }
-    if (title == "Hours worked") {
+    if (title == 'v2_working_streak') {
       suffix = value1 > 1 ? "hrs" : "hr";
     }
-    if (title == "Working streak") {
+    if (title == 'v2_avg_shift') {
       suffix = value1 > 1 ? "weeks" : "week";
     }
-    if (title == "Earnings") {
+    if (title == 'v2_average_pay_rate') {
       prefix = "£";
     }
-    if (title == "AWR count") {
+    if (title == 'v2_awr_count') {
       suffix = value1 > 1 ? "weeks" : "week";
     }
 
     switch (title) {
-      case "Shifts worked":
-      case "Shifts Assigned":
-      case "Projected wage":
-      case "Avg Shift":
+      case 'v2_shifts_assigned':
+      case 'v2_Shifts_worked':
+      case 'v2_projected_wage':
+      case 'v2_hours_worked':
         secondWidget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -194,10 +194,10 @@ class _V2HomeViewState extends State<V2HomeView>
           ],
         );
         break;
-      case "Hours worked":
-      case "Working streak":
-      case "Earnings":
-      case "AWR count":
+      case 'v2_working_streak':
+      case 'v2_avg_shift':
+      case 'v2_average_pay_rate':
+      case 'v2_awr_count':
         secondWidget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -214,7 +214,7 @@ class _V2HomeViewState extends State<V2HomeView>
         padding: const EdgeInsets.all(4),
         color: myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(title, style: MyFonts.regular(11)),
+          Text(title.tr, style: MyFonts.regular(11)),
           SizedBox(height: 6),
           secondWidget
         ]));
@@ -348,7 +348,7 @@ class _V2HomeViewState extends State<V2HomeView>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Weekly Shift',
+              'v2_weekly_shift'.tr,
               style: MyFonts.regular(20, color: myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
@@ -368,61 +368,63 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(
-              child: getAchievementsItemWidget("Shifts worked", 4, value2: 1)),
+              child: getAchievementsItemWidget('v2_shifts_assigned', 4,
+                  value2: 1)),
           SizedBox(width: 8),
           Expanded(
               child:
-                  getAchievementsItemWidget("Shifts Assigned", 2, value2: 1)),
+                  getAchievementsItemWidget('v2_Shifts_worked', 2, value2: 1)),
           SizedBox(width: 8),
           Expanded(
-              child:
-                  getAchievementsItemWidget("Projected wage", 1250, value2: 0)),
+              child: getAchievementsItemWidget('v2_projected_wage', 1250,
+                  value2: 0)),
           SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget("Avg Shift", 9, value2: 1))
+          Expanded(
+              child: getAchievementsItemWidget('v2_hours_worked', 9, value2: 1))
         ]),
         SizedBox(height: 14),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(child: getAchievementsItemWidget("Hours worked", 36)),
+          Expanded(child: getAchievementsItemWidget('v2_working_streak', 36)),
           SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget("Working streak", 1)),
+          Expanded(child: getAchievementsItemWidget('v2_avg_shift', 1)),
           SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget("Earnings", 155)),
+          Expanded(
+              child: getAchievementsItemWidget('v2_average_pay_rate', 155)),
           SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget("AWR count", 4))
+          Expanded(child: getAchievementsItemWidget('v2_awr_count', 4))
         ]),
       ],
     ));
 
     Widget achievements30dayContainer = achievements7dayContainer;
-    Widget achievements90dayContainer = achievements7dayContainer;
     Widget achievements = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Achievements',
+          'v2_achievements'.tr,
           style: MyFonts.regular(20, color: myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
         Container(
+            child: Align(
+          alignment: Alignment.centerLeft,
           child: TabBar(
-            controller: _controller,
+            isScrollable: true,
+            controller: _tabcontroller,
             labelColor: myThemeColors.primary,
             labelStyle: MyFonts.medium(16, color: myThemeColors.primary),
             indicatorColor: myThemeColors.primary,
             tabs: [
               Tab(
-                text: '7 Days',
+                text: 'v2_week_view'.tr,
               ),
               Tab(
-                text: '30 Days',
-              ),
-              Tab(
-                text: '90 Days',
+                text: 'v2_month_view'.tr,
               ),
             ],
           ),
-        ),
+        )),
         // Border
         Container(
           // Negative padding
@@ -441,11 +443,10 @@ class _V2HomeViewState extends State<V2HomeView>
         Container(
           height: 130.0,
           child: TabBarView(
-            controller: _controller,
+            controller: _tabcontroller,
             children: <Widget>[
               achievements7dayContainer,
               achievements30dayContainer,
-              achievements90dayContainer
             ],
           ),
         ),
@@ -455,7 +456,7 @@ class _V2HomeViewState extends State<V2HomeView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Your notifications',
+          'v2_your_notifications'.tr,
           style: MyFonts.regular(20, color: myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
@@ -485,7 +486,7 @@ class _V2HomeViewState extends State<V2HomeView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Available jobs',
+          'v2_available_jobs'.tr,
           style: MyFonts.regular(20, color: myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
@@ -512,7 +513,7 @@ class _V2HomeViewState extends State<V2HomeView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Blog Post',
+          'v2_blog_post'.tr,
           style: MyFonts.regular(20, color: myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
@@ -527,9 +528,9 @@ class _V2HomeViewState extends State<V2HomeView>
         text: TextSpan(
           style: MyFonts.regular(13, color: MyColors.grey),
           children: <TextSpan>[
-            TextSpan(text: 'If you want to '),
+            TextSpan(text: 'v2_text_if_you_turn_off'.tr),
             TextSpan(
-                text: 'turn off',
+                text: 'v2_text_turn_off'.tr,
                 style: TextStyle(
                     color: myThemeColors.primary,
                     decoration: TextDecoration.underline),
@@ -537,7 +538,7 @@ class _V2HomeViewState extends State<V2HomeView>
                   ..onTap = () {
                     print('turn off');
                   }),
-            TextSpan(text: ' marketing messages'),
+            TextSpan(text: 'v2_text_marketing_messages'.tr),
           ],
         ),
       )

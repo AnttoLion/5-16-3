@@ -6,7 +6,10 @@ import 'package:extra_staff/views/v2/profile_v.dart';
 import 'package:extra_staff/views/v2/notifications_v.dart';
 import 'package:extra_staff/views/v2/settings_v.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class V2WorkView extends StatefulWidget {
   const V2WorkView({Key? key}) : super(key: key);
@@ -104,7 +107,24 @@ class _V2WorkViewState extends State<V2WorkView> {
     Widget mapToJob = Column(children: [
       Column(
         children: [
-          Container(height: 200, width: double.infinity, color: MyColors.grey),
+          SizedBox(height: 12),
+          Container(
+            height: 200,
+            width: double.infinity,
+            color: MyColors.grey,
+            child: FlutterMap(
+              options: MapOptions(
+                center: LatLng(51.509364, -0.128928),
+                zoom: 15,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                ),
+              ],
+            ),
+          ),
           SizedBox(height: 14),
           Container(
               height: 88,
@@ -122,8 +142,8 @@ class _V2WorkViewState extends State<V2WorkView> {
                     ],
                   )),
                   SizedBox(width: 60),
-                  Icon(Icons.phone_in_talk_rounded,
-                      color: MyColors.v2Green, size: 48),
+                  SvgPicture.asset("lib/images/v2/phone.svg",
+                      width: 48, height: 48),
                 ],
               ))
         ],
@@ -159,10 +179,12 @@ class _V2WorkViewState extends State<V2WorkView> {
       getThisWeeksSelectorItemWidget("5:00 PM", "8:00 PM",
           "Unload the cargo at the next location", "Work"),
     ]);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [mapToJob, SizedBox(height: 36), thisWeeksShiftSelector],
-    );
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [mapToJob, SizedBox(height: 36), thisWeeksShiftSelector],
+        ));
   }
 
   PreferredSizeWidget getAppBar() {
