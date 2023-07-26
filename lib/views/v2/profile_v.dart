@@ -1,5 +1,7 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/v2/profile/holidayavailability_v.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_v.dart';
 import 'package:extra_staff/views/v2/profile/payments_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,10 +35,13 @@ class _V2ProfileViewState extends State<V2ProfileView> {
                 onTap: () => {Get.to(() => V2ProfilePaymentsView())},
                 fullWidth: true),
             SizedBox(height: 20),
-            abV2PrimaryButton('MY DETAILS', onTap: () => {}, fullWidth: true),
+            abV2PrimaryButton('MY DETAILS',
+                onTap: () => {Get.to(() => V2ProfileMyDetailsView())},
+                fullWidth: true),
             SizedBox(height: 20),
             abV2PrimaryButton('HOLIDAY/AVAILABILITY',
-                onTap: () => {}, fullWidth: true),
+                onTap: () => {Get.to(() => V2ProfileHolidayAvailabilityView())},
+                fullWidth: true),
           ],
         ));
   }

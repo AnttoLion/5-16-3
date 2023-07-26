@@ -2259,7 +2259,7 @@ Widget abV2PrimaryButton(String title,
                   side: BorderSide(
                       color: success ? MyColors.v2Green : MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
+              EdgeInsets.symmetric(horizontal: 16, vertical: 16))),
       child: Text(title, style: MyFonts.regular(14, color: MyColors.white)),
       onPressed: onTap,
     );

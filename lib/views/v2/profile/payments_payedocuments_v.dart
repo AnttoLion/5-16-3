@@ -1,21 +1,21 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/v2/profile/payments_payedocuments_v.dart';
-import 'package:extra_staff/views/v2/profile/payments_payehistory_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfilePaymentsView extends StatefulWidget {
-  const V2ProfilePaymentsView({Key? key}) : super(key: key);
+class V2ProfilePaymentsPayeDocumentsView extends StatefulWidget {
+  const V2ProfilePaymentsPayeDocumentsView({Key? key}) : super(key: key);
 
   @override
-  _V2ProfilePaymentsViewState createState() => _V2ProfilePaymentsViewState();
+  _V2ProfilePaymentsPayeDocumentsViewState createState() =>
+      _V2ProfilePaymentsPayeDocumentsViewState();
 }
 
-class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
+class _V2ProfilePaymentsPayeDocumentsViewState
+    extends State<V2ProfilePaymentsPayeDocumentsView> {
   MyThemeColors get myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool isLoading = false;
@@ -55,7 +55,143 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                       child: Column(children: [
                         Row(children: [
                           Text(
-                            'PAYSLIP',
+                            'P45',
+                            style:
+                                MyFonts.bold(26, color: myThemeColors.primary),
+                            textAlign: TextAlign.center,
+                          ),
+                          Spacer(),
+                          Row(children: [
+                            SvgPicture.asset("lib/images/v2/payslip_icon.svg",
+                                width: 15, height: 15),
+                            SizedBox(width: 4),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Marble',
+                                    style: MyFonts.bold(9,
+                                        color: myThemeColors.primary),
+                                  ),
+                                  Text(
+                                    'BEAUTY & SPA',
+                                    style: MyFonts.regular(7,
+                                        color: myThemeColors.primary),
+                                  )
+                                ])
+                          ])
+                        ]),
+                        SizedBox(height: 40),
+                        Row(children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Bill to',
+                                  style: MyFonts.bold(9,
+                                      color: myThemeColors.primary),
+                                ),
+                                SizedBox(height: 2),
+                                Container(
+                                    constraints: BoxConstraints(
+                                        minWidth: 30, maxWidth: 70),
+                                    child: Text(
+                                      'Business Company 123 Grand Avenue, 29102 Country +00 000 000 000 CIF: 0000000ABC',
+                                      style: MyFonts.regular(7,
+                                          color: myThemeColors.primary),
+                                    ))
+                              ]),
+                          Spacer(),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Invoice',
+                                  style: MyFonts.bold(9,
+                                      color: myThemeColors.primary),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  '#12345',
+                                  style: MyFonts.regular(7,
+                                      color: myThemeColors.primary),
+                                ),
+                                SizedBox(height: 12),
+                                Text(
+                                  'Date',
+                                  style: MyFonts.bold(9,
+                                      color: myThemeColors.primary),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  '00/00/00',
+                                  style: MyFonts.regular(7,
+                                      color: myThemeColors.primary),
+                                )
+                              ])
+                        ]),
+                        SizedBox(height: 18),
+                        Divider(
+                          height: 12,
+                          thickness: 1,
+                          color: myThemeColors.primary,
+                        ),
+                        SizedBox(height: 18),
+                        SizedBox(height: 24),
+                        SizedBox(height: 165),
+                      ])),
+                  Container(
+                    width: double.infinity,
+                    height: 40,
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    color: myThemeColors.primary,
+                    child: Row(children: [
+                      Text(
+                        'info@marblespa.com',
+                        style: MyFonts.regular(8, color: MyColors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      Spacer(),
+                      Text(
+                        'www.marblespa.com',
+                        style: MyFonts.regular(8, color: MyColors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ]),
+                  )
+                ])),
+            SizedBox(height: 24),
+            Row(children: [
+              Expanded(
+                  child: abV2PrimaryButton('v2_download_as_a_pdf'.tr,
+                      onTap: () => {}, fullWidth: true)),
+              SizedBox(width: 10),
+              Expanded(
+                  child: abV2PrimaryButton('v2_send_to_email'.tr,
+                      onTap: () => {}, fullWidth: true)),
+            ]),
+            SizedBox(height: 50),
+            Container(
+                width: double.infinity,
+                height: 452,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.zero),
+                    boxShadow: [
+                      BoxShadow(
+                          //offset: Offset(0, 4),
+                          color: MyColors.lightGrey, //edited
+                          spreadRadius: 2,
+                          blurRadius: 5 //edited
+                          )
+                    ]),
+                child: Column(children: [
+                  Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Column(children: [
+                        Row(children: [
+                          Text(
+                            'P60',
                             style:
                                 MyFonts.bold(26, color: myThemeColors.primary),
                             textAlign: TextAlign.center,
@@ -171,20 +307,12 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                       onTap: () => {}, fullWidth: true)),
             ]),
             SizedBox(height: 24),
-            abV2PrimaryButton('v2_button_text_paye_history'.tr,
-                onTap: () => {Get.to(() => V2ProfilePaymentsPayeHistoryView())},
-                fullWidth: true),
-            SizedBox(height: 24),
-            abV2PrimaryButton('v2_button_text_paye_documents'.tr,
-                onTap: () =>
-                    {Get.to(() => V2ProfilePaymentsPayeDocumentsView())},
-                fullWidth: true),
           ],
         ));
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'v2_profile_payments_view_appbar_title'.tr);
+    return abV2AppBar(context, 'PayeDocuments');
   }
 
   @override
