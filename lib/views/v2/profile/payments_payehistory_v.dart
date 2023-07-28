@@ -16,9 +16,9 @@ class V2ProfilePaymentsPayeHistoryView extends StatefulWidget {
 
 class _V2ProfilePaymentsPayeHistoryViewState
     extends State<V2ProfilePaymentsPayeHistoryView> {
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -71,31 +71,7 @@ class _V2ProfilePaymentsPayeHistoryViewState
                             onTap: () => {print('Week 4')},
                           ),
                         ]).toList(),
-                  )
-                  // ListView.builder(
-                  //   itemCount: 4,
-                  //   itemBuilder: (BuildContext context, int index) {
-                  //     return ListTile(
-                  //       title: Text('Item ${index + 1}'),
-                  //       tileColor: Colors.blue,
-                  //       onTap: () {
-                  //         setState(() {
-                  //           print(index);
-                  //         });
-                  //       },
-                  //       style:ListTileStyle.list
-                  //     );
-                  //   },
-                  // )
-                  ),
-              // ListView(
-              //   children: [
-              // Text("Week 1"),
-              // Text('Week 2'),
-              // Text('Week 3'),
-              // Text('Week 4'),
-              // ],
-              // ),
+                  )),
               contentBorderColor: MyColors.lightGrey,
             ))
         .toList();
@@ -125,7 +101,7 @@ class _V2ProfilePaymentsPayeHistoryViewState
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

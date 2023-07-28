@@ -15,9 +15,9 @@ class V2ProfileMyDetailsInfoView extends StatefulWidget {
 
 class _V2ProfileMyDetailsInfoViewState
     extends State<V2ProfileMyDetailsInfoView> {
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -36,7 +36,7 @@ class _V2ProfileMyDetailsInfoViewState
             SizedBox(height: 24),
             Text(
               'Profile/My Details/Details That don\'t require Approval',
-              style: MyFonts.regular(20, color: myThemeColors.primary),
+              style: MyFonts.regular(20, color: _myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
           ],
@@ -50,7 +50,7 @@ class _V2ProfileMyDetailsInfoViewState
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

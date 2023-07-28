@@ -17,9 +17,9 @@ class V2HelpView extends StatefulWidget {
 }
 
 class _V2HelpViewState extends State<V2HelpView> {
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   final CarouselController _carouselController = CarouselController();
   int _carouselCurrent = 0;
@@ -78,7 +78,7 @@ class _V2HelpViewState extends State<V2HelpView> {
       children: [
         Text(
           'Video Tutorials',
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -105,18 +105,18 @@ class _V2HelpViewState extends State<V2HelpView> {
             activeDotDecoration: DotDecoration(
               width: 6,
               height: 6,
-              color: myThemeColors.primary!,
+              color: _myThemeColors.primary!,
               borderRadius: BorderRadius.circular(24),
               dotBorder: DotBorder(
                 padding: 3,
                 width: 1,
-                color: myThemeColors.primary!,
+                color: _myThemeColors.primary!,
               ),
             ),
             dotDecoration: DotDecoration(
               width: 6,
               height: 6,
-              color: myThemeColors.primary!,
+              color: _myThemeColors.primary!,
               borderRadius: BorderRadius.circular(16),
               verticalOffset: 0,
             ),
@@ -158,11 +158,10 @@ class _V2HelpViewState extends State<V2HelpView> {
       children: [
         Text(
           'FAQ',
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
-        //TODO faq components
         Accordion(
           maxOpenSections: 1,
           rightIcon: Icon(Icons.expand_more, color: Color(0xFF002F60)),
@@ -195,7 +194,7 @@ class _V2HelpViewState extends State<V2HelpView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

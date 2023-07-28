@@ -16,9 +16,9 @@ class V2ProfilePaymentsView extends StatefulWidget {
 }
 
 class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -57,7 +57,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                           Text(
                             'PAYSLIP',
                             style:
-                                MyFonts.bold(26, color: myThemeColors.primary),
+                                MyFonts.bold(26, color: _myThemeColors.primary),
                             textAlign: TextAlign.center,
                           ),
                           Spacer(),
@@ -71,12 +71,12 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                                   Text(
                                     'Marble',
                                     style: MyFonts.bold(9,
-                                        color: myThemeColors.primary),
+                                        color: _myThemeColors.primary),
                                   ),
                                   Text(
                                     'BEAUTY & SPA',
                                     style: MyFonts.regular(7,
-                                        color: myThemeColors.primary),
+                                        color: _myThemeColors.primary),
                                   )
                                 ])
                           ])
@@ -89,7 +89,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                                 Text(
                                   'Bill to',
                                   style: MyFonts.bold(9,
-                                      color: myThemeColors.primary),
+                                      color: _myThemeColors.primary),
                                 ),
                                 SizedBox(height: 2),
                                 Container(
@@ -98,7 +98,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                                     child: Text(
                                       'Business Company 123 Grand Avenue, 29102 Country +00 000 000 000 CIF: 0000000ABC',
                                       style: MyFonts.regular(7,
-                                          color: myThemeColors.primary),
+                                          color: _myThemeColors.primary),
                                     ))
                               ]),
                           Spacer(),
@@ -108,25 +108,25 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                                 Text(
                                   'Invoice',
                                   style: MyFonts.bold(9,
-                                      color: myThemeColors.primary),
+                                      color: _myThemeColors.primary),
                                 ),
                                 SizedBox(height: 2),
                                 Text(
                                   '#12345',
                                   style: MyFonts.regular(7,
-                                      color: myThemeColors.primary),
+                                      color: _myThemeColors.primary),
                                 ),
                                 SizedBox(height: 12),
                                 Text(
                                   'Date',
                                   style: MyFonts.bold(9,
-                                      color: myThemeColors.primary),
+                                      color: _myThemeColors.primary),
                                 ),
                                 SizedBox(height: 2),
                                 Text(
                                   '00/00/00',
                                   style: MyFonts.regular(7,
-                                      color: myThemeColors.primary),
+                                      color: _myThemeColors.primary),
                                 )
                               ])
                         ]),
@@ -134,7 +134,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                         Divider(
                           height: 12,
                           thickness: 1,
-                          color: myThemeColors.primary,
+                          color: _myThemeColors.primary,
                         ),
                         SizedBox(height: 18),
                         SizedBox(height: 24),
@@ -144,7 +144,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                     width: double.infinity,
                     height: 40,
                     padding: EdgeInsets.symmetric(horizontal: 24),
-                    color: myThemeColors.primary,
+                    color: _myThemeColors.primary,
                     child: Row(children: [
                       Text(
                         'info@marblespa.com',
@@ -190,7 +190,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

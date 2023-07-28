@@ -11,7 +11,7 @@ class V2NotificationsView extends StatefulWidget {
 }
 
 class _V2NotificationsViewState extends State<V2NotificationsView> {
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
@@ -41,7 +41,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

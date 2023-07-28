@@ -14,7 +14,7 @@ class V2ProfileView extends StatefulWidget {
 }
 
 class _V2ProfileViewState extends State<V2ProfileView> {
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -53,7 +53,7 @@ class _V2ProfileViewState extends State<V2ProfileView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

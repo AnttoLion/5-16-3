@@ -13,9 +13,9 @@ class V2ProfileMyDetailsView extends StatefulWidget {
 }
 
 class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -34,7 +34,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
             SizedBox(height: 24),
             Text(
               'Profile/My Details',
-              style: MyFonts.regular(20, color: myThemeColors.primary),
+              style: MyFonts.regular(20, color: _myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
           ],
@@ -48,7 +48,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

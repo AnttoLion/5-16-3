@@ -19,9 +19,9 @@ class V2WorkView extends StatefulWidget {
 }
 
 class _V2WorkViewState extends State<V2WorkView> {
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 1;
-  MyThemeColors get myThemeColors =>
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
 
   void _onItemTapped(int index) {
@@ -38,7 +38,7 @@ class _V2WorkViewState extends State<V2WorkView> {
         width: 300,
         // width: double.infinity,
         padding: const EdgeInsets.all(16),
-        color: myThemeColors.itemContainerBackground,
+        color: _myThemeColors.itemContainerBackground,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -130,7 +130,7 @@ class _V2WorkViewState extends State<V2WorkView> {
               height: 88,
               width: double.infinity,
               padding: const EdgeInsets.all(20),
-              color: myThemeColors.itemContainerBackground,
+              color: _myThemeColors.itemContainerBackground,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -156,7 +156,7 @@ class _V2WorkViewState extends State<V2WorkView> {
         SizedBox(width: 24),
         Text(
           'v2_this_weeks_shift_selector'.tr,
-          style: MyFonts.regular(24, color: myThemeColors.primary),
+          style: MyFonts.regular(24, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
       ]),
@@ -167,7 +167,7 @@ class _V2WorkViewState extends State<V2WorkView> {
           children: <TextSpan>[
             TextSpan(
                 text: 'Tomorrow ',
-                style: TextStyle(color: myThemeColors.primary)),
+                style: TextStyle(color: _myThemeColors.primary)),
             TextSpan(text: 'Saturday, June 22, 2023'),
           ],
         ),
@@ -194,7 +194,7 @@ class _V2WorkViewState extends State<V2WorkView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

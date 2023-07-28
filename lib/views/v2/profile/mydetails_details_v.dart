@@ -9,13 +9,15 @@ class V2ProfileMyDetailsSubDetailsView extends StatefulWidget {
   const V2ProfileMyDetailsSubDetailsView({Key? key}) : super(key: key);
 
   @override
-  _V2ProfileMyDetailsSubDetailsViewState createState() => _V2ProfileMyDetailsSubDetailsViewState();
+  _V2ProfileMyDetailsSubDetailsViewState createState() =>
+      _V2ProfileMyDetailsSubDetailsViewState();
 }
 
-class _V2ProfileMyDetailsSubDetailsViewState extends State<V2ProfileMyDetailsSubDetailsView> {
-  MyThemeColors get myThemeColors =>
+class _V2ProfileMyDetailsSubDetailsViewState
+    extends State<V2ProfileMyDetailsSubDetailsView> {
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -34,7 +36,7 @@ class _V2ProfileMyDetailsSubDetailsViewState extends State<V2ProfileMyDetailsSub
             SizedBox(height: 24),
             Text(
               'Profile/My Details/Details',
-              style: MyFonts.regular(20, color: myThemeColors.primary),
+              style: MyFonts.regular(20, color: _myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
           ],
@@ -48,7 +50,7 @@ class _V2ProfileMyDetailsSubDetailsViewState extends State<V2ProfileMyDetailsSub
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

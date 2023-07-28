@@ -11,7 +11,7 @@ class V2SettingsView extends StatefulWidget {
 }
 
 class _V2SettingsViewState extends State<V2SettingsView> {
-  bool isLoading = false;
+  bool _isLoading = false;
   int _selectedIndex = 4;
 
   void _onItemTapped(int index) {
@@ -41,7 +41,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
   @override
   Widget build(BuildContext context) {
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
-        context, isLoading,
+        context, _isLoading,
         appBar: getAppBar(),
         content: getContent(),
         bottomNavigationBar:

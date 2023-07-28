@@ -1,3 +1,4 @@
+import 'package:extra_staff/controllers/v2/home_c.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/theme.dart';
@@ -28,12 +29,13 @@ class V2HomeView extends StatefulWidget {
 
 class _V2HomeViewState extends State<V2HomeView>
     with SingleTickerProviderStateMixin {
+  final _controller = V2HomeController();
   late TabController _tabcontroller;
   bool _isLoading = false;
   int _selectedIndex = 2;
   final _themeTogglecontroller = ValueNotifier<bool>(false);
-  bool get isThemeDark => Theme.of(context).brightness == Brightness.dark;
-  MyThemeColors get myThemeColors =>
+  bool get _isThemeDark => Theme.of(context).brightness == Brightness.dark;
+  MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
 
   @override
@@ -49,7 +51,17 @@ class _V2HomeViewState extends State<V2HomeView>
     });
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _themeTogglecontroller.value = isThemeDark;
+      _themeTogglecontroller.value = _isThemeDark;
+    });
+
+    getData();
+  }
+
+  getData() async {
+    setState(() => _isLoading = true);
+    await _controller.getTempAvailInfo();
+    setState(() {
+      _isLoading = false;
     });
   }
 
@@ -70,12 +82,12 @@ class _V2HomeViewState extends State<V2HomeView>
             onTap: null,
             size: 30,
             isChecked: true,
-            checkedColor: myThemeColors.primary,
-            disabledColor: myThemeColors.primary,
+            checkedColor: _myThemeColors.primary,
+            disabledColor: _myThemeColors.primary,
             uncheckedColor: Colors.white,
             border: Border.all(
               width: 1,
-              color: myThemeColors.primary!,
+              color: _myThemeColors.primary!,
             ),
           );
           break;
@@ -84,7 +96,7 @@ class _V2HomeViewState extends State<V2HomeView>
             onTap: null,
             size: 30,
             isChecked: false,
-            checkedColor: myThemeColors.primary,
+            checkedColor: _myThemeColors.primary,
             disabledColor: MyColors.v2WeekdayGrey,
             uncheckedColor: Colors.white,
           );
@@ -94,12 +106,12 @@ class _V2HomeViewState extends State<V2HomeView>
             onTap: null,
             size: 30,
             isChecked: false,
-            checkedColor: myThemeColors.primary,
+            checkedColor: _myThemeColors.primary,
             disabledColor: MyColors.white,
             uncheckedColor: Colors.white,
             border: Border.all(
               width: 1,
-              color: myThemeColors.primary!,
+              color: _myThemeColors.primary!,
             ),
           );
           break;
@@ -114,7 +126,7 @@ class _V2HomeViewState extends State<V2HomeView>
             checkWidget,
             Text(
               label,
-              style: MyFonts.regular(16, color: myThemeColors.primary),
+              style: MyFonts.regular(16, color: _myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
           ]));
@@ -212,7 +224,7 @@ class _V2HomeViewState extends State<V2HomeView>
     return Container(
         height: 55,
         padding: const EdgeInsets.all(4),
-        color: myThemeColors.itemContainerBackground,
+        color: _myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(title.tr, style: MyFonts.regular(11)),
           SizedBox(height: 6),
@@ -225,7 +237,7 @@ class _V2HomeViewState extends State<V2HomeView>
         height: 68,
         width: 237,
         padding: const EdgeInsets.all(8),
-        color: myThemeColors.itemContainerBackground,
+        color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +249,7 @@ class _V2HomeViewState extends State<V2HomeView>
                     onTap: null,
                     size: 25,
                     isChecked: true,
-                    checkedColor: myThemeColors.primary,
+                    checkedColor: _myThemeColors.primary,
                     disabledColor: MyColors.lightGrey,
                     uncheckedColor: Colors.white,
                   ),
@@ -247,7 +259,7 @@ class _V2HomeViewState extends State<V2HomeView>
               ),
               SizedBox(height: 6),
               Text(content,
-                  style: MyFonts.regular(14, color: myThemeColors.primary))
+                  style: MyFonts.regular(14, color: _myThemeColors.primary))
             ]));
   }
 
@@ -257,7 +269,7 @@ class _V2HomeViewState extends State<V2HomeView>
         height: 167,
         width: 307,
         padding: const EdgeInsets.all(8),
-        color: myThemeColors.itemContainerBackground,
+        color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +285,7 @@ class _V2HomeViewState extends State<V2HomeView>
                         TextSpan(
                             text: pay,
                             style: TextStyle(
-                                color: myThemeColors.primary,
+                                color: _myThemeColors.primary,
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()..onTap = () {}),
                       ],
@@ -288,7 +300,7 @@ class _V2HomeViewState extends State<V2HomeView>
                         TextSpan(
                             text: duration,
                             style: TextStyle(
-                                color: myThemeColors.primary,
+                                color: _myThemeColors.primary,
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()..onTap = () {}),
                       ],
@@ -307,7 +319,8 @@ class _V2HomeViewState extends State<V2HomeView>
                   abV2PrimaryButton("APPLY NOW", onTap: () => {}),
                   Spacer(),
                   Text("Post " + agoTime,
-                      style: MyFonts.regular(14, color: myThemeColors.primary)),
+                      style:
+                          MyFonts.regular(14, color: _myThemeColors.primary)),
                 ],
               ),
             ]));
@@ -317,7 +330,7 @@ class _V2HomeViewState extends State<V2HomeView>
     return Container(
         height: 340,
         padding: const EdgeInsets.all(16),
-        color: myThemeColors.itemContainerBackground,
+        color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,7 +362,7 @@ class _V2HomeViewState extends State<V2HomeView>
           children: [
             Text(
               'v2_weekly_shift'.tr,
-              style: MyFonts.regular(20, color: myThemeColors.primary),
+              style: MyFonts.regular(20, color: _myThemeColors.primary),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 18),
@@ -359,7 +372,7 @@ class _V2HomeViewState extends State<V2HomeView>
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 13),
-            getStaticWeekdayWidget([1, -1, 1, 1, 1, 0, -1])
+            getStaticWeekdayWidget(_controller.weeklyShift)
           ],
         ));
     Widget achievements7dayContainer = Container(
@@ -402,7 +415,7 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_achievements'.tr,
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -412,9 +425,9 @@ class _V2HomeViewState extends State<V2HomeView>
           child: TabBar(
             isScrollable: true,
             controller: _tabcontroller,
-            labelColor: myThemeColors.primary,
-            labelStyle: MyFonts.medium(16, color: myThemeColors.primary),
-            indicatorColor: myThemeColors.primary,
+            labelColor: _myThemeColors.primary,
+            labelStyle: MyFonts.medium(16, color: _myThemeColors.primary),
+            indicatorColor: _myThemeColors.primary,
             tabs: [
               Tab(
                 text: 'v2_week_view'.tr,
@@ -457,7 +470,7 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_your_notifications'.tr,
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -487,7 +500,7 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_available_jobs'.tr,
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -514,7 +527,7 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_blog_post'.tr,
-          style: MyFonts.regular(20, color: myThemeColors.primary),
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -532,7 +545,7 @@ class _V2HomeViewState extends State<V2HomeView>
             TextSpan(
                 text: 'v2_text_turn_off'.tr,
                 style: TextStyle(
-                    color: myThemeColors.primary,
+                    color: _myThemeColors.primary,
                     decoration: TextDecoration.underline),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -595,8 +608,8 @@ class _V2HomeViewState extends State<V2HomeView>
                                 Icons.light_mode_outlined,
                               ),
                               inactiveChild: Icon(Icons.dark_mode_outlined),
-                              activeColor: myThemeColors.primary!,
-                              inactiveColor: myThemeColors.primary!,
+                              activeColor: _myThemeColors.primary!,
+                              inactiveColor: _myThemeColors.primary!,
                               width: 60,
                               height: 28,
                               controller: _themeTogglecontroller,
@@ -645,8 +658,8 @@ class _V2HomeViewState extends State<V2HomeView>
                           Icons.light_mode_outlined,
                         ),
                         inactiveChild: Icon(Icons.dark_mode_outlined),
-                        activeColor: myThemeColors.primary!,
-                        inactiveColor: myThemeColors.primary!,
+                        activeColor: _myThemeColors.primary!,
+                        inactiveColor: _myThemeColors.primary!,
                         width: 60,
                         height: 28,
                         controller: _themeTogglecontroller,

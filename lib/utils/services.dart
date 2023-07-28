@@ -191,7 +191,6 @@ class Services extends GetConnect {
       dynamic Function(double)? uploadProgress,
       bool sendScreenID = true,
       bool sendProgress = true}) {
-    
     final str = url?.split('/').last ?? '';
     final index = screens.indexWhere((element) => element.id.contains(str));
     if (index >= 0 && sendScreenID) {
@@ -201,9 +200,10 @@ class Services extends GetConnect {
     if (sendProgress) {
       body['completed'] = completed;
       body['progress'] = '${Resume.shared.progress}';
-      if (index >= 0){
+      if (index >= 0) {
         int screenId = int.parse(screens[index].value);
-         body['progress'] = Resume.shared.getProgressFromScreenId(screenId).toString();
+        body['progress'] =
+            Resume.shared.getProgressFromScreenId(screenId).toString();
       }
     }
 
@@ -223,30 +223,33 @@ class Services extends GetConnect {
   String generateMd5(String input) =>
       md5.convert(utf8.encode(input)).toString();
 
-  Future<BaseApiResponse> sendProgress(String screenName) async 
-  {
-      final index = screenIdList.indexWhere((element) => element.id.contains(screenName));
-      int screenId = 0;
-      if (index >= 0) {
-        screenId  = int.parse(screenIdList[index].value);
-      }
-      int progress = Resume.shared.getProgressFromScreenId(screenId);
-      print("sendProgress:" + progress.toString());
-      String completed = "No";
-      if (progress == 100) {
-        completed = "Yes";
-      }
-      return super.post(baseApiUrl + 'updateTempScreenInfo',
-        {
-          'tid': '$tid',
-          'user_id': '$userId',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-          'screen_id':screenId.toString(),
-          'progress':progress.toString(),
-          'completed':completed
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
+  Future<BaseApiResponse> sendProgress(String screenName) async {
+    final index =
+        screenIdList.indexWhere((element) => element.id.contains(screenName));
+    int screenId = 0;
+    if (index >= 0) {
+      screenId = int.parse(screenIdList[index].value);
+    }
+    int progress = Resume.shared.getProgressFromScreenId(screenId);
+    print("sendProgress:" + progress.toString());
+    String completed = "No";
+    if (progress == 100) {
+      completed = "Yes";
+    }
+    return super
+        .post(
+          baseApiUrl + 'updateTempScreenInfo',
+          {
+            'tid': '$tid',
+            'user_id': '$userId',
+            'digest': generateMd5(staticDigestKey + '$userId'),
+            'screen_id': screenId.toString(),
+            'progress': progress.toString(),
+            'completed': completed
+          },
+          headers: headers,
+        )
+        .then((value) => safeDecode(value));
   }
 
   Future<BaseApiResponse> postLogin(
@@ -514,17 +517,17 @@ class Services extends GetConnect {
   Future<BaseApiResponse> addPassword(
           String password, String rePassword) async =>
       await post(
-        baseApiUrl + 'addupdatepassword',
-        {
-          'repassword': rePassword,
-          'password': password,
-          'tid': '$tempTid',
-          'user_id': '$tempUserId',
-          'digest': generateMd5(staticDigestKey + '$tempUserId'),
-        },
-        headers: headers,
-        sendProgress: false
-      ).then((value) => safeDecode(value));
+              baseApiUrl + 'addupdatepassword',
+              {
+                'repassword': rePassword,
+                'password': password,
+                'tid': '$tempTid',
+                'user_id': '$tempUserId',
+                'digest': generateMd5(staticDigestKey + '$tempUserId'),
+              },
+              headers: headers,
+              sendProgress: false)
+          .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempEqualityInfo(UserData userData) async =>
       await post(
@@ -978,16 +981,16 @@ class Services extends GetConnect {
       ).then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempPwdInfo() async => await post(
-        baseApiUrl + 'updateTempPwdInfo',
-        {
-          'pwd_set': 1,
-          'tid': '$tempTid',
-          'user_id': '$tempUserId',
-          'digest': generateMd5(staticDigestKey + '$tempUserId'),
-        },
-        headers: headers,
-        sendProgress: false
-      ).then((value) => safeDecode(value));
+          baseApiUrl + 'updateTempPwdInfo',
+          {
+            'pwd_set': 1,
+            'tid': '$tempTid',
+            'user_id': '$tempUserId',
+            'digest': generateMd5(staticDigestKey + '$tempUserId'),
+          },
+          headers: headers,
+          sendProgress: false)
+      .then((value) => safeDecode(value));
 
   Future<BaseApiResponse> updateTempBioInfo() async => await post(
         baseApiUrl + 'updateTempBioInfo',
@@ -1154,5 +1157,16 @@ class Services extends GetConnect {
           'digest': generateMd5(staticDigestKey + email),
         },
         headers: headers,
+      ).then((value) => safeDecode(value));
+
+  Future<BaseApiResponse> getTempAvailInfo() async => await post(
+        baseApiUrl + 'getTempAvailInfo',
+        {
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+        sendScreenID: false,
+        sendProgress: false,
       ).then((value) => safeDecode(value));
 }
