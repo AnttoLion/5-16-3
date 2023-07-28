@@ -1169,4 +1169,13 @@ class Services extends GetConnect {
         sendScreenID: false,
         sendProgress: false,
       ).then((value) => safeDecode(value));
+
+  Future<BaseApiResponse> getTempAvailabilityInfo() async => await get(
+        baseApiUrl + 'getTempAvailabilityInfo',
+        query: {
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
 }
