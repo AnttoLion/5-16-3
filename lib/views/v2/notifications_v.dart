@@ -40,33 +40,33 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'v2_notifications_view_appbar_title'.tr,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color.fromRGBO(0, 69, 141, 1),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'Mark all as read',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromRGBO(0, 69, 141, 1),
-                  ),
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            ],
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.all(8.0),
+        //   child: Row(
+        //     children: [
+        //       Expanded(
+        //         child: Text(
+        //           'v2_notifications_view_appbar_title'.tr,
+        //           style: TextStyle(
+        //             fontSize: 20,
+        //             color: Color.fromRGBO(0, 69, 141, 1),
+        //             fontWeight: FontWeight.bold,
+        //           ),
+        //         ),
+        //       ),
+        //       Expanded(
+        //         child: Text(
+        //           'Mark all as read',
+        //           style: TextStyle(
+        //             fontSize: 14,
+        //             color: Color.fromRGBO(0, 69, 141, 1),
+        //           ),
+        //           textAlign: TextAlign.end,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         for (int i = 0; i < _isVisibleList.length; i++) // Iterate over the list
           AnimatedCrossFade(
             duration: Duration(milliseconds: 400),
@@ -88,7 +88,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                   style: TextStyle(
                     fontSize: 20,
                     color: Color.fromRGBO(0, 69, 141, 1),
-                    fontWeight: FontWeight.bold,
+                    //fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Container(
@@ -122,7 +122,10 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(
+      context,
+      'v2_notifications_view_appbar_title'.tr,
+    );
   }
 
   @override
