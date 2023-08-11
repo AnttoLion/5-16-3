@@ -86,13 +86,13 @@ class ExtraStaff extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               theme: theme,
               darkTheme: darkTheme,
-              // home: V2HomeView(),
-              // home: !isWebApp
-              //     ? SplashPage()
-              //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
-              //         ? EnterConfrimCode(isFromStart: true)
-              //         // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
-              //         : PageControllerView()),
+              //home: V2HomeView(),
+              home: !isWebApp
+                  ? SplashPage()
+                  : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+                      ? EnterConfrimCode(isFromStart: true)
+                      // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
+                      : PageControllerView()),
               enableLog: false,
               debugShowCheckedModeBanner: false,
               translations: Messages(),
@@ -110,18 +110,18 @@ class ExtraStaff extends StatelessWidget {
                 }
               },
               initialRoute: '/',
-              routes: {
-                '/': (context) => V2HomeView(),
-                '/V2HomeView': (context) => V2HomeView(),
-                '/V2HelpView': (context) => V2HelpView(),
-                '/V2ProfileView': (context) => V2ProfileView(),
-                '/V2ProfileValidateAccountView': (context) =>
-                    V2ProfileValidateAccountView(),
-                '/V2ProfilePaymentsView': (context) => V2ProfilePaymentsView(),
-                '/V2ProfilePaymentsPayeHistoryView': (context) =>
-                    V2ProfilePaymentsPayeHistoryView(),
-                '/V2WorkView': (context) => V2WorkView(),
-              },
+              // routes: {
+              //   '/': (context) => V2HomeView(),
+              //   '/V2HomeView': (context) => V2HomeView(),
+              //   '/V2HelpView': (context) => V2HelpView(),
+              //   '/V2ProfileView': (context) => V2ProfileView(),
+              //   '/V2ProfileValidateAccountView': (context) =>
+              //       V2ProfileValidateAccountView(),
+              //   '/V2ProfilePaymentsView': (context) => V2ProfilePaymentsView(),
+              //   '/V2ProfilePaymentsPayeHistoryView': (context) =>
+              //       V2ProfilePaymentsPayeHistoryView(),
+              //   '/V2WorkView': (context) => V2WorkView(),
+              // },
             ),
           ),
         ),
