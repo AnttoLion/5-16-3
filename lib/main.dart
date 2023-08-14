@@ -27,6 +27,8 @@ import 'package:extra_staff/views/v2/home_v.dart';
 import 'package:flutter/gestures.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
+import 'views/legal_agreements/registration_complete_v.dart';
+
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
@@ -86,7 +88,7 @@ class ExtraStaff extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               theme: theme,
               darkTheme: darkTheme,
-              //home: V2HomeView(),
+              //home: RegistrationComplete(),
               home: !isWebApp
                   ? SplashPage()
                   : ((localStorage?.getString('passcode') ?? '').isNotEmpty
