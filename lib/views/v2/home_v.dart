@@ -232,6 +232,85 @@ class _V2HomeViewState extends State<V2HomeView>
         ]));
   }
 
+  Widget getAchievementsItemWidget2(String title, int value1, {int? value2}) {
+    Widget triangleUp = SvgPicture.string(
+      svgTriangleUp,
+      width: 12,
+      height: 12,
+    );
+    Widget triangleDown = Transform.scale(
+      scaleY: -1,
+      child: SvgPicture.string(
+        svgTriangleDown,
+        width: 12,
+        height: 12,
+      ),
+    );
+    Widget secondWidget = Container();
+    String prefix = "";
+    String suffix = "";
+    if (title == 'v2_projected_wage') {
+      prefix = "£";
+    }
+    if (title == 'v2_hours_worked') {
+      suffix = value1 > 1 ? "hrs" : "hr";
+    }
+    if (title == 'v2_working_streak') {
+      suffix = value1 > 1 ? "hrs" : "hr";
+    }
+    if (title == 'v2_avg_shift') {
+      suffix = value1 > 1 ? "weeks" : "week";
+    }
+    if (title == 'v2_average_pay_rate') {
+      prefix = "£";
+    }
+    if (title == 'v2_awr_count') {
+      suffix = value1 > 1 ? "weeks" : "week";
+    }
+
+    switch (title) {
+      case 'v2_shifts_assigned':
+      case 'v2_Shifts_worked':
+      case 'v2_projected_wage':
+      case 'v2_hours_worked':
+        secondWidget = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(prefix + value1.toString() + suffix,
+                style: MyFonts.regular(16)),
+            SizedBox(width: 6),
+            value2! > 0 ? triangleUp : triangleDown,
+            SizedBox(width: 6),
+            Text(value2.toString(), style: MyFonts.regular(14))
+          ],
+        );
+        break;
+      case 'v2_working_streak':
+      case 'v2_avg_shift':
+      case 'v2_average_pay_rate':
+      case 'v2_awr_count':
+        secondWidget = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(prefix + value1.toString(), style: MyFonts.regular(18)),
+            SizedBox(width: 2),
+            Text(suffix, style: MyFonts.regular(14))
+          ],
+        );
+        break;
+      default:
+    }
+    return Container(
+        height: 60,
+        padding: const EdgeInsets.all(4),
+        color: _myThemeColors.itemContainerBackground,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(title.tr, style: MyFonts.regular(11)),
+          SizedBox(height: 6),
+          secondWidget
+        ]));
+  }
+
   Widget getYourNotificationsItemWidget(String title, String content) {
     return Container(
         height: 68,
@@ -397,14 +476,14 @@ class _V2HomeViewState extends State<V2HomeView>
         ]),
         SizedBox(height: 14),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(child: getAchievementsItemWidget('v2_working_streak', 36)),
-          SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget('v2_avg_shift', 1)),
-          SizedBox(width: 8),
+          Expanded(child: getAchievementsItemWidget2('v2_working_streak', 36)),
+          SizedBox(width: 10),
+          Expanded(child: getAchievementsItemWidget2('v2_avg_shift', 1)),
+          SizedBox(width: 10),
           Expanded(
-              child: getAchievementsItemWidget('v2_average_pay_rate', 155)),
-          SizedBox(width: 8),
-          Expanded(child: getAchievementsItemWidget('v2_awr_count', 4))
+              child: getAchievementsItemWidget2('v2_average_pay_rate', 155)),
+          // SizedBox(width: 8),
+          // Expanded(child: getAchievementsItemWidget('v2_awr_count', 4))
         ]),
       ],
     ));
