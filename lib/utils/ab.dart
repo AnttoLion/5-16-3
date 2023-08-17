@@ -2278,3 +2278,34 @@ Widget abV2PrimaryButton(String title,
     );
   }
 }
+
+Widget abV2OutlineButton(String title,
+    {required Function() onTap, bool fullWidth = false, bool success = false}) {
+  if (fullWidth) {
+    return TextButton(
+      style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(44)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(
+                      color: success ? MyColors.v2Green : MyColors.v2Primary))),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(horizontal: 16, vertical: 16))),
+      child: Text(title, style: MyFonts.regular(14, color: MyColors.v2Primary)),
+      onPressed: onTap,
+    );
+  } else {
+    return TextButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: MyColors.v2Primary))),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
+      child: Text(title, style: MyFonts.regular(16, color: MyColors.v2Primary)),
+      onPressed: onTap,
+    );
+  }
+}

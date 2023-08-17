@@ -1,22 +1,18 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/v2/profile/mydetails_NI_v.dart';
-import 'package:extra_staff/views/v2/profile/mydetails_details_v.dart';
-import 'package:extra_staff/views/v2/profile/mydetails_license_v.dart';
-import 'package:extra_staff/views/v2/profile/mydetails_rtw_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfileMyDetailsView extends StatefulWidget {
-  const V2ProfileMyDetailsView({Key? key}) : super(key: key);
+class V2ProfileNIView extends StatefulWidget {
+  const V2ProfileNIView({Key? key}) : super(key: key);
 
   @override
   _V2ProfileMyDetailsViewState createState() => _V2ProfileMyDetailsViewState();
 }
 
-class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
+class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -36,21 +32,11 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 24),
-            abV2PrimaryButton('RTW',
-                onTap: () => {Get.to(() => V2ProfileRTWView())},
-                fullWidth: true),
-            SizedBox(height: 20),
-            abV2PrimaryButton('License',
-                onTap: () => {Get.to(() => V2ProfileLicenseView())},
-                fullWidth: true),
-            SizedBox(height: 20),
-            abV2PrimaryButton('NI',
-                onTap: () => {Get.to(() => V2ProfileNIView())},
-                fullWidth: true),
-            SizedBox(height: 20),
-            abV2OutlineButton('Manage Your Details',
-                onTap: () => {Get.to(() => V2ProfileMyDetailsSubDetailsView())},
-                fullWidth: true),
+            Text(
+              'Profile/My Details/NI',
+              style: MyFonts.regular(20, color: _myThemeColors.primary),
+              textAlign: TextAlign.center,
+            ),
           ],
         ));
   }
