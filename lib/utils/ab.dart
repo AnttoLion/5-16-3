@@ -2309,3 +2309,64 @@ Widget abV2OutlineButton(String title,
     );
   }
 }
+
+Widget abV2IconButton(
+  String title, {
+  required Function() onTap,
+  bool fullWidth = false,
+  bool success = false,
+  Widget? icon,
+}) {
+  if (fullWidth) {
+    return TextButton.icon(
+      style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(Size.fromHeight(44)),
+        backgroundColor: MaterialStateProperty.all<Color>(
+            success ? MyColors.v2Green : MyColors.v2Primary),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            side: BorderSide(
+                color: success ? MyColors.v2Green : MyColors.v2Primary),
+          ),
+        ),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+      ),
+      icon: Align(
+        alignment: Alignment.centerRight,
+        child: icon ?? SizedBox(),
+      ),
+      label: Text(
+        title,
+        style: MyFonts.regular(14, color: MyColors.white),
+        textAlign: TextAlign.center,
+      ),
+      onPressed: onTap,
+    );
+  } else {
+    return TextButton.icon(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(MyColors.v2Primary),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            side: BorderSide(color: MyColors.v2Primary),
+          ),
+        ),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.symmetric(horizontal: 32, vertical: 16)),
+      ),
+      icon: Align(
+        alignment: Alignment.centerRight,
+        child: icon ?? SizedBox(),
+      ),
+      label: Text(
+        title,
+        style: MyFonts.regular(16, color: MyColors.white),
+        textAlign: TextAlign.center,
+      ),
+      onPressed: onTap,
+    );
+  }
+}

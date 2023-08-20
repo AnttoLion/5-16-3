@@ -1,6 +1,7 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
@@ -27,22 +28,58 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
 
   Widget getContent() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 24),
-            Text(
-              'Profile/My Details/RTW',
-              style: MyFonts.regular(20, color: _myThemeColors.primary),
-              textAlign: TextAlign.center,
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 30),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 322,
+              height: 322,
+              child: SvgPicture.asset(
+                "lib/images/v2/qr.svg",
+              ),
             ),
-          ],
-        ));
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 0.5,
+                  child: abV2PrimaryButton(
+                    'v2_button_text_cancel'.tr,
+                    onTap: () => {},
+                    fullWidth: true,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 0.5,
+                  child: abV2PrimaryButton(
+                    'v2_button_text_re_upload'.tr,
+                    onTap: () => {},
+                    fullWidth: true,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'My Details');
+    return abV2AppBar(context, 'RTW');
   }
 
   @override

@@ -370,6 +370,7 @@ class Messages extends Translations {
           'v2_abbr_week_friday': 'F',
           'v2_abbr_week_saturday': 'S',
           'v2_abbr_week_sunday': 'S',
+          'v2_button_text_re_upload': 'Re-upload',
         },
         'de': {
           'howTo': 'Cómo #',

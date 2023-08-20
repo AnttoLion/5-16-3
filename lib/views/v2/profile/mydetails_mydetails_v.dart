@@ -1,18 +1,24 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/views/v2/profile/icences_upload_v.dart';
+import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_NI_v.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_address_v.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_details_v.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_license_v.dart';
+import 'package:extra_staff/views/v2/profile/mydetails_rtw_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfileLicenseView extends StatefulWidget {
-  const V2ProfileLicenseView({Key? key}) : super(key: key);
+class V2ProfileMyDetailsMyDetailsView extends StatefulWidget {
+  const V2ProfileMyDetailsMyDetailsView({Key? key}) : super(key: key);
 
   @override
   _V2ProfileMyDetailsViewState createState() => _V2ProfileMyDetailsViewState();
 }
 
-class _V2ProfileMyDetailsViewState extends State<V2ProfileLicenseView> {
+class _V2ProfileMyDetailsViewState
+    extends State<V2ProfileMyDetailsMyDetailsView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -32,27 +38,27 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileLicenseView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 24),
-            abV2PrimaryButton('Driving License Front',
-                onTap: () => {Get.to(() => V2ProfileLicencesUploadView())},
+            abV2PrimaryButton('RTW',
+                onTap: () => {Get.to(() => V2ProfileRTWView())},
                 fullWidth: true),
             SizedBox(height: 20),
-            abV2PrimaryButton('Driving License Back',
-                onTap: () => {Get.to(() => V2ProfileLicencesUploadView())},
+            abV2PrimaryButton('ADDRESS',
+                onTap: () => {Get.to(() => V2ProfileMyDetailsAddressView())},
                 fullWidth: true),
             SizedBox(height: 20),
-            abV2PrimaryButton('Driver Qualifiation Card',
-                onTap: () => {Get.to(() => V2ProfileLicencesUploadView())},
+            abV2PrimaryButton('NI',
+                onTap: () => {Get.to(() => V2ProfileNIView())},
                 fullWidth: true),
             SizedBox(height: 20),
-            abV2PrimaryButton('Tacho card',
-                onTap: () => {Get.to(() => V2ProfileLicencesUploadView())},
+            abV2OutlineButton('Manage Your Details',
+                onTap: () => {Get.to(() => V2ProfileMyDetailsSubDetailsView())},
                 fullWidth: true),
           ],
         ));
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'My Details');
+    return abV2AppBar(context, '');
   }
 
   @override

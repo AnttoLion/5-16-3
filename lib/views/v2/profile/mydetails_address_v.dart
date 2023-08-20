@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfileMyDetailsSubDetailsView extends StatefulWidget {
-  const V2ProfileMyDetailsSubDetailsView({Key? key}) : super(key: key);
+class V2ProfileMyDetailsAddressView extends StatefulWidget {
+  const V2ProfileMyDetailsAddressView({Key? key}) : super(key: key);
 
   @override
   _V2ProfileMyDetailsSubDetailsViewState createState() =>
@@ -14,7 +14,7 @@ class V2ProfileMyDetailsSubDetailsView extends StatefulWidget {
 }
 
 class _V2ProfileMyDetailsSubDetailsViewState
-    extends State<V2ProfileMyDetailsSubDetailsView> {
+    extends State<V2ProfileMyDetailsAddressView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -34,11 +34,43 @@ class _V2ProfileMyDetailsSubDetailsViewState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 24),
+          Container(
+            child: abV2PrimaryButton(
+              'v2_button_text_re_upload'.tr,
+              onTap: () => {},
+              fullWidth: true,
+            ),
+          ),
+          SizedBox(height: 24),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Search by postcode',
+                    style: TextStyle(fontSize: 16, color: MyColors.grey),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                style: TextStyle(fontSize: 16, color: MyColors.black),
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCBD6E2))),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Next of kin',
+                'Postcode',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],
@@ -71,7 +103,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Next of kin phone number',
+                'Address Line1',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],
@@ -104,7 +136,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Next of kin Relationship',
+                'Address Line 2',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],
@@ -137,7 +169,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Phone Number',
+                'Town',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],

@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfileNIView extends StatefulWidget {
-  const V2ProfileNIView({Key? key}) : super(key: key);
+class V2ProfileLicencesUploadView extends StatefulWidget {
+  const V2ProfileLicencesUploadView({Key? key}) : super(key: key);
 
   @override
   _V2ProfileMyDetailsViewState createState() => _V2ProfileMyDetailsViewState();
 }
 
-class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
+class _V2ProfileMyDetailsViewState extends State<V2ProfileLicencesUploadView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -42,30 +42,6 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
                 "lib/images/v2/qr.svg",
               ),
             ),
-          ),
-          SizedBox(height: 10),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'NI',
-                    style: TextStyle(fontSize: 16, color: MyColors.grey),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                style: TextStyle(fontSize: 16, color: MyColors.black),
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFCBD6E2))),
-                ),
-              ),
-            ],
           ),
           SizedBox(height: 10),
           Row(
@@ -103,7 +79,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'My Details');
+    return abV2AppBar(context, 'License');
   }
 
   @override
