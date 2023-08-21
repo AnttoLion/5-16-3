@@ -103,7 +103,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'My Details');
+    return abV2AppBar(context, 'NI');
   }
 
   @override

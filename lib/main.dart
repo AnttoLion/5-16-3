@@ -88,13 +88,13 @@ class ExtraStaff extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               theme: theme,
               darkTheme: darkTheme,
-              home: RegistrationComplete(),
-              // home: !isWebApp
-              //     ? SplashPage()
-              //     : ((localStorage?.getString('passcode') ?? '').isNotEmpty
-              //         ? EnterConfrimCode(isFromStart: true)
-              //         // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
-              //         : PageControllerView()),
+              //home: RegistrationComplete(),
+              home: !isWebApp
+                  ? SplashPage()
+                  : ((localStorage?.getString('passcode') ?? '').isNotEmpty
+                      ? EnterConfrimCode(isFromStart: true)
+                      // ? AnalysingDocs(seconds: Duration(seconds: 100)) //TEST
+                      : PageControllerView()),
               enableLog: false,
               debugShowCheckedModeBanner: false,
               translations: Messages(),

@@ -29,18 +29,103 @@ class _V2ProfileMyDetailsBankDetailsViewState
 
   Widget getContent() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 24),
-            Text(
-              'Profile/My Details/Bank Details',
-              style: MyFonts.regular(20, color: _myThemeColors.primary),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ));
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Bank Details',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 20,
+                  color: Color(0xFF00458D),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Bank Name',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+              Text(
+                'Lorem lpsum',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFFA6BCD0),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Sort Code',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+              Text(
+                'Lorem lpsum',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFFA6BCD0),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Bank Account Number',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+              Text(
+                'Lorem lpsum',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFFA6BCD0),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Bank Holder Name',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+              Text(
+                'Lorem lpsum',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFFA6BCD0),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Bank Reference',
+                style: TextStyle(
+                  fontFamily: 'Be Vietnam Pro',
+                  fontSize: 16,
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   PreferredSizeWidget getAppBar() {
