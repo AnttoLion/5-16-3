@@ -121,7 +121,7 @@ class _RegistrationCompleteState extends State<RegistrationComplete>
                     'Welcome to',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 46,
                       color: MyColors.v2Primary,
                       fontWeight: FontWeight.bold,
                     ),
@@ -133,7 +133,7 @@ class _RegistrationCompleteState extends State<RegistrationComplete>
                     'Extrastaff',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 46,
                       color: MyColors.v2Primary,
                       fontWeight: FontWeight.bold,
                     ),
