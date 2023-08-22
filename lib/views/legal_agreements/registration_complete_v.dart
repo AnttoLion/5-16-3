@@ -1,6 +1,7 @@
 import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/list_to_upload_v.dart';
 import 'package:extra_staff/views/splash_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
@@ -32,7 +33,7 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
     navigateToNextPage();
 
     // Start the effect
-    _blinkTimer = Timer.periodic(Duration(milliseconds: 800), (timer) {
+    _blinkTimer = Timer.periodic(Duration(milliseconds: 500), (timer) {
       setState(() {
         opacityLevel = opacityLevel == 1.0 ? 0.0 : 1.0;
       });
@@ -57,7 +58,7 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
   }
 
   navigateToNextPage() {
-    Future.delayed(Duration(milliseconds: 3500), () {
+    Future.delayed(Duration(milliseconds: 1000), () {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => V2HomeView()),
@@ -68,20 +69,113 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: AnimatedOpacity(
-          opacity: opacityLevel,
-          duration: Duration(milliseconds: 400),
-          child: Text(
-            'Welcome to Extrastaff',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              color: Color(0xFF00458D),
-              fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          Positioned(
+            top: 89,
+            left: -51,
+            width: 102,
+            height: 89,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: MyColors.v2Primary),
+              ),
             ),
           ),
-        ),
+          Positioned(
+            top: 74,
+            right: 69,
+            width: 47,
+            height: 37,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: MyColors.v2Primary),
+              ),
+            ),
+          ),
+          Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              // AnimatedOpacity(
+              //   opacity: opacityLevel,
+              //   duration: Duration(milliseconds: 280),
+              //   child: Text(
+              //     'Welcome to',
+              //     textAlign: TextAlign.center,
+              //     style: TextStyle(
+              //       fontSize: 30,
+              //       color: MyColors.v2Primary,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
+              // AnimatedOpacity(
+              //   opacity: opacityLevel,
+              //   duration: Duration(milliseconds: 240),
+              //   child: Text(
+              //     'Extrastaff',
+              //     textAlign: TextAlign.center,
+              //     style: TextStyle(
+              //       fontSize: 30,
+              //       color: MyColors.v2Primary,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
+              Text(
+                'Welcome to',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: MyColors.v2Primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Extrastaff',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: MyColors.v2Primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ]),
+          ),
+          Positioned(
+            left: 62,
+            bottom: 204,
+            width: 36,
+            height: 38,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: MyColors.v2Primary),
+              ),
+            ),
+          ),
+          Positioned(
+            left: -18,
+            bottom: -19,
+            width: 36,
+            height: 38,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: MyColors.v2Primary),
+              ),
+            ),
+          ),
+          Positioned(
+            right: -133,
+            bottom: 31,
+            width: 236,
+            height: 203,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: MyColors.v2Primary),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -41,9 +41,10 @@ class _V2ProfilePaymentsPayeHistoryViewState
     List<AccordionSection> accordionItems = yearList
         .map((item) => AccordionSection(
               isOpen: true,
+              headerBackgroundColor: MyColors.v2Primary,
               header: Text(
                 item,
-                style: MyFonts.bold(14),
+                style: MyFonts.medium(14, color: MyColors.white),
                 textAlign: TextAlign.center,
               ),
               content: Container(
@@ -84,7 +85,7 @@ class _V2ProfilePaymentsPayeHistoryViewState
             SizedBox(height: 24),
             Accordion(
               maxOpenSections: 1,
-              rightIcon: Icon(Icons.expand_more, color: Color(0xFF002F60)),
+              rightIcon: Icon(Icons.expand_more, color: MyColors.white),
               headerBorderRadius: 6,
               headerBackgroundColor: MyColors.v2AccordionHeader,
               headerPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),

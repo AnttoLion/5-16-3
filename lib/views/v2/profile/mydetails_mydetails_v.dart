@@ -58,7 +58,7 @@ class _V2ProfileMyDetailsViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(context, 'Details');
   }
 
   @override

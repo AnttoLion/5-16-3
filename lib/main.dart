@@ -1,5 +1,6 @@
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/analysing_docs.v.dart';
+import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/views/v2/help_v.dart';
 import 'package:extra_staff/views/v2/work_v.dart';
 import 'package:extra_staff/views/v2/profile/payments_payehistory_v.dart';
@@ -26,8 +27,6 @@ import 'package:extra_staff/utils/none.dart'
 import 'package:extra_staff/views/v2/home_v.dart';
 import 'package:flutter/gestures.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-
-import 'views/legal_agreements/registration_complete_v.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices

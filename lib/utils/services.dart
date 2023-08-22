@@ -101,7 +101,7 @@ class Services extends GetConnect {
   int tempTid = -1;
   int tempUserId = -1;
   String completed = 'No'; //'Yes' or 'No' Whole process completed or not
-  String baseApiUrl = 'https://development.services.extrastaff.com/';
+  String baseApiUrl = "https://development.services.extrastaff.com/";
   List<KeyValue> screens = [
     KeyValue('updateTempComplianceDocExpiry', '3'),
     KeyValue('profileUploadUrl', '3'),
@@ -1174,29 +1174,6 @@ class Services extends GetConnect {
         baseApiUrl + 'getTempAvailabilityInfo',
         query: {
           'user_id': '$userId',
-          'digest': generateMd5(staticDigestKey + '$userId'),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
-
-  Future<BaseApiResponse> getTempShiftInfo(String selDate) async => await get(
-        baseApiUrl + 'getTempShiftInfo',
-        query: {
-          'user_id': '$userId',
-          'sel_date': selDate,
-          'digest': generateMd5(staticDigestKey + '$userId'),
-        },
-        headers: headers,
-      ).then((value) => safeDecode(value));
-
-  Future<BaseApiResponse> getTempWorkHistoryInfo(
-          String stDate, String edDate) async =>
-      await get(
-        baseApiUrl + 'getTempWorkHistoryInfo',
-        query: {
-          'user_id': '$userId',
-          'st_date': stDate,
-          'ed_date': edDate,
           'digest': generateMd5(staticDigestKey + '$userId'),
         },
         headers: headers,

@@ -126,7 +126,19 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
           SizedBox(height: 20),
           Container(
             width: double.infinity,
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              //borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  //spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            // color: Colors.white,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Row(
@@ -187,7 +199,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(context, 'My Details');
   }
 
   @override

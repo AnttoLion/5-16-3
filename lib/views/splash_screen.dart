@@ -85,6 +85,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("=============sdwwwwww=====================");
     return Scaffold(
       body: Center(
         child: Stack(

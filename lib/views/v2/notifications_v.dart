@@ -40,36 +40,9 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Padding(
-        //   padding: EdgeInsets.all(8.0),
-        //   child: Row(
-        //     children: [
-        //       Expanded(
-        //         child: Text(
-        //           'v2_notifications_view_appbar_title'.tr,
-        //           style: TextStyle(
-        //             fontSize: 20,
-        //             color: Color.fromRGBO(0, 69, 141, 1),
-        //             fontWeight: FontWeight.bold,
-        //           ),
-        //         ),
-        //       ),
-        //       Expanded(
-        //         child: Text(
-        //           'Mark all as read',
-        //           style: TextStyle(
-        //             fontSize: 14,
-        //             color: Color.fromRGBO(0, 69, 141, 1),
-        //           ),
-        //           textAlign: TextAlign.end,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
         for (int i = 0; i < _isVisibleList.length; i++) // Iterate over the list
           AnimatedCrossFade(
-            duration: Duration(milliseconds: 400),
+            duration: Duration(milliseconds: 300),
             crossFadeState: _isVisibleList[i]
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
@@ -86,13 +59,13 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                 title: Text(
                   _titleList[i], // Use the title from the list
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Color.fromRGBO(0, 69, 141, 1),
                     //fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Container(
-                  margin: EdgeInsets.only(top: 12),
+                  margin: EdgeInsets.only(top: 6),
                   child:
                       Text(_subtitleList[i]), // Use the subtitle from the list
                 ),
@@ -113,9 +86,18 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
               ),
             ),
             secondChild: Opacity(
-                opacity: 0,
-                child: SizedBox
-                    .shrink()), // Use an empty SizedBox for hidden titles
+              opacity: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+            ), // Use an empty SizedBox for hidden titles
           ),
       ],
     );

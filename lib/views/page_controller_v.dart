@@ -25,6 +25,7 @@ class _PageControllerViewState extends State<PageControllerView> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("seses==================================");
     return Scaffold(
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,

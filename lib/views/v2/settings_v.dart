@@ -1,7 +1,10 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/page_controller_v.dart';
+import 'package:extra_staff/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class V2SettingsView extends StatefulWidget {
   const V2SettingsView({Key? key}) : super(key: key);
@@ -42,7 +45,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
               ),
               SizedBox(height: 8.0),
               Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -50,7 +53,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                         'Email',
                         style: TextStyle(
                           fontFamily: 'Be Vietnam Pro',
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Color(0xFF748A9D),
                         ),
                       ),
@@ -58,7 +61,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                         'abc@gmail.com',
                         style: TextStyle(
                           fontFamily: 'Be Vietnam Pro',
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Color(0xFFA6BCD0),
                         ),
                       ),
@@ -67,7 +70,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                         'Phone Number',
                         style: TextStyle(
                           fontFamily: 'Be Vietnam Pro',
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Color(0xFF748A9D),
                         ),
                       ),
@@ -75,7 +78,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                         '+123456789',
                         style: TextStyle(
                           fontFamily: 'Be Vietnam Pro',
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Color(0xFFA6BCD0),
                         ),
                       ),
@@ -93,7 +96,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                 ),
                 SizedBox(height: 8.0),
                 Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -107,7 +110,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                       'Location',
                                       style: TextStyle(
                                         fontFamily: 'Be Vietnam Pro',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: Color(0xFF748A9D),
                                       ),
                                     ),
@@ -115,7 +118,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                       'London',
                                       style: TextStyle(
                                         fontFamily: 'Be Vietnam Pro',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: Color(0xFFA6BCD0),
                                       ),
                                     ),
@@ -123,7 +126,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                 ),
                               ),
                               Transform.scale(
-                                scale: 0.8,
+                                scale: 0.7,
                                 child: Switch(
                                   value: _isLocationEnabled,
                                   onChanged: (bool value) {
@@ -149,7 +152,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                       'Password',
                                       style: TextStyle(
                                         fontFamily: 'Be Vietnam Pro',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: Color(0xFF748A9D),
                                       ),
                                     ),
@@ -157,7 +160,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                       '**************',
                                       style: TextStyle(
                                         fontFamily: 'Be Vietnam Pro',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: Color(0xFFA6BCD0),
                                       ),
                                     ),
@@ -181,18 +184,18 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                   'Facial Recognition',
                                   style: TextStyle(
                                     fontFamily: 'Be Vietnam Pro',
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Color(0xFF748A9D),
                                   ),
                                 ),
                               ),
                               Transform.scale(
-                                scale: 0.8,
+                                scale: 0.7,
                                 child: Switch(
-                                  value: _isLocationEnabled,
+                                  value: _isFacialRecognitionEnabled,
                                   onChanged: (bool value) {
                                     setState(() {
-                                      _isLocationEnabled = value;
+                                      _isFacialRecognitionEnabled = value;
                                     });
                                     // Add your logic for handling the switch button change here
                                   },
@@ -204,7 +207,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                           ),
                         ])),
               ]),
-              SizedBox(height: 32.0),
+              SizedBox(height: 26),
               Container(
                 width: 156,
                 height: 40,
@@ -213,8 +216,15 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Add your sign-out logic here
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    await preferences.clear();
+                    if (isWebApp)
+                      Get.offAll(() => PageControllerView());
+                    else
+                      Get.offAll(() => SplashPage());
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF888A8C),
@@ -226,7 +236,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                   child: Text(
                     'Sign Out',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       //fontWeight: FontWeight.bold,
                     ),
                   ),

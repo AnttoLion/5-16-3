@@ -250,6 +250,7 @@ class _RegistrationView extends State<RegistrationView> {
             return;
           }
         }
+        Get.offAll(() => RegistrationComplete());
       } else {
         if (isReviewing)
           Get.offAll(() => RegistrationComplete());

@@ -2048,7 +2048,7 @@ PreferredSize abV2AppBar(
                       Expanded(
                         child: Text(
                           title,
-                          style: MyFonts.medium(25),
+                          style: MyFonts.medium(25, color: MyColors.v2Primary),
                           textAlign: TextAlign.center,
                         ),
                       ),

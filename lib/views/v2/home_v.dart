@@ -347,7 +347,7 @@ class _V2HomeViewState extends State<V2HomeView>
     return Container(
         height: 167,
         width: 307,
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.only(left: 8),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -408,7 +408,7 @@ class _V2HomeViewState extends State<V2HomeView>
   Widget getBlogWidget(String image, String title, String date) {
     return Container(
         height: 340,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(right: 16),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
