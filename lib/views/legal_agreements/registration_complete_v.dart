@@ -1,18 +1,10 @@
 import 'package:extra_staff/utils/services.dart';
-import 'package:extra_staff/views/list_to_upload_v.dart';
-import 'package:extra_staff/views/splash_screen.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/legal_agreements/hmrc_checklist_start_v.dart';
-import 'package:extra_staff/views/registration_v.dart';
-import 'package:extra_staff/utils/resume_navigation.dart';
-import 'package:extra_staff/views/page_controller_v.dart';
 import 'package:extra_staff/views/v2/home_v.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 
 class RegistrationComplete extends StatefulWidget {
@@ -22,27 +14,41 @@ class RegistrationComplete extends StatefulWidget {
   _RegistrationCompleteState createState() => _RegistrationCompleteState();
 }
 
-class _RegistrationCompleteState extends State<RegistrationComplete> {
-  double opacityLevel = 1.0;
-  Timer? _blinkTimer;
+class _RegistrationCompleteState extends State<RegistrationComplete>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<double>? _animation;
+
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     saveProcess();
-    navigateToNextPage();
 
-    // Start the effect
-    _blinkTimer = Timer.periodic(Duration(milliseconds: 500), (timer) {
-      setState(() {
-        opacityLevel = opacityLevel == 1.0 ? 0.0 : 1.0;
-      });
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _animation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(_controller!);
+
+    _controller!.addListener(() {
+      setState(() {});
     });
+
+    _controller!.forward();
+
+    _timer = Timer(Duration(seconds: 2), navigateToNextPage);
   }
 
   @override
   void dispose() {
-    _blinkTimer?.cancel(); // Cancel the timer when the widget is disposed
+    _controller?.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -58,12 +64,24 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
   }
 
   navigateToNextPage() {
-    Future.delayed(Duration(milliseconds: 1000), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => V2HomeView()),
-      );
-    });
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) => V2HomeView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var tween = Tween(begin: begin, end: end);
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -94,53 +112,35 @@ class _RegistrationCompleteState extends State<RegistrationComplete> {
             ),
           ),
           Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // AnimatedOpacity(
-              //   opacity: opacityLevel,
-              //   duration: Duration(milliseconds: 280),
-              //   child: Text(
-              //     'Welcome to',
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(
-              //       fontSize: 30,
-              //       color: MyColors.v2Primary,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              // ),
-              // AnimatedOpacity(
-              //   opacity: opacityLevel,
-              //   duration: Duration(milliseconds: 240),
-              //   child: Text(
-              //     'Extrastaff',
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(
-              //       fontSize: 30,
-              //       color: MyColors.v2Primary,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              // ),
-              Text(
-                'Welcome to',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: MyColors.v2Primary,
-                  fontWeight: FontWeight.bold,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Opacity(
+                  opacity: 1 - _animation!.value,
+                  child: Text(
+                    'Welcome to',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: MyColors.v2Primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-              Text(
-                'Extrastaff',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: MyColors.v2Primary,
-                  fontWeight: FontWeight.bold,
+                Opacity(
+                  opacity: 1 - _animation!.value,
+                  child: Text(
+                    'Extrastaff',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: MyColors.v2Primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
           Positioned(
             left: 62,
