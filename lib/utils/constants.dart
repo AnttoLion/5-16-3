@@ -69,8 +69,8 @@ enum FontStyle { bold, semiBold, medium, regular, light, extraLight }
 
 class MyFonts {
   static TextStyle bold(double size, {Color? color}) => TextStyle(
-        fontFamily: 'Poppins',
-        fontWeight: FontWeight.w700,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.w800,
         fontSize: isiOS ? size : size - 2,
         color: color,
       );

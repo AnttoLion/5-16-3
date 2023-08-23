@@ -213,9 +213,15 @@ class _V2HomeViewState extends State<V2HomeView>
         secondWidget = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(prefix + value1.toString(), style: MyFonts.regular(18)),
+            Text(
+              prefix + value1.toString(),
+              style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
+            ),
             SizedBox(width: 2),
-            Text(suffix, style: MyFonts.regular(14))
+            Text(
+              suffix,
+              style: TextStyle(fontSize: 18, fontFamily: "Roboto"),
+            )
           ],
         );
         break;
@@ -226,7 +232,10 @@ class _V2HomeViewState extends State<V2HomeView>
         padding: const EdgeInsets.all(4),
         color: _myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(title.tr, style: MyFonts.regular(11)),
+          Text(
+            title.tr,
+            style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
+          ),
           SizedBox(height: 6),
           secondWidget
         ]));
@@ -305,7 +314,10 @@ class _V2HomeViewState extends State<V2HomeView>
         padding: const EdgeInsets.all(4),
         color: _myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(title.tr, style: MyFonts.regular(11)),
+          Text(
+            title.tr,
+            style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
+          ),
           SizedBox(height: 6),
           secondWidget
         ]));
@@ -333,12 +345,16 @@ class _V2HomeViewState extends State<V2HomeView>
                     uncheckedColor: Colors.white,
                   ),
                   SizedBox(width: 6),
-                  Text(title, style: MyFonts.medium(18))
+                  Text(title,
+                      style: TextStyle(fontSize: 18, fontFamily: "Roboto"))
                 ],
               ),
               SizedBox(height: 6),
               Text(content,
-                  style: MyFonts.regular(14, color: _myThemeColors.primary))
+                  style: TextStyle(
+                      fontSize: 11,
+                      fontFamily: "Open Sans",
+                      color: MyColors.v2Primary))
             ]));
   }
 
@@ -347,18 +363,22 @@ class _V2HomeViewState extends State<V2HomeView>
     return Container(
         height: 167,
         width: 307,
-        padding: const EdgeInsets.only(left: 8),
+        padding: const EdgeInsets.only(left: 8, bottom: 10),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   RichText(
                     text: TextSpan(
-                      style: MyFonts.regular(14, color: MyColors.grey),
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 12,
+                          color: Colors.grey),
                       children: <TextSpan>[
                         TextSpan(text: 'Pay: '),
                         TextSpan(
@@ -373,7 +393,10 @@ class _V2HomeViewState extends State<V2HomeView>
                   SizedBox(width: 16),
                   RichText(
                     text: TextSpan(
-                      style: MyFonts.regular(14, color: MyColors.grey),
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 12,
+                          color: Colors.grey),
                       children: <TextSpan>[
                         TextSpan(text: 'Duration: '),
                         TextSpan(
@@ -387,10 +410,10 @@ class _V2HomeViewState extends State<V2HomeView>
                   )
                 ],
               ),
-              SizedBox(height: 32),
-              Text(title, style: MyFonts.medium(18)),
-              Text(location, style: MyFonts.regular(14, color: MyColors.grey)),
-              SizedBox(height: 10),
+              SizedBox(height: 7),
+              Text(title, style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
+              Text(location, style: MyFonts.regular(11, color: MyColors.grey)),
+              SizedBox(height: 7),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -398,8 +421,13 @@ class _V2HomeViewState extends State<V2HomeView>
                   abV2PrimaryButton("APPLY NOW", onTap: () => {}),
                   Spacer(),
                   Text("Post " + agoTime,
-                      style:
-                          MyFonts.regular(14, color: _myThemeColors.primary)),
+                      style: TextStyle(
+                          fontFamily: "Open Sans",
+                          fontSize: 11,
+                          color: MyColors.v2Primary)),
+                  SizedBox(
+                    width: 10,
+                  )
                 ],
               ),
             ]));
@@ -407,29 +435,37 @@ class _V2HomeViewState extends State<V2HomeView>
 
   Widget getBlogWidget(String image, String title, String date) {
     return Container(
-        height: 340,
-        padding: const EdgeInsets.only(right: 16),
+        height: 322,
+        width: 361,
+        padding: const EdgeInsets.only(top: 15, left: 15, bottom: 9),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(height: 156, color: MyColors.lightGrey),
-              SizedBox(height: 12),
+              Container(height: 156, width: 331, color: MyColors.lightGrey),
+              SizedBox(height: 6),
               Text(date, style: MyFonts.regular(14, color: MyColors.grey)),
               SizedBox(height: 6),
               Row(children: [
                 Expanded(
-                  child: Text(title, style: MyFonts.bold(22)),
+                  child: Text(title,
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w900)),
                   flex: 2,
                 ),
                 Spacer(),
               ]),
-              SizedBox(height: 12),
-              Row(children: [
-                Spacer(),
-                abV2PrimaryButton("READ MORE", onTap: () => {}),
-              ])
+              SizedBox(height: 3),
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Row(children: [
+                  Spacer(),
+                  abV2PrimaryButton("READ MORE", onTap: () => {}),
+                ]),
+              )
             ]));
   }
 
@@ -441,16 +477,23 @@ class _V2HomeViewState extends State<V2HomeView>
           children: [
             Text(
               'v2_weekly_shift'.tr,
-              style: MyFonts.regular(20, color: _myThemeColors.primary),
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 20,
+                color: MyColors.v2Primary,
+              ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 18),
             Text(
-              'Lorem lpsum sit dolor para cambre los canos ce te pas',
-              style: MyFonts.regular(16, color: MyColors.grey),
-              textAlign: TextAlign.left,
+              'Hi [Temps Name], stay on top of your work',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 16,
+                color: MyColors.grey,
+              ),
             ),
-            SizedBox(height: 13),
+            SizedBox(height: 26),
             getStaticWeekdayWidget(_controller.weeklyShift)
           ],
         ));
@@ -494,7 +537,11 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_achievements'.tr,
-          style: MyFonts.regular(20, color: _myThemeColors.primary),
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 20,
+            color: MyColors.v2Primary,
+          ),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 18),
@@ -505,7 +552,8 @@ class _V2HomeViewState extends State<V2HomeView>
             isScrollable: true,
             controller: _tabcontroller,
             labelColor: _myThemeColors.primary,
-            labelStyle: MyFonts.medium(16, color: _myThemeColors.primary),
+            unselectedLabelColor: _myThemeColors.primary,
+            labelStyle: TextStyle(fontSize: 16, fontFamily: "Roboto"),
             indicatorColor: _myThemeColors.primary,
             tabs: [
               Tab(
@@ -589,14 +637,14 @@ class _V2HomeViewState extends State<V2HomeView>
               // This next line does the trick.
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
-                    "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
+                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
                 SizedBox(width: 12),
-                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
-                    "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
+                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
                 SizedBox(width: 12),
-                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
-                    "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
+                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
               ],
             ))
       ],
@@ -606,10 +654,11 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_blog_post'.tr,
-          style: MyFonts.regular(20, color: _myThemeColors.primary),
+          style: TextStyle(
+              fontSize: 22, fontFamily: 'Roboto', color: MyColors.v2Primary),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 18),
+        SizedBox(height: 10),
         getBlogWidget(
             "", "Lorem Ipsum Sit Dolor las bloge here", "December x, 2022"),
       ],
@@ -640,13 +689,13 @@ class _V2HomeViewState extends State<V2HomeView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         weeklyShift,
-        SizedBox(height: 42),
+        SizedBox(height: 35),
         achievements,
-        SizedBox(height: 42),
+        SizedBox(height: 50),
         yourNotifications,
         SizedBox(height: 42),
         availableJobs,
-        SizedBox(height: 42),
+        SizedBox(height: 30),
         blogPost,
         SizedBox(height: 8),
         marketingMessage,

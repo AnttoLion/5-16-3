@@ -2260,7 +2260,7 @@ Widget abV2PrimaryButton(String title,
                       color: success ? MyColors.v2Green : MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               EdgeInsets.symmetric(horizontal: 16, vertical: 16))),
-      child: Text(title, style: MyFonts.regular(14, color: MyColors.white)),
+      child: Text(title, style: MyFonts.regular(13, color: MyColors.white)),
       onPressed: onTap,
     );
   } else {
@@ -2272,8 +2272,10 @@ Widget abV2PrimaryButton(String title,
                   borderRadius: BorderRadius.circular(5.0),
                   side: BorderSide(color: MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              EdgeInsets.symmetric(horizontal: 32, vertical: 16))),
-      child: Text(title, style: MyFonts.regular(16, color: MyColors.white)),
+            EdgeInsets.symmetric(
+                horizontal: 31, vertical: 5), // Modify these values
+          )),
+      child: Text(title, style: MyFonts.regular(18, color: MyColors.white)),
       onPressed: onTap,
     );
   }
