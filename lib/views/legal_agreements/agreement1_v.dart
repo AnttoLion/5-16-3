@@ -89,7 +89,7 @@ class _Agreement1State extends State<Agreement1> {
           child: Container(
             padding: gHPadding,
             child: RawScrollbar(
-              isAlwaysShown: true,
+              thumbVisibility: true,
               controller: scrollController,
               thumbColor: MyColors.darkBlue,
               radius: Radius.circular(16),
