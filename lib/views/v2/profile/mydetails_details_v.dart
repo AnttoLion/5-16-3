@@ -1,7 +1,6 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
@@ -33,6 +32,72 @@ class _V2ProfileMyDetailsSubDetailsViewState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Current Address Line',
+                style: TextStyle(fontSize: 16, color: MyColors.grey),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          TextFormField(
+            style: TextStyle(fontSize: 16, color: MyColors.black),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+              ),
+              suffixIcon: MouseRegion(
+                cursor: SystemMouseCursors.click, // change cursor to pointer
+                child: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    // Add your logic for handling the password edit here
+                  },
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+            ),
+            enabled:
+                false, // Set enabled to false to make the input box not editable
+          ),
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Post Code',
+                style: TextStyle(fontSize: 16, color: MyColors.grey),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          TextFormField(
+            style: TextStyle(fontSize: 16, color: MyColors.black),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+              ),
+              suffixIcon: MouseRegion(
+                cursor: SystemMouseCursors.click, // change cursor to pointer
+                child: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    // Add your logic for handling the password edit here
+                  },
+                  color: Color(0xFF748A9D),
+                ),
+              ),
+            ),
+            enabled:
+                false, // Set enabled to false to make the input box not editable
+          ),
           SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +136,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Next of kin phone number',
+                'Phone number',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],
@@ -104,40 +169,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Next of kin Relationship',
-                style: TextStyle(fontSize: 16, color: MyColors.grey),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
-                ),
-              ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
-          ),
-          SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Phone Number',
+                'Availability',
                 style: TextStyle(fontSize: 16, color: MyColors.grey),
               ),
             ],
@@ -171,7 +203,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'Details');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -79,7 +78,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileLicencesUploadView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'License');
+    return abV2AppBar(context, 'License', showBack: true);
   }
 
   @override

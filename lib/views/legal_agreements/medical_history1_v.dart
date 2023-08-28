@@ -1,9 +1,7 @@
 import 'package:extra_staff/controllers/legal_agreements/medical_history_c.dart';
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/legal_agreements/medical_history2_v.dart';
-import 'package:extra_staff/views/legal_agreements/medical_history3_v.dart';
 import 'package:extra_staff/views/legal_agreements/registration_complete_v.dart';
 import 'package:extra_staff/views/new_info_v.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +99,8 @@ class _MedicalHistory1State extends State<MedicalHistory1> {
               await Resume.shared.setDone(name: 'MedicalHistory1');
               await Resume.shared.setDone(name: 'MedicalHistory2');
               await Resume.shared.setDone(name: 'MedicalHistory3');
-              await Services.shared.sendProgress('MedicalHistory3'); // screen_id == 27
+              await Services.shared
+                  .sendProgress('MedicalHistory3'); // screen_id == 27
               Get.bottomSheet(
                 NewInfoView(6, () {
                   Get.off(() => RegistrationComplete());

@@ -1,9 +1,7 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/views/v2/profile/mydetails_NI_v.dart';
 import 'package:extra_staff/views/v2/profile/mydetails_address_v.dart';
 import 'package:extra_staff/views/v2/profile/mydetails_details_v.dart';
-import 'package:extra_staff/views/v2/profile/mydetails_license_v.dart';
 import 'package:extra_staff/views/v2/profile/mydetails_rtw_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,7 +56,7 @@ class _V2ProfileMyDetailsViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'Details');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class Interview extends StatefulWidget {

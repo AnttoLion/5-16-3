@@ -1181,9 +1181,23 @@ class Services extends GetConnect {
   Future<BaseApiResponse> getTempShiftInfo(String selDate) async => get(
         baseApiUrl + 'getTempShiftInfo',
         query: {
-          'user_id': '216007',
+          'user_id': '$userId',
+          'digest': generateMd5(staticDigestKey + '$userId'),
           'sel_date': selDate,
-          'digest': 'ae4cba25b86be2e2e81f895eb4929283',
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+  Future<BaseApiResponse> getTempWorkHistoryInfo(
+          String startDate, String endDate) async =>
+      get(
+        baseApiUrl + 'getTempWorkHistoryInfo',
+        query: {
+          'user_id': '$userId',
+          // 'user_id': '216007',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+          // 'digest': "ae4cba25b86be2e2e81f895eb4929283",
+          'st_date': startDate,
+          'ed_date': endDate,
         },
         headers: headers,
       ).then((value) => safeDecode(value));

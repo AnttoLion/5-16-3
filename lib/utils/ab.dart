@@ -1950,6 +1950,7 @@ PreferredSize abV2AppBar(
   String title, {
   Function(int)? onTap,
   bool showBack = false,
+  bool showIcon = false,
 }) {
   if (isWebApp) {
     return PreferredSize(
@@ -1971,13 +1972,8 @@ PreferredSize abV2AppBar(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Visibility(
-                            visible: showBack,
-                            maintainState: true,
-                            maintainAnimation: true,
-                            maintainSize: true,
-                            maintainSemantics: true,
-                            child: IconButton(
+                          if (showBack)
+                            IconButton(
                               onPressed: () =>
                                   onTap == null ? Get.back() : onTap(1),
                               icon: Icon(
@@ -1986,7 +1982,6 @@ PreferredSize abV2AppBar(
                                 size: 30,
                               ),
                             ),
-                          ),
                           Expanded(
                             child: Text(
                               title,
@@ -1995,14 +1990,15 @@ PreferredSize abV2AppBar(
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          IconButton(
-                            onPressed: null,
-                            icon: Icon(
-                              Icons.menu,
-                              size: 30,
-                              color: MyColors.v2Primary,
+                          if (showIcon)
+                            IconButton(
+                              onPressed: null,
+                              icon: Icon(
+                                Icons.menu,
+                                size: 30,
+                                color: MyColors.v2Primary,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -2029,13 +2025,8 @@ PreferredSize abV2AppBar(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Visibility(
-                        visible: showBack,
-                        maintainState: true,
-                        maintainAnimation: true,
-                        maintainSize: true,
-                        maintainSemantics: true,
-                        child: IconButton(
+                      if (showBack)
+                        IconButton(
                           onPressed: () =>
                               onTap == null ? Get.back() : onTap(1),
                           icon: Icon(
@@ -2044,7 +2035,6 @@ PreferredSize abV2AppBar(
                             size: 30,
                           ),
                         ),
-                      ),
                       Expanded(
                         child: Text(
                           title,
@@ -2052,14 +2042,15 @@ PreferredSize abV2AppBar(
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      IconButton(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.menu,
-                          size: 30,
-                          color: MyColors.v2Primary,
+                      if (showIcon)
+                        IconButton(
+                          onPressed: null,
+                          icon: Icon(
+                            Icons.menu,
+                            size: 30,
+                            color: MyColors.v2Primary,
+                          ),
                         ),
-                      ),
                     ]),
               ),
             ],

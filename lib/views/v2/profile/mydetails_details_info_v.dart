@@ -1,7 +1,6 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
@@ -44,7 +43,7 @@ class _V2ProfileMyDetailsInfoViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'Info');
+    return abV2AppBar(context, 'Info', showBack: true);
   }
 
   @override

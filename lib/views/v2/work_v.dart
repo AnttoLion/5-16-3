@@ -317,7 +317,8 @@ class _V2WorkViewState extends State<V2WorkView> {
               _titleList4[i],
             ),
           ],
-        )
+        ),
+      SizedBox(height: 40),
     ]);
 
     return Container(

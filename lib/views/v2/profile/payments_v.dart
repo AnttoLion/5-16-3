@@ -184,7 +184,8 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'v2_profile_payments_view_appbar_title'.tr);
+    return abV2AppBar(context, 'v2_profile_payments_view_appbar_title'.tr,
+        showBack: true);
   }
 
   @override

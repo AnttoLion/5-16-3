@@ -1,7 +1,5 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
@@ -97,7 +95,7 @@ class _V2ProfileMyDetailsBankDetailsViewState
               ),
               SizedBox(height: 16),
               Text(
-                'Bank Holder Name',
+                'Xk0121948y2391492379283',
                 style: TextStyle(
                   fontFamily: 'Be Vietnam Pro',
                   fontSize: 16,
@@ -129,7 +127,7 @@ class _V2ProfileMyDetailsBankDetailsViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'Bank Details');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

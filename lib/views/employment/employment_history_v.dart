@@ -5,7 +5,6 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/employment/company_details_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class EmploymentHistory extends StatefulWidget {

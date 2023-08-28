@@ -1,12 +1,8 @@
-import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
-import 'package:extra_staff/views/legal_agreements/hmrc_checklist_v.dart';
-import 'package:extra_staff/views/legal_agreements/agreements_v.dart';
 import 'package:extra_staff/controllers/legal_agreements/hmrc_checklist_c.dart';
-import 'package:extra_staff/utils/services.dart';
 import 'package:extra_staff/views/legal_agreements/agreements_review_v.dart';
 
 class HMRCChecklistReView extends StatefulWidget {

@@ -1,16 +1,13 @@
 import 'package:extra_staff/utils/resume_navigation.dart';
-import 'package:extra_staff/views/legal_agreements/user_confirmation_v.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/models/key_value_m.dart';
 import 'package:extra_staff/controllers/legal_agreements/agreements_c.dart';
 import 'package:extra_staff/views/legal_agreements/agreement1_v.dart';
 import 'package:extra_staff/views/legal_agreements/medical_history1_v.dart';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:extra_staff/utils/services.dart';
 
 class AgreementsReView extends StatefulWidget {
   const AgreementsReView({Key? key}) : super(key: key);

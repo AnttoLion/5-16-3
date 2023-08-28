@@ -1,9 +1,9 @@
 import 'package:accordion/accordion.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/utils/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../utils/theme.dart';
@@ -22,6 +22,30 @@ class _V2ProfileHolidayAvailabilityViewState
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
   int _selectedIndex = 2;
+
+  Map<String, bool> selectedDays = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAvailabilityInfo();
+  }
+
+  Future<void> _fetchAvailabilityInfo() async {
+    final response = await Services.shared.getTempAvailabilityInfo();
+    setState(() {
+      selectedDays = {
+        'Monday': (response.result['monday'] == 'true' ? true : false),
+        'Tuesday': (response.result['tuesday'] == 'true' ? true : false),
+        'Wednesday': (response.result['wednesday'] == 'true' ? true : false),
+        'Thursday': (response.result['thursday'] == 'true' ? true : false),
+        'Friday': (response.result['friday'] == 'true' ? true : false),
+        'Saturday': (response.result['saturday'] == 'true' ? true : false),
+        'Sunday': (response.result['sunday'] == 'true' ? true : false),
+        'Night Work': (response.result['night_work'] == 'true' ? true : false),
+      };
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -162,16 +186,6 @@ class _V2ProfileHolidayAvailabilityViewState
     final List<String> yearList = [
       "Update Availability",
     ];
-    Map<String, bool> selectedDays = {
-      'Monday': false,
-      'Tuesday': false,
-      'Wednesday': false,
-      'Thursday': false,
-      'Friday': false,
-      'Saturday': false,
-      'Sunday': false,
-      'Night Work': false,
-    };
 
     return Accordion(
       paddingListTop: 0,
@@ -276,7 +290,7 @@ class _V2ProfileHolidayAvailabilityViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'Holiday Availability');
+    return abV2AppBar(context, '');
   }
 
   @override

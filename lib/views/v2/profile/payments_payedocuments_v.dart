@@ -312,7 +312,7 @@ class _V2ProfilePaymentsPayeDocumentsViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'PayeDocuments');
+    return abV2AppBar(context, 'Paye Documents', showBack: true);
   }
 
   @override

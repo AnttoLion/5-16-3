@@ -5,7 +5,6 @@ import 'package:extra_staff/views/new_info_v.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class MedicalHistory3 extends StatefulWidget {

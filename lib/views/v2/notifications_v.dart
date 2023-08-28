@@ -1,5 +1,4 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,57 +36,48 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
   }
 
   Widget getContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (int i = 0; i < _isVisibleList.length; i++) // Iterate over the list
-          AnimatedCrossFade(
-            duration: Duration(milliseconds: 300),
-            crossFadeState: _isVisibleList[i]
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
-            firstChild: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: ListTile(
-                title: Text(
-                  _titleList[i], // Use the title from the list
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Notifications',
                   style: TextStyle(
-                    fontSize: 16,
-                    color: Color.fromRGBO(0, 69, 141, 1),
-                    //fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    color: Color(0xFF00458D),
                   ),
                 ),
-                subtitle: Container(
-                  margin: EdgeInsets.only(top: 6),
-                  child:
-                      Text(_subtitleList[i]), // Use the subtitle from the list
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isVisibleList[i] =
-                          false; // Set the visibility of the current list tile to false
-                    });
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 20,
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               ),
-            ),
-            secondChild: Opacity(
-              opacity: 0,
-              child: Container(
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Mark all as read',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 12,
+                      color: Color(0xFF00458D),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          for (int i = 0;
+              i < _isVisibleList.length;
+              i++) // Iterate over the list
+            AnimatedCrossFade(
+              duration: Duration(milliseconds: 300),
+              crossFadeState: _isVisibleList[i]
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              firstChild: Container(
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -96,18 +86,57 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                     ),
                   ),
                 ),
+                child: ListTile(
+                  title: Text(
+                    _titleList[i], // Use the title from the list
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromRGBO(0, 69, 141, 1),
+                      //fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Container(
+                    margin: EdgeInsets.only(top: 6),
+                    child: Text(
+                        _subtitleList[i]), // Use the subtitle from the list
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isVisibleList[i] =
+                            false; // Set the visibility of the current list tile to false
+                      });
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      size: 20,
+                    ),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+                ),
               ),
-            ), // Use an empty SizedBox for hidden titles
-          ),
-      ],
+              secondChild: Opacity(
+                opacity: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey,
+                        width: 0.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ), // Use an empty SizedBox for hidden titles
+            ),
+        ],
+      ),
     );
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(
-      context,
-      'v2_notifications_view_appbar_title'.tr,
-    );
+    return abV2AppBar(context, ''.tr);
   }
 
   @override

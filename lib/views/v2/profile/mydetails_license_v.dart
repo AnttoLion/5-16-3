@@ -52,7 +52,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileLicenseView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'My Details');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

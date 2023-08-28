@@ -5,7 +5,6 @@ import 'package:extra_staff/utils/resume_navigation.dart';
 import 'package:extra_staff/views/onboarding/competency_test_v.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class OnboardingWizard extends StatefulWidget {
@@ -198,7 +197,8 @@ class _OnboardingWizardState extends State<OnboardingWizard> {
           await localStorage?.setBool('isCompetencyTestCompleted', true);
           await Resume.shared.setDone(name: 'OnboardingWizard');
           await Resume.shared.setDone(name: 'CompetencyTest');
-          await Services.shared.sendProgress('OnboardingWizard'); // screen_id == 18
+          await Services.shared
+              .sendProgress('OnboardingWizard'); // screen_id == 18
           Get.to(() => CompetencyTest())?.then((value) => getData());
         }
       }).then((value) => reset());

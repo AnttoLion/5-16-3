@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/controllers/legal_agreements/agreements_c.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:extra_staff/utils/services.dart';
 
 class Agreement1 extends StatefulWidget {
@@ -131,24 +130,24 @@ class _Agreement1State extends State<Agreement1> {
           if (controller.currentIndex == controller.allAgreements.length) {
             await Resume.shared.setDone(name: 'Agreement1');
             await Resume.shared.setDone(name: 'AgreementsView');
-            await Services.shared.sendProgress('AgreementsView'); // screen_id == 21
+            await Services.shared
+                .sendProgress('AgreementsView'); // screen_id == 21
 
             final message = await controller.getTempAgreementInfo();
-            if (message.isNotEmpty){
+            if (message.isNotEmpty) {
               abShowMessage(message);
               return;
             }
 
-            if(controller.allAccepted()){
+            if (controller.allAccepted()) {
               Get.to(() => UserConfirmationView());
               return;
-            }
-            else{
+            } else {
               Get.to(() => AgreementsView());
-              abShowMessage("We are unable to generate document. Please try again. If problem persist then please contact Extrastaff support.");
+              abShowMessage(
+                  "We are unable to generate document. Please try again. If problem persist then please contact Extrastaff support.");
               return;
             }
-
           }
           controller.nextAgreement();
           final value = await apiCall();
