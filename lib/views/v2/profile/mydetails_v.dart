@@ -125,6 +125,32 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                 onRangeSelected: (start, end, focusedDay) async {
                   var shiftData;
                   if (start != null && end != null) {
+                    Duration difference = end.difference(start);
+                    int numberOfDays = difference.inDays;
+
+                    if (numberOfDays > 30) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Wrong'),
+                            content: Text(
+                                'Sorry, you cannot select a range longer than 30 days.'),
+                            actions: [
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  // Close the dialog or reset the selected range
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      return;
+                    }
+
                     String formattedStart =
                         "${start.year}-${start.month.toString().padLeft(2, '0')}-${start.day.toString().padLeft(2, '0')}";
                     String formattedEnd =

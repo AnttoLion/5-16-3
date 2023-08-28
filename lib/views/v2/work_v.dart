@@ -38,7 +38,9 @@ class _V2WorkViewState extends State<V2WorkView> {
   List<String> _titleList3 = [];
   List<String> _titleList4 = [];
 
+  String tomorrowLabel = "Tomorrow ";
   late DateTime nowt;
+  late DateTime tomorrowt;
   late String tomorrow;
   late String formattedTomorrow;
 
@@ -46,12 +48,9 @@ class _V2WorkViewState extends State<V2WorkView> {
   void initState() {
     super.initState();
     nowt = DateTime.now();
-    DateTime tomorrowDate = nowt.add(Duration(days: 1));
-    tomorrow = DateFormat('yyyy-MM-dd').format(tomorrowDate);
-
-    String formattedTomorrow =
-        DateFormat('EEEE, MMMM d, y').format(tomorrowDate);
-    print(formattedTomorrow);
+    tomorrowt = nowt.add(Duration(days: 1));
+    tomorrow = DateFormat('yyyy-MM-dd').format(tomorrowt);
+    formattedTomorrow = DateFormat('EEEE, MMMM d, y').format(tomorrowt);
 
     _loadShiftData();
   }
@@ -59,7 +58,6 @@ class _V2WorkViewState extends State<V2WorkView> {
   Future<void> _loadShiftData() async {
     try {
       final shiftData = await Services.shared.getTempShiftInfo(tomorrow);
-
       if (shiftData.result.runtimeType == List<dynamic>) {
         int slength = shiftData.result.length;
       } else {
@@ -237,6 +235,7 @@ class _V2WorkViewState extends State<V2WorkView> {
                 CalendarFormat.week: 'week',
               },
               headerVisible: false,
+              availableGestures: AvailableGestures.none,
               headerStyle: HeaderStyle(titleCentered: true),
               calendarFormat: _calendarFormat,
               selectedDayPredicate: (day) {
@@ -251,6 +250,14 @@ class _V2WorkViewState extends State<V2WorkView> {
                       await Services.shared.getTempShiftInfo(formattedDate);
 
                   setState(() {
+                    formattedTomorrow =
+                        DateFormat('EEEE, MMMM d, y').format(selectedDay);
+
+                    if (isSameDay(selectedDay, tomorrowt))
+                      tomorrowLabel = "Tomorrow ";
+                    else
+                      tomorrowLabel = "";
+
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
 
@@ -299,10 +306,10 @@ class _V2WorkViewState extends State<V2WorkView> {
           style: MyFonts.regular(18, color: MyColors.grey),
           children: <TextSpan>[
             TextSpan(
-              text: 'Tomorrow ',
+              text: tomorrowLabel,
               style: TextStyle(color: _myThemeColors.primary),
             ),
-            TextSpan(text: 'Saturday, June 22, 2023'),
+            TextSpan(text: formattedTomorrow),
           ],
         ),
       ),
@@ -340,6 +347,7 @@ class _V2WorkViewState extends State<V2WorkView> {
 
   @override
   Widget build(BuildContext context) {
+    print(_titleList1);
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
         context, _isLoading,
         appBar: getAppBar(),
