@@ -31,7 +31,16 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 30),
+          SizedBox(height: 20),
+          Text(
+            'RTW',
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              fontSize: 20,
+              color: Color(0xFF00458D),
+            ),
+          ),
+          SizedBox(height: 20),
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -78,7 +87,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, 'RTW', showBack: true);
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

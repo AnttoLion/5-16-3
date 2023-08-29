@@ -22,7 +22,8 @@ class V2WorkView extends StatefulWidget {
 }
 
 class _V2WorkViewState extends State<V2WorkView> {
-  bool _isLoading = false;
+  late Future<void> _loadShiftDataFuture;
+  bool _isLoading = true;
   int _selectedIndex = 1;
   bool _isCalendarVisible = false;
 
@@ -52,15 +53,14 @@ class _V2WorkViewState extends State<V2WorkView> {
     tomorrow = DateFormat('yyyy-MM-dd').format(tomorrowt);
     formattedTomorrow = DateFormat('EEEE, MMMM d, y').format(tomorrowt);
 
-    _loadShiftData();
+    _loadShiftDataFuture = _loadShiftData(tomorrow);
   }
 
-  Future<void> _loadShiftData() async {
+  Future<void> _loadShiftData(String shiftDate) async {
     try {
-      final shiftData = await Services.shared.getTempShiftInfo(tomorrow);
-      if (shiftData.result.runtimeType == List<dynamic>) {
-        int slength = shiftData.result.length;
-      } else {
+      final shiftData = await Services.shared.getTempShiftInfo(shiftDate);
+
+      if (shiftData.result is Map) {
         shiftData.result.forEach((key, value) {
           if (key != 'id' && key != 'user_id' && key != 'temp_id') {
             _isVisibleList.add(true);
@@ -71,6 +71,10 @@ class _V2WorkViewState extends State<V2WorkView> {
           }
         });
       }
+
+      setState(() {
+        _isLoading = false;
+      });
     } catch (e) {
       print('Error loading shift data: $e');
     }
@@ -246,9 +250,6 @@ class _V2WorkViewState extends State<V2WorkView> {
                   String formattedDate =
                       "${selectedDay.year}-${selectedDay.month.toString().padLeft(2, '0')}-${selectedDay.day.toString().padLeft(2, '0')}";
 
-                  final shiftData =
-                      await Services.shared.getTempShiftInfo(formattedDate);
-
                   setState(() {
                     formattedTomorrow =
                         DateFormat('EEEE, MMMM d, y').format(selectedDay);
@@ -266,23 +267,8 @@ class _V2WorkViewState extends State<V2WorkView> {
                     _titleList2 = [];
                     _titleList3 = [];
                     _titleList4 = [];
-                    if (shiftData.result.runtimeType == List<dynamic>) {
-                      int slength = shiftData.result.length;
-                    } else {
-                      shiftData.result.forEach((key, value) {
-                        if (key != 'id' &&
-                            key != 'user_id' &&
-                            key != 'temp_id') {
-                          _isVisibleList.add(true);
-                          _titleList1.add(value['start_time']);
-                          _titleList2
-                              .add(value['end_time']); // Update to _titleList2
-                          _titleList3
-                              .add(value['job_title']); // Update to _titleList3
-                          _titleList4.add(value['status']); // Update to
-                        }
-                      });
-                    }
+
+                    _loadShiftData(formattedDate);
                   });
                 }
               },
@@ -328,16 +314,30 @@ class _V2WorkViewState extends State<V2WorkView> {
       SizedBox(height: 40),
     ]);
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          mapToJob,
-          SizedBox(height: 36),
-          thisWeeksShiftSelector,
-        ],
-      ),
+    return FutureBuilder<void>(
+      future: _loadShiftDataFuture,
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Display a loading indicator while data is being fetched
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // Handle the error case
+          return Text('Error loading shift data');
+        } else {
+          // Display the content once the data is loaded
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                mapToJob,
+                SizedBox(height: 36),
+                thisWeeksShiftSelector,
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 

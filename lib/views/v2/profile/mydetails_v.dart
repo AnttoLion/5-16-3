@@ -19,6 +19,7 @@ class V2ProfileMyDetailsView extends StatefulWidget {
 class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
+
   bool _isLoading = false;
   int _selectedIndex = 2;
   late CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -42,6 +43,34 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
       _selectedIndex = index;
     });
     abV2GotoBottomNavigation(index, 2);
+  }
+
+  Future<void> _loadShiftData(
+      String formattedStart, String formattedEnd) async {
+    try {
+      final shiftData = await Services.shared
+          .getTempWorkHistoryInfo(formattedStart, formattedEnd);
+
+      if (shiftData.result is Map) {
+        shiftData.result.forEach((key, value) {
+          if (key != 'id' && key != 'user_id' && key != 'temp_id') {
+            _isVisibleList.add(true);
+            _titleList1.add(value['company_name']);
+            var jobDate = value['job_date'];
+            DateTime JobDateValue = DateTime.parse(jobDate);
+            String FormatedJobDate =
+                DateFormat('EEEE, MMMM d, y').format(JobDateValue);
+            _titleList2.add(FormatedJobDate);
+          }
+        });
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading shift data: $e');
+    }
   }
 
   Widget getContent() {
@@ -123,7 +152,6 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                   }
                 },
                 onRangeSelected: (start, end, focusedDay) async {
-                  var shiftData;
                   if (start != null && end != null) {
                     Duration difference = end.difference(start);
                     int numberOfDays = difference.inDays;
@@ -156,8 +184,15 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                     String formattedEnd =
                         "${end.year}-${end.month.toString().padLeft(2, '0')}-${end.day.toString().padLeft(2, '0')}";
 
-                    shiftData = await Services.shared
-                        .getTempWorkHistoryInfo(formattedStart, formattedEnd);
+                    setState(() {
+                      _isVisibleList = [];
+                      _titleList1 = [];
+                      _titleList2 = [];
+
+                      if (start != null && end != null) {
+                        _loadShiftData(formattedStart, formattedEnd);
+                      }
+                    });
                   }
 
                   setState(() {
@@ -170,28 +205,6 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                     _isVisibleList = [];
                     _titleList1 = [];
                     _titleList2 = [];
-
-                    if (start != null && end != null) {
-                      print("-----shift!!----------");
-                      print(shiftData.result.runtimeType);
-                      print(shiftData.result);
-
-                      shiftData.result.forEach((key, value) {
-                        if (key != 'id' &&
-                            key != 'user_id' &&
-                            key != 'temp_id') {
-                          _isVisibleList.add(true);
-                          _titleList1.add(value['company_name']);
-                          var jobDate = value['job_date'];
-                          DateTime JobDateValue = DateTime.parse(jobDate);
-                          // print(JobDateValue);
-                          String FormatedJobDate = DateFormat('EEEE, MMMM d, y')
-                              .format(JobDateValue);
-                          // _titleList2.add(value['job_date']);
-                          _titleList2.add(FormatedJobDate);
-                        }
-                      });
-                    }
                   });
                 },
                 onFormatChanged: (format) {
