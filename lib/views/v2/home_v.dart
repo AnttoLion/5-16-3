@@ -1,10 +1,18 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:extra_staff/controllers/v2/home_c.dart';
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
 import 'package:extra_staff/utils/theme.dart';
+import 'package:extra_staff/views/v2/work_v.dart';
+import 'package:extra_staff/views/v2/profile_v.dart';
+import 'package:extra_staff/views/v2/notifications_v.dart';
+import 'package:extra_staff/views/v2/settings_v.dart';
 import 'package:extra_staff/views/v2/help_v.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -38,6 +46,7 @@ class _V2HomeViewState extends State<V2HomeView>
   void initState() {
     super.initState();
     _tabcontroller = TabController(length: 2, vsync: this);
+    // Availabeinfo().fetchGiftCardData();
     _themeTogglecontroller.addListener(() {
       if (_themeTogglecontroller.value) {
         AdaptiveTheme.of(context).setDark();
@@ -55,7 +64,9 @@ class _V2HomeViewState extends State<V2HomeView>
 
   getData() async {
     setState(() => _isLoading = true);
-    await _controller.getTempAvailInfo();
+
+    await _controller.getTempAvailInfo(); // Aapka API response
+
     setState(() {
       _isLoading = false;
     });
@@ -72,27 +83,14 @@ class _V2HomeViewState extends State<V2HomeView>
     if (checklist.length != 7) return Container();
     Widget getCircleWidget(String label, int status) {
       Widget checkWidget = Container();
+
       switch (status) {
-        case 1:
-          checkWidget = RoundCheckBox(
-            onTap: null,
-            size: 30,
-            isChecked: true,
-            checkedColor: _myThemeColors.primary,
-            disabledColor: _myThemeColors.primary,
-            uncheckedColor: Colors.white,
-            border: Border.all(
-              width: 1,
-              color: _myThemeColors.primary!,
-            ),
-          );
-          break;
         case -1:
           checkWidget = RoundCheckBox(
             onTap: null,
             size: 30,
             isChecked: false,
-            checkedColor: _myThemeColors.primary,
+            checkedColor: Colors.grey,
             disabledColor: MyColors.v2WeekdayGrey,
             uncheckedColor: Colors.white,
           );
@@ -111,8 +109,23 @@ class _V2HomeViewState extends State<V2HomeView>
             ),
           );
           break;
+        case 1:
+          checkWidget = RoundCheckBox(
+            onTap: null,
+            size: 30,
+            isChecked: true,
+            checkedColor: _myThemeColors.primary,
+            disabledColor: _myThemeColors.primary,
+            uncheckedColor: Colors.white,
+            // checkedIcon: Icons
+            //     .check, // Assuming the check icon is available in the library
+          );
+          break;
         default:
+          // Handle the default case, if needed
+          break;
       }
+
       return Container(
           // margin: EdgeInsets.symmetric(horizontal: 8),
           child: Column(
@@ -120,6 +133,7 @@ class _V2HomeViewState extends State<V2HomeView>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
             checkWidget,
+            SizedBox(height: 7.1),
             Text(
               label,
               style: MyFonts.regular(16, color: _myThemeColors.primary),
@@ -197,7 +211,7 @@ class _V2HomeViewState extends State<V2HomeView>
                 style: MyFonts.regular(16)),
             SizedBox(width: 6),
             value2! > 0 ? triangleUp : triangleDown,
-            SizedBox(width: 6),
+            SizedBox(width: 3),
             Text(value2.toString(), style: MyFonts.regular(14))
           ],
         );
@@ -211,12 +225,16 @@ class _V2HomeViewState extends State<V2HomeView>
           children: [
             Text(
               prefix + value1.toString(),
-              style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
+
+              style: MyFonts.regular(10),
+              // Limit text to two lines
             ),
-            SizedBox(width: 2),
+
+            // SizedBox(width: 2),
             Text(
               suffix,
-              style: TextStyle(fontSize: 18, fontFamily: "Roboto"),
+              overflow: TextOverflow.fade,
+              style: MyFonts.regular(10),
             )
           ],
         );
@@ -228,10 +246,7 @@ class _V2HomeViewState extends State<V2HomeView>
         padding: const EdgeInsets.all(4),
         color: _myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            title.tr,
-            style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
-          ),
+          Text(title.tr, style: MyFonts.regular(8)),
           SizedBox(height: 6),
           secondWidget
         ]));
@@ -299,7 +314,7 @@ class _V2HomeViewState extends State<V2HomeView>
           children: [
             Text(prefix + value1.toString(), style: MyFonts.regular(18)),
             SizedBox(width: 2),
-            Text(suffix, style: MyFonts.regular(14))
+            Text(suffix, style: MyFonts.regular(10))
           ],
         );
         break;
@@ -310,10 +325,7 @@ class _V2HomeViewState extends State<V2HomeView>
         padding: const EdgeInsets.all(4),
         color: _myThemeColors.itemContainerBackground,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            title.tr,
-            style: TextStyle(fontSize: 10, fontFamily: "Roboto"),
-          ),
+          Text(title.tr, style: MyFonts.regular(8)),
           SizedBox(height: 6),
           secondWidget
         ]));
@@ -337,44 +349,38 @@ class _V2HomeViewState extends State<V2HomeView>
                     size: 25,
                     isChecked: true,
                     checkedColor: _myThemeColors.primary,
-                    disabledColor: MyColors.lightGrey,
+                    disabledColor: Color(0xffDFDFDF),
                     uncheckedColor: Colors.white,
                   ),
-                  SizedBox(width: 6),
-                  Text(title,
-                      style: TextStyle(fontSize: 18, fontFamily: "Roboto"))
+                  SizedBox(width: 11),
+                  Text(title, style: MyFonts.regular(18))
                 ],
               ),
-              SizedBox(height: 6),
+              SizedBox(height: 8),
               Text(content,
-                  style: TextStyle(
-                      fontSize: 11,
-                      fontFamily: "Open Sans",
-                      color: MyColors.v2Primary))
+                  style: MyFonts.regular(11, color: Color(0xff00458D)))
             ]));
   }
 
   Widget getAvailableJobsItemWidget(String title, String location, String pay,
       String duration, String agoTime) {
     return Container(
-        height: 167,
         width: 307,
-        padding: const EdgeInsets.only(left: 8, bottom: 10),
+        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 12),
+              SizedBox(
+                height: 19,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 12,
-                          color: Colors.grey),
+                      style: MyFonts.regular(12, color: Colors.grey),
                       children: <TextSpan>[
                         TextSpan(text: 'Pay: '),
                         TextSpan(
@@ -389,10 +395,7 @@ class _V2HomeViewState extends State<V2HomeView>
                   SizedBox(width: 16),
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 12,
-                          color: Colors.grey),
+                      style: MyFonts.regular(12, color: Color(0xff888A8C)),
                       children: <TextSpan>[
                         TextSpan(text: 'Duration: '),
                         TextSpan(
@@ -406,10 +409,11 @@ class _V2HomeViewState extends State<V2HomeView>
                   )
                 ],
               ),
-              SizedBox(height: 7),
-              Text(title, style: TextStyle(fontFamily: 'Roboto', fontSize: 18)),
-              Text(location, style: MyFonts.regular(11, color: MyColors.grey)),
-              SizedBox(height: 7),
+              SizedBox(height: 30),
+              Text(title, style: MyFonts.regular(18)),
+              Text(location,
+                  style: MyFonts.regular(11, color: Color(0xff69798A))),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -417,10 +421,7 @@ class _V2HomeViewState extends State<V2HomeView>
                   abV2PrimaryButton("APPLY NOW", onTap: () => {}),
                   Spacer(),
                   Text("Post " + agoTime,
-                      style: TextStyle(
-                          fontFamily: "Open Sans",
-                          fontSize: 11,
-                          color: MyColors.v2Primary)),
+                      style: MyFonts.regular(11, color: MyColors.v2Primary)),
                   SizedBox(
                     width: 10,
                   )
@@ -433,7 +434,7 @@ class _V2HomeViewState extends State<V2HomeView>
     return Container(
         height: 322,
         width: 361,
-        padding: const EdgeInsets.only(top: 15, left: 15, bottom: 9),
+        padding: const EdgeInsets.only(top: 14, left: 15, bottom: 8),
         color: _myThemeColors.itemContainerBackground,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -441,20 +442,16 @@ class _V2HomeViewState extends State<V2HomeView>
             children: [
               Container(height: 156, width: 331, color: MyColors.lightGrey),
               SizedBox(height: 6),
-              Text(date, style: MyFonts.regular(14, color: MyColors.grey)),
+              Text(date, style: MyFonts.regular(11, color: Color(0xff69798A))),
               SizedBox(height: 6),
               Row(children: [
                 Expanded(
-                  child: Text(title,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w900)),
+                  child: Text(title, style: MyFonts.semiBold(22)),
                   flex: 2,
                 ),
                 Spacer(),
               ]),
-              SizedBox(height: 3),
+              SizedBox(height: 6),
               Padding(
                 padding: const EdgeInsets.only(right: 16),
                 child: Row(children: [
@@ -473,26 +470,19 @@ class _V2HomeViewState extends State<V2HomeView>
           children: [
             Text(
               'v2_weekly_shift'.tr,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 20,
-                color: MyColors.v2Primary,
-              ),
+              style: MyFonts.regular(20, color: MyColors.v2Primary),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 18),
-            Text(
-              'Hi [Temps Name], stay on top of your work',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                color: MyColors.grey,
-              ),
-            ),
-            SizedBox(height: 26),
+            Text('Hi [Temps Name], stay on top of your work',
+                style: MyFonts.regular(16, color: Color(0xff888A8C))),
+            SizedBox(height: 12),
             getStaticWeekdayWidget(_controller.weeklyShift)
           ],
         ));
+    Widget empty1 = Container(
+      height: 0,
+    );
     Widget achievements7dayContainer = Container(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -513,7 +503,7 @@ class _V2HomeViewState extends State<V2HomeView>
           Expanded(
               child: getAchievementsItemWidget('v2_hours_worked', 9, value2: 1))
         ]),
-        SizedBox(height: 14),
+        SizedBox(height: 10),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(child: getAchievementsItemWidget2('v2_working_streak', 36)),
           SizedBox(width: 10),
@@ -533,23 +523,26 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_achievements'.tr,
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 20,
-            color: MyColors.v2Primary,
-          ),
+          style: MyFonts.regular(20, color: MyColors.v2Primary),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 18),
+        SizedBox(height: 27),
         Container(
             child: Align(
           alignment: Alignment.centerLeft,
           child: TabBar(
             isScrollable: true,
             controller: _tabcontroller,
+            physics: const NeverScrollableScrollPhysics(),
+            // indicatorSize ,
+            indicatorWeight: 3.0,
+            indicatorSize: TabBarIndicatorSize.label,
             labelColor: _myThemeColors.primary,
+            indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(width: 5.0, color: Color(0xff00458D)),
+                insets: EdgeInsets.symmetric(horizontal: 13.0)),
             unselectedLabelColor: _myThemeColors.primary,
-            labelStyle: TextStyle(fontSize: 16, fontFamily: "Roboto"),
+            labelStyle: MyFonts.regular(16),
             indicatorColor: _myThemeColors.primary,
             tabs: [
               Tab(
@@ -577,26 +570,25 @@ class _V2HomeViewState extends State<V2HomeView>
         ),
 
         Container(
-          height: 130.0,
+          height: 10.0,
           child: TabBarView(
             controller: _tabcontroller,
-            children: <Widget>[
-              achievements7dayContainer,
-              achievements30dayContainer,
-            ],
+            children: <Widget>[empty1, empty1],
           ),
         ),
+        achievements30dayContainer,
       ],
     );
+
     Widget yourNotifications = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'v2_your_notifications'.tr,
-          style: MyFonts.regular(20, color: _myThemeColors.primary),
+          style: MyFonts.regular(20, color: MyColors.v2Primary),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 18),
+        SizedBox(height: 21),
         Container(
             height: 68,
             child: ListView(
@@ -626,21 +618,21 @@ class _V2HomeViewState extends State<V2HomeView>
           style: MyFonts.regular(20, color: _myThemeColors.primary),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 18),
+        SizedBox(height: 16),
         Container(
-            height: 167,
+            height: 190,
             child: ListView(
               // This next line does the trick.
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
-                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
+                    "£15per hour", "9am-5pm", "5 minutes ago"),
                 SizedBox(width: 12),
-                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
-                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
+                    "£15per hour", "9am-5pm", "5 minutes ago"),
                 SizedBox(width: 12),
-                getAvailableJobsItemWidget("Temp CRM V3 Recommendation engine",
-                    "DPD, Enfield", "£15per hour", "9am-5pm", "5 minutes ago"),
+                getAvailableJobsItemWidget("LGV Class 1 Driver", "DPD, Enfield",
+                    "£15per hour", "9am-5pm", "5 minutes ago"),
               ],
             ))
       ],
@@ -650,11 +642,10 @@ class _V2HomeViewState extends State<V2HomeView>
       children: [
         Text(
           'v2_blog_post'.tr,
-          style: TextStyle(
-              fontSize: 22, fontFamily: 'Roboto', color: MyColors.v2Primary),
+          style: MyFonts.regular(22, color: MyColors.v2Primary),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 13),
         getBlogWidget(
             "", "Lorem Ipsum Sit Dolor las bloge here", "December x, 2022"),
       ],
@@ -663,7 +654,7 @@ class _V2HomeViewState extends State<V2HomeView>
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       RichText(
         text: TextSpan(
-          style: MyFonts.regular(13, color: MyColors.grey),
+          style: MyFonts.regular(12, color: Color(0xff888A8C)),
           children: <TextSpan>[
             TextSpan(text: 'v2_text_if_you_turn_off'.tr),
             TextSpan(
@@ -684,18 +675,19 @@ class _V2HomeViewState extends State<V2HomeView>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        weeklyShift,
         SizedBox(height: 35),
+        weeklyShift,
+        SizedBox(height: 40.1),
         achievements,
-        SizedBox(height: 50),
+        SizedBox(height: 43.4),
         yourNotifications,
-        SizedBox(height: 42),
+        SizedBox(height: 27),
         availableJobs,
-        SizedBox(height: 30),
+        SizedBox(height: 28),
         blogPost,
-        SizedBox(height: 8),
+        SizedBox(height: 6),
         marketingMessage,
-        SizedBox(height: 24),
+        SizedBox(height: 25),
       ],
     );
   }
@@ -758,10 +750,13 @@ class _V2HomeViewState extends State<V2HomeView>
         ),
       );
     } else {
+      final MyThemeColors myColors =
+          Theme.of(context).extension<MyThemeColors>()!;
       return PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: SafeArea(
           child: Container(
+            color: myColors.canvasBackground,
             height: double.infinity,
             padding: gHPadding,
             child: Stack(
@@ -772,7 +767,7 @@ class _V2HomeViewState extends State<V2HomeView>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image(
-                        image: AssetImage('lib/images/v2/logo_icon.png'),
+                        image: AssetImage('lib/images/v2/Group 3232.png'),
                         height: 20,
                         width: 60,
                       ),
@@ -803,6 +798,10 @@ class _V2HomeViewState extends State<V2HomeView>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.white,
+      statusBarBrightness: Brightness.light, // Set icons to be dark
+    ));
     return abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
         context, _isLoading,
         appBar: getAppBar(),

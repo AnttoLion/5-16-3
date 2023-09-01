@@ -94,7 +94,7 @@ class _V2WorkViewState extends State<V2WorkView> {
       String startTime, String endTime, String title, String type) {
     return Container(
         height: 100,
-        width: 300,
+        width: 322,
         // width: double.infinity,
         padding: EdgeInsets.all(16),
         color: _myThemeColors.itemContainerBackground,
@@ -104,12 +104,13 @@ class _V2WorkViewState extends State<V2WorkView> {
             Column(
               children: [
                 Text(startTime,
-                    style: MyFonts.regular(16, color: MyColors.grey)),
+                    style: MyFonts.regular(14, color: MyColors.grey)),
+                SizedBox(width: 7),
                 Container(
-                  width: 24,
+                  width: 15,
                   height: 24,
                   // Negative padding
-                  transform: Matrix4.translationValues(0.0, 10.0, 0.0),
+                  transform: Matrix4.translationValues(0.0, 13.0, 0.0),
                   // Add top border
                   decoration: BoxDecoration(
                     border: Border(
@@ -120,10 +121,10 @@ class _V2WorkViewState extends State<V2WorkView> {
                     ),
                   ),
                 ),
-                Text(endTime, style: MyFonts.regular(16, color: MyColors.grey))
+                Text(endTime, style: MyFonts.regular(14, color: MyColors.grey))
               ],
             ),
-            SizedBox(width: 32),
+            SizedBox(width: 37),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +133,7 @@ class _V2WorkViewState extends State<V2WorkView> {
                   title,
                   style: MyFonts.regular(14),
                 ),
-                Expanded(child: SizedBox(height: 14)),
+                SizedBox(height: 28),
                 Row(
                   children: [
                     Container(
@@ -145,7 +146,7 @@ class _V2WorkViewState extends State<V2WorkView> {
                     ),
                     SizedBox(width: 6),
                     Text(type,
-                        style: MyFonts.regular(12, color: MyColors.grey)),
+                        style: MyFonts.regular(10, color: MyColors.grey)),
                   ],
                 )
               ],
@@ -158,10 +159,10 @@ class _V2WorkViewState extends State<V2WorkView> {
     Widget mapToJob = Column(children: [
       Column(
         children: [
-          SizedBox(height: 12),
+          SizedBox(height: 28),
           Container(
-            height: 200,
-            width: double.infinity,
+            height: 167,
+            width: 322,
             color: MyColors.grey,
             child: FlutterMap(
               options: MapOptions(
@@ -176,10 +177,10 @@ class _V2WorkViewState extends State<V2WorkView> {
               ],
             ),
           ),
-          SizedBox(height: 14),
+          SizedBox(height: 35),
           Container(
               height: 88,
-              width: double.infinity,
+              width: 322,
               padding: EdgeInsets.all(20),
               color: _myThemeColors.itemContainerBackground,
               child: Row(
@@ -189,7 +190,7 @@ class _V2WorkViewState extends State<V2WorkView> {
                       child: Column(
                     children: [
                       Text("Get more infos for yout Active/Today's shift...",
-                          style: MyFonts.regular(16)),
+                          style: MyFonts.regular(14)),
                     ],
                   )),
                   SizedBox(width: 60),
@@ -212,12 +213,16 @@ class _V2WorkViewState extends State<V2WorkView> {
                     !_isCalendarVisible; // Toggle the visibility of the calendar widget
               });
             },
-            child: Icon(Icons.calendar_month, color: MyColors.darkBlue),
+            child: Image.asset(
+              'lib/images/v2/Icon metro-calendar.png',
+              height: 22.72,
+              width: 21.3,
+            ),
           ),
-          SizedBox(width: 24),
+          SizedBox(width: 34),
           Text(
             'v2_this_weeks_shift_selector'.tr,
-            style: MyFonts.regular(24, color: _myThemeColors.primary),
+            style: MyFonts.regular(20, color: _myThemeColors.primary),
             textAlign: TextAlign.center,
           ),
         ],
@@ -229,67 +234,64 @@ class _V2WorkViewState extends State<V2WorkView> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: TableCalendar(
-              firstDay: DateTime(DateTime.now().year - 1),
-              lastDay: DateTime(DateTime.now().year + 1),
-              focusedDay: _focusedDay,
-              availableCalendarFormats: const {
-                CalendarFormat.week: 'week',
-              },
-              headerVisible: false,
-              availableGestures: AvailableGestures.none,
-              headerStyle: HeaderStyle(titleCentered: true),
-              calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) async {
-                if (!isSameDay(_selectedDay, selectedDay)) {
-                  String formattedDate =
-                      "${selectedDay.year}-${selectedDay.month.toString().padLeft(2, '0')}-${selectedDay.day.toString().padLeft(2, '0')}";
+          child: TableCalendar(
+            firstDay: DateTime(DateTime.now().year - 1),
+            lastDay: DateTime(DateTime.now().year + 1),
+            focusedDay: _focusedDay,
+            availableCalendarFormats: const {
+              CalendarFormat.week: 'week',
+            },
+            headerVisible: false,
+            availableGestures: AvailableGestures.none,
+            headerStyle: HeaderStyle(titleCentered: true),
+            calendarFormat: _calendarFormat,
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
+            },
+            onDaySelected: (selectedDay, focusedDay) async {
+              if (!isSameDay(_selectedDay, selectedDay)) {
+                String formattedDate =
+                    "${selectedDay.year}-${selectedDay.month.toString().padLeft(2, '0')}-${selectedDay.day.toString().padLeft(2, '0')}";
 
-                  setState(() {
-                    formattedTomorrow =
-                        DateFormat('EEEE, MMMM d, y').format(selectedDay);
+                setState(() {
+                  formattedTomorrow =
+                      DateFormat('EEEE, MMMM d, y').format(selectedDay);
 
-                    if (isSameDay(selectedDay, tomorrowt))
-                      tomorrowLabel = "Tomorrow ";
-                    else
-                      tomorrowLabel = "";
+                  if (isSameDay(selectedDay, tomorrowt))
+                    tomorrowLabel = "Tomorrow ";
+                  else
+                    tomorrowLabel = "";
 
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
 
-                    _isVisibleList = [];
-                    _titleList1 = [];
-                    _titleList2 = [];
-                    _titleList3 = [];
-                    _titleList4 = [];
+                  _isVisibleList = [];
+                  _titleList1 = [];
+                  _titleList2 = [];
+                  _titleList3 = [];
+                  _titleList4 = [];
 
-                    _loadShiftData(formattedDate);
-                  });
-                }
-              },
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
-              onPageChanged: (focusedDay) {
-                // No need to call `setState()` here
-                _focusedDay = focusedDay;
-              },
-            ),
+                  _loadShiftData(formattedDate);
+                });
+              }
+            },
+            onFormatChanged: (format) {
+              if (_calendarFormat != format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              }
+            },
+            onPageChanged: (focusedDay) {
+              // No need to call `setState()` here
+              _focusedDay = focusedDay;
+            },
           ),
         ),
       SizedBox(height: 20),
       RichText(
         text: TextSpan(
-          style: MyFonts.regular(18, color: MyColors.grey),
+          style: MyFonts.regular(16, color: MyColors.grey),
           children: <TextSpan>[
             TextSpan(
               text: tomorrowLabel,
@@ -302,7 +304,7 @@ class _V2WorkViewState extends State<V2WorkView> {
       for (int i = 0; i < _isVisibleList.length; i++) // Iterate over the list
         Column(
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 28),
             getThisWeeksSelectorItemWidget(
               _titleList1[i],
               _titleList2[i],
@@ -311,7 +313,7 @@ class _V2WorkViewState extends State<V2WorkView> {
             ),
           ],
         ),
-      SizedBox(height: 40),
+      SizedBox(height: 16),
     ]);
 
     return FutureBuilder<void>(
@@ -331,7 +333,7 @@ class _V2WorkViewState extends State<V2WorkView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 mapToJob,
-                SizedBox(height: 36),
+                SizedBox(height: 32),
                 thisWeeksShiftSelector,
               ],
             ),

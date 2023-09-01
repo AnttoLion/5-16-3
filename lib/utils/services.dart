@@ -1163,6 +1163,7 @@ class Services extends GetConnect {
         baseApiUrl + 'getTempAvailInfo',
         {
           'user_id': '$userId',
+          'tid': '$tid',
           'digest': generateMd5(staticDigestKey + '$userId'),
         },
         headers: headers,
@@ -1191,6 +1192,48 @@ class Services extends GetConnect {
           String startDate, String endDate) async =>
       get(
         baseApiUrl + 'getTempWorkHistoryInfo',
+        query: {
+          'user_id': '$userId',
+          // 'user_id': '216007',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+          // 'digest': "ae4cba25b86be2e2e81f895eb4929283",
+          'st_date': startDate,
+          'ed_date': endDate,
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+  Future<BaseApiResponse> updateTempAvailInfo(
+          bool monday,
+          bool tuesday,
+          bool wednesday,
+          bool thursday,
+          bool friday,
+          bool saturday,
+          bool sunday,
+          bool night_work) async =>
+      await post(
+        baseApiUrl + 'updateTempAvailInfo',
+        {
+          'user_id': '$userId',
+          'tid': '$tid',
+          'digest': generateMd5(staticDigestKey + '$userId'),
+          'monday': monday,
+          'tuesday': tuesday,
+          'wednesday': wednesday,
+          'thursday': thursday,
+          'friday': friday,
+          'saturday': saturday,
+          'sunday': sunday,
+          'night_work': night_work,
+        },
+        headers: headers,
+        sendScreenID: false,
+        sendProgress: false,
+      ).then((value) => safeDecode(value));
+  Future<BaseApiResponse> getTempHolidayInfo(
+          String startDate, String endDate) async =>
+      get(
+        baseApiUrl + 'getTempHolidayInfo',
         query: {
           'user_id': '$userId',
           // 'user_id': '216007',

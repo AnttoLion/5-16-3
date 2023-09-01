@@ -31,7 +31,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
+          // SizedBox(height: 20),
           Text(
             'RTW',
             style: TextStyle(
@@ -40,7 +40,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
               color: Color(0xFF00458D),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 28),
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -51,15 +51,11 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 21),
           Row(
             children: [
-              SizedBox(
-                width: 5,
-              ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.all(10),
                   width: 0.5,
                   child: abV2PrimaryButton(
                     'v2_button_text_cancel'.tr,
@@ -68,9 +64,11 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
                   ),
                 ),
               ),
+              SizedBox(
+                width: 10,
+              ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.all(10),
                   width: 0.5,
                   child: abV2PrimaryButton(
                     'v2_button_text_re_upload'.tr,

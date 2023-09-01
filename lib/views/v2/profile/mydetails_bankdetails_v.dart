@@ -28,7 +28,7 @@ class _V2ProfileMyDetailsBankDetailsViewState
   Widget getContent() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(left: 35),
         child: Align(
           alignment: Alignment.topLeft,
           child: Column(

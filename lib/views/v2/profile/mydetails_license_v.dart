@@ -31,7 +31,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileLicenseView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 24),
+            // SizedBox(height: 24),
             abV2PrimaryButton('Driving License Front',
                 onTap: () => {Get.to(() => V2ProfileLicencesUploadView())},
                 fullWidth: true),

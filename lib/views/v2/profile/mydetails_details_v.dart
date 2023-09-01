@@ -32,7 +32,7 @@ class _V2ProfileMyDetailsSubDetailsViewState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 24),
+          // SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -42,30 +42,41 @@ class _V2ProfileMyDetailsSubDetailsViewState
               ),
             ],
           ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
+          SizedBox(height: 3),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 16, color: MyColors.black),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+                    ),
+                  ),
+                  enabled: false,
                 ),
               ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3181.png',
+                  height: 28,
+                  width: 28,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3255.png',
+                  height: 44,
+                  width: 57,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 67),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -75,30 +86,41 @@ class _V2ProfileMyDetailsSubDetailsViewState
               ),
             ],
           ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
+          SizedBox(height: 3),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 16, color: MyColors.black),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+                    ),
+                  ),
+                  enabled: false,
                 ),
               ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3181.png',
+                  height: 28,
+                  width: 28,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3255.png',
+                  height: 44,
+                  width: 57,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 67),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -108,30 +130,41 @@ class _V2ProfileMyDetailsSubDetailsViewState
               ),
             ],
           ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
+          SizedBox(height: 3),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 16, color: MyColors.black),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+                    ),
+                  ),
+                  enabled: false,
                 ),
               ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3181.png',
+                  height: 28,
+                  width: 28,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3255.png',
+                  height: 44,
+                  width: 57,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 67),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -141,62 +174,84 @@ class _V2ProfileMyDetailsSubDetailsViewState
               ),
             ],
           ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
+          SizedBox(height: 3),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 16, color: MyColors.black),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+                    ),
+                  ),
+                  enabled: false,
                 ),
               ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
-          ),
-          SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Availability',
-                style: TextStyle(fontSize: 16, color: MyColors.grey),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3181.png',
+                  height: 28,
+                  width: 28,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'lib/images/v2/Group 3255.png',
+                  height: 44,
+                  width: 57,
+                ),
               ),
             ],
           ),
-          SizedBox(height: 10),
-          TextFormField(
-            style: TextStyle(fontSize: 16, color: MyColors.black),
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD6E2)),
-              ),
-              suffixIcon: MouseRegion(
-                cursor: SystemMouseCursors.click, // change cursor to pointer
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Add your logic for handling the password edit here
-                  },
-                  color: Color(0xFF748A9D),
-                ),
-              ),
-            ),
-            enabled:
-                false, // Set enabled to false to make the input box not editable
-          ),
+          // SizedBox(height: 67),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: [
+          //     Text(
+          //       'Availability',
+          //       style: TextStyle(fontSize: 16, color: MyColors.grey),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(height: 3),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: TextFormField(
+          //         style: TextStyle(fontSize: 16, color: MyColors.black),
+          //         decoration: InputDecoration(
+          //           contentPadding:
+          //               EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          //           border: OutlineInputBorder(
+          //             borderSide: BorderSide(color: Color(0xFFCBD6E2)),
+          //           ),
+          //         ),
+          //         enabled: false,
+          //       ),
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.all(5.0),
+          //       child: Image.asset(
+          //         'lib/images/v2/Group 3181.png',
+          //         height: 28,
+          //         width: 28,
+          //       ),
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Image.asset(
+          //         'lib/images/v2/Group 3255.png',
+          //         height: 44,
+          //         width: 57,
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

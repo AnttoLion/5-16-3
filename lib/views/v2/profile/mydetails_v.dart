@@ -79,25 +79,25 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 24),
+          // SizedBox(height: 1),
           abV2PrimaryButton(
             'MY DETAILS',
             onTap: () => {Get.to(() => V2ProfileMyDetailsMyDetailsView())},
             fullWidth: true,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 13),
           abV2PrimaryButton(
             'BANK DETAILS',
             onTap: () => {Get.to(() => V2ProfileMyDetailsBankDetailsView())},
             fullWidth: true,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 13),
           abV2PrimaryButton(
             'LICENSES',
             onTap: () => {Get.to(() => V2ProfileLicenseView())},
             fullWidth: true,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 38),
           Center(
             child: Text(
               'History',
@@ -105,11 +105,10 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
               style: TextStyle(
                 fontSize: 20,
                 color: Color(0xFF00458D),
-                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 14),
           SizedBox(
             height: 400,
             child: Container(
@@ -226,7 +225,7 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
               i++) // Iterate over the list
             Column(
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: 38),
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -255,13 +254,15 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                                 Text(
                                   'Company name:',
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: Color(0xff888A8C),
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Text(
                                   _titleList1[i],
                                   style: TextStyle(
                                     color: Colors.black,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],
@@ -278,13 +279,15 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileMyDetailsView> {
                                 Text(
                                   'Date:',
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: Color(0xff888A8C),
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Text(
                                   _titleList2[i],
                                   style: TextStyle(
                                     color: Colors.black,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],

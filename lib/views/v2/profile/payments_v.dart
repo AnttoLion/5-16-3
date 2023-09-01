@@ -37,7 +37,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
             SizedBox(height: 24),
             Container(
                 width: double.infinity,
-                height: 452,
+                height: 437,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.zero),
@@ -137,7 +137,7 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                           color: _myThemeColors.primary,
                         ),
                         SizedBox(height: 18),
-                        SizedBox(height: 24),
+                        SizedBox(height: 4),
                         SizedBox(height: 165),
                       ])),
                   Container(
@@ -148,19 +148,19 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                     child: Row(children: [
                       Text(
                         'info@marblespa.com',
-                        style: MyFonts.regular(8, color: MyColors.white),
+                        style: MyFonts.regular(5, color: MyColors.white),
                         textAlign: TextAlign.center,
                       ),
                       Spacer(),
                       Text(
                         'www.marblespa.com',
-                        style: MyFonts.regular(8, color: MyColors.white),
+                        style: MyFonts.regular(5, color: MyColors.white),
                         textAlign: TextAlign.center,
                       ),
                     ]),
                   )
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 25),
             Row(children: [
               Expanded(
                   child: abV2PrimaryButton('v2_download_as_a_pdf'.tr,
@@ -170,15 +170,16 @@ class _V2ProfilePaymentsViewState extends State<V2ProfilePaymentsView> {
                   child: abV2PrimaryButton('v2_send_to_email'.tr,
                       onTap: () => {}, fullWidth: true)),
             ]),
-            SizedBox(height: 24),
+            SizedBox(height: 25),
             abV2PrimaryButton('v2_button_text_paye_history'.tr,
                 onTap: () => {Get.to(() => V2ProfilePaymentsPayeHistoryView())},
                 fullWidth: true),
-            SizedBox(height: 24),
+            SizedBox(height: 21),
             abV2PrimaryButton('v2_button_text_paye_documents'.tr,
                 onTap: () =>
                     {Get.to(() => V2ProfilePaymentsPayeDocumentsView())},
                 fullWidth: true),
+            SizedBox(height: 25),
           ],
         ));
   }

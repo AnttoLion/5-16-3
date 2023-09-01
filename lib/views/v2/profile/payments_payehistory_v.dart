@@ -43,7 +43,7 @@ class _V2ProfilePaymentsPayeHistoryViewState
               headerBackgroundColor: MyColors.v2Primary,
               header: Text(
                 item,
-                style: MyFonts.medium(14, color: MyColors.white),
+                style: MyFonts.semiBold(14, color: MyColors.white),
                 textAlign: TextAlign.center,
               ),
               content: Container(
@@ -84,7 +84,11 @@ class _V2ProfilePaymentsPayeHistoryViewState
             SizedBox(height: 24),
             Accordion(
               maxOpenSections: 1,
-              rightIcon: Icon(Icons.expand_more, color: MyColors.white),
+              rightIcon: Image.asset(
+                'lib/images/Polygon 1@2x.png',
+                height: 8,
+                width: 10,
+              ),
               headerBorderRadius: 6,
               headerBackgroundColor: MyColors.v2AccordionHeader,
               headerPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),

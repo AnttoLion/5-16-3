@@ -1991,8 +1991,8 @@ PreferredSize abV2AppBar(
                           Expanded(
                             child: Text(
                               title,
-                              style: MyFonts.regular(23,
-                                  color: MyColors.v2Primary),
+                              style:
+                                  MyFonts.light(20, color: MyColors.v2Primary),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -2024,10 +2024,13 @@ PreferredSize abV2AppBar(
       ),
     );
   } else {
+    final MyThemeColors myColors =
+        Theme.of(context).extension<MyThemeColors>()!;
     return PreferredSize(
-      preferredSize: Size.fromHeight(80),
+      preferredSize: Size.fromHeight(70),
       child: SafeArea(
         child: Container(
+          color: myColors.canvasBackground,
           height: double.infinity,
           padding: gHPadding,
           child: Stack(
@@ -2275,7 +2278,7 @@ Widget abV2PrimaryButton(String title,
                       color: success ? MyColors.v2Green : MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               EdgeInsets.symmetric(horizontal: 16, vertical: 16))),
-      child: Text(title, style: MyFonts.regular(13, color: MyColors.white)),
+      child: Text(title, style: MyFonts.bold(11, color: MyColors.white)),
       onPressed: onTap,
     );
   } else {
@@ -2288,9 +2291,9 @@ Widget abV2PrimaryButton(String title,
                   side: BorderSide(color: MyColors.v2Primary))),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(
-                horizontal: 31, vertical: 5), // Modify these values
+                horizontal: 25, vertical: 5), // Modify these values
           )),
-      child: Text(title, style: MyFonts.regular(18, color: MyColors.white)),
+      child: Text(title, style: MyFonts.regular(15, color: MyColors.white)),
       onPressed: onTap,
     );
   }

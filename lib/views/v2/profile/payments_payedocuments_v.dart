@@ -37,7 +37,7 @@ class _V2ProfilePaymentsPayeDocumentsViewState
             SizedBox(height: 24),
             Container(
                 width: double.infinity,
-                height: 452,
+                height: 432,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.zero),
@@ -136,8 +136,8 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                           thickness: 1,
                           color: _myThemeColors.primary,
                         ),
-                        SizedBox(height: 18),
-                        SizedBox(height: 24),
+                        SizedBox(height: 17),
+                        // SizedBox(height: 24),
                         SizedBox(height: 165),
                       ])),
                   Container(
@@ -160,7 +160,7 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                     ]),
                   )
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 25),
             Row(children: [
               Expanded(
                   child: abV2PrimaryButton('v2_download_as_a_pdf'.tr,
@@ -170,10 +170,10 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                   child: abV2PrimaryButton('v2_send_to_email'.tr,
                       onTap: () => {}, fullWidth: true)),
             ]),
-            SizedBox(height: 50),
+            SizedBox(height: 51),
             Container(
                 width: double.infinity,
-                height: 452,
+                height: 432,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.zero),
@@ -272,8 +272,8 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                           thickness: 1,
                           color: _myThemeColors.primary,
                         ),
-                        SizedBox(height: 18),
-                        SizedBox(height: 24),
+                        SizedBox(height: 17),
+                        // SizedBox(height: 24),
                         SizedBox(height: 165),
                       ])),
                   Container(
@@ -296,7 +296,7 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                     ]),
                   )
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 25),
             Row(children: [
               Expanded(
                   child: abV2PrimaryButton('v2_download_as_a_pdf'.tr,
@@ -306,7 +306,7 @@ class _V2ProfilePaymentsPayeDocumentsViewState
                   child: abV2PrimaryButton('v2_send_to_email'.tr,
                       onTap: () => {}, fullWidth: true)),
             ]),
-            SizedBox(height: 24),
+            SizedBox(height: 41),
           ],
         ));
   }

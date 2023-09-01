@@ -26,13 +26,14 @@ class V2ProfileHolidayAvailabilityController extends GetxController {
     final response = await Services.shared.getTempAvailabilityInfo();
     if (response.result is Map) {
       availability = [
-        response.result['monday'],
-        response.result['tuesday'],
-        response.result['wednesday'],
-        response.result['thursday'],
-        response.result['friday'],
-        response.result['saturday'],
-        response.result['night_work']
+        response.result['monday'] == 'true',
+        response.result['tuesday'] == 'true',
+        response.result['wednesday'] == 'true',
+        response.result['thursday'] == 'true',
+        response.result['friday'] == 'true',
+        response.result['saturday'] == 'true',
+        response.result['sunday'] == 'true',
+        response.result['night_work'] == 'true'
       ];
     }
     return response.errorMessage;

@@ -125,7 +125,7 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
       }
     }
 
-    setState(() => isLoading = false);
+    // setState(() => isLoading = false);
     await Resume.shared.completedProgress(message3.result['screen_id']);
     await localStorage?.setString('completed', message3.result['completed']);
     await Services.shared.setData();

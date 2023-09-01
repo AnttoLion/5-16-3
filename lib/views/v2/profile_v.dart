@@ -25,7 +25,9 @@ class _V2ProfileViewState extends State<V2ProfileView> {
 
   Widget getContent() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -33,11 +35,11 @@ class _V2ProfileViewState extends State<V2ProfileView> {
             abV2PrimaryButton('PAYMENTS',
                 onTap: () => {Get.to(() => V2ProfilePaymentsView())},
                 fullWidth: true),
-            SizedBox(height: 20),
+            SizedBox(height: 21),
             abV2PrimaryButton('MY DETAILS',
                 onTap: () => {Get.to(() => V2ProfileMyDetailsView())},
                 fullWidth: true),
-            SizedBox(height: 20),
+            SizedBox(height: 21),
             abV2PrimaryButton('HOLIDAY/AVAILABILITY',
                 onTap: () => {Get.to(() => V2ProfileHolidayAvailabilityView())},
                 fullWidth: true),

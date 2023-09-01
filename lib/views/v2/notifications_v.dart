@@ -20,7 +20,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
   List<String> _titleList = [
     'Time off Approved/Rejected Lorem Ipsum Sit dolor para cambres on',
     'Sent to email',
-    'Availability was updated to lorem ipsum sit dolor on the specific date'
+    'Availability was updated to lorem ipsum sit '
   ]; // Example list of titles
   List<String> _subtitleList = [
     '2 minutes ago',
@@ -61,7 +61,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                     'Mark all as read',
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      fontSize: 12,
+                      fontSize: 14,
                       color: Color(0xFF00458D),
                     ),
                   ),
@@ -87,33 +87,46 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                   ),
                 ),
                 child: ListTile(
-                  title: Text(
-                    _titleList[i], // Use the title from the list
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromRGBO(0, 69, 141, 1),
-                      //fontWeight: FontWeight.bold,
-                    ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 226,
+                        height: 68,
+                        child: Text(
+                          _titleList[i], // Use the title from the list
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff00458D),
+                            //fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isVisibleList[i] =
+                                false; // Set the visibility of the current list tile to false
+                          });
+                        },
+                        child: Image.asset(
+                          'lib/images/v2/Group 3195.png',
+                          height: 17,
+                          width: 17,
+                        ),
+                      ),
+                    ],
                   ),
                   subtitle: Container(
-                    margin: EdgeInsets.only(top: 6),
+                    margin: EdgeInsets.only(top: 12),
                     child: Text(
-                        _subtitleList[i]), // Use the subtitle from the list
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isVisibleList[i] =
-                            false; // Set the visibility of the current list tile to false
-                      });
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      size: 20,
-                    ),
+                      _subtitleList[i],
+                      style: TextStyle(fontSize: 13, color: Color(0xff888A8C)),
+                    ), // Use the subtitle from the list
                   ),
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+                      EdgeInsets.symmetric(vertical: 18.0, horizontal: 0.0),
                 ),
               ),
               secondChild: Opacity(
@@ -122,7 +135,7 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.grey,
+                        color: Color(0xff707070),
                         width: 0.5,
                       ),
                     ),
