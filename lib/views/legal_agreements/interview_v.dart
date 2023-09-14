@@ -58,6 +58,17 @@ class _InterviewState extends State<Interview> {
             initialDate: controller.interviewDate,
             firstDate: DateTime(now.year, now.month, now.day),
             lastDate: DateTime(now.year + 1, now.month, now.day),
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary:
+                        MyColors.darkBlue, // Customize the selected color here
+                  ),
+                ),
+                child: child!,
+              );
+            },
           );
           if (picked != null && picked != controller.interviewDate) {
             setState(() {

@@ -24,7 +24,7 @@ bool get isDriver => localStorage?.getBool('isDriver') ?? false;
 
 bool is35T = false;
 bool isQuizTest = false;
-String versionStr = "20230323";
+String versionStr = "20230913";
 // final bool isWebApp = (defaultTargetPlatform != TargetPlatform.android &&
 //     defaultTargetPlatform != TargetPlatform.iOS);
 
@@ -79,7 +79,7 @@ class MyFonts {
         fontFamily: 'Poppins',
         fontWeight: FontWeight.w600,
         fontSize: isiOS ? size : size - 2,
-        color: color,
+        color: color ?? MyColors.darkBlue,
       );
 
   static TextStyle medium(double size, {Color? color}) => TextStyle(

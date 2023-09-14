@@ -77,6 +77,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
           setState(() {
             if (index == 0) {
               controller.passportExpDate = null;
+              controller.ECSExpDate = null;
               controller.shareCode = "";
             }
             controller.type = value;
@@ -108,6 +109,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
     final value = controller.data.isEmpty
         ? true
         : controller.data[1].selected.id.isNotEmpty;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -129,27 +131,59 @@ class _ListToUploadViewState extends State<ListToUploadView> {
             return null;
           }),
         ],
-        if (controller.showExpiryDate) ...[
+        if (controller.showPassportExpiryDate ||
+            controller.showECSExpiryDate) ...[
           SizedBox(height: 16),
           abTitle('${controller.data[0].selected.value} Expiry date'),
           SizedBox(height: 16),
           abStatusButton(
-              controller.passportExpDate != null
-                  ? formatDate(controller.passportExpDate!)
-                  : '',
+              controller.showPassportExpiryDate
+                  ? (controller.passportExpDate != null
+                      ? formatDate(controller.passportExpDate!)
+                      : '')
+                  : (controller.ECSExpDate != null
+                      ? formatDate(controller.ECSExpDate!)
+                      : ''),
               null, () async {
             final now = getNow;
             final DateTime? picked = await showDatePicker(
               context: context,
-              initialDate: controller.passportExpDate ?? now,
-              firstDate: controller.passportExpDate ?? now,
+              initialDate: controller.showPassportExpiryDate
+                  ? (controller.passportExpDate ?? now)
+                  : (controller.ECSExpDate ??
+                      DateTime.now().add(Duration(days: 1))),
+              firstDate: controller.showPassportExpiryDate
+                  ? (controller.passportExpDate ?? now)
+                  : (controller.ECSExpDate ??
+                      DateTime.now().add(Duration(days: 1))),
               lastDate: DateTime(now.year + 10),
+              builder: (BuildContext context, Widget? child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    colorScheme: ColorScheme.light().copyWith(
+                      primary: MyColors
+                          .darkBlue, // Customize the selected color here
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
             );
-            if (picked != null && picked != controller.passportExpDate) {
-              setState(() {
-                controller.passportExpDate = picked;
-              });
-              await controller.tempPassportExpiryInfo();
+            if (picked != null) {
+              if (controller.showPassportExpiryDate &&
+                  picked != controller.passportExpDate) {
+                setState(() {
+                  controller.passportExpDate = picked;
+                });
+                await controller.tempPassportExpiryInfo();
+              }
+              if (controller.showECSExpiryDate &&
+                  picked != controller.ECSExpDate) {
+                setState(() {
+                  controller.ECSExpDate = picked;
+                });
+                await controller.tempECSExpiryInfo();
+              }
             }
           }, hideStatus: true),
         ],
@@ -161,6 +195,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
         CheckboxListTile(
           title: abTitle('notHaveNi'.tr),
           contentPadding: EdgeInsets.zero,
+          activeColor: MyColors.darkBlue,
           value: controller.notHaveNi,
           onChanged: value
               ? null
@@ -250,8 +285,16 @@ class _ListToUploadViewState extends State<ListToUploadView> {
       }
     }
 
-    if (controller.showExpiryDate) {
+    if (controller.showPassportExpiryDate) {
       if (controller.passportExpDate == null) {
+        showValidation(
+            '${controller.data[0].selected.value} Expiry date', showMessage);
+        return;
+      }
+    }
+
+    if (controller.showECSExpiryDate) {
+      if (controller.ECSExpDate == null) {
         showValidation(
             '${controller.data[0].selected.value} Expiry date', showMessage);
         return;
@@ -268,7 +311,7 @@ class _ListToUploadViewState extends State<ListToUploadView> {
       return;
     }
 
-    await controller.updateTempComplianceDocExpiry();
+    await controller.updatePassportTempComplianceDocExpiry();
 
     await localStorage?.setBool('isDocumentsUploaded', true);
     await Resume.shared.setDone(name: 'ListToUploadView');

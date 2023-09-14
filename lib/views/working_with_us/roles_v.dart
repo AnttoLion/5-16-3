@@ -56,6 +56,7 @@ class _RolesViewState extends State<RolesView> {
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   value: controller.isSelected(position),
+                  activeColor: MyColors.darkBlue,
                   enabled: !isReviewing,
                   onChanged: (v) => setState(() {
                     controller.addOrRemoveRole(position);

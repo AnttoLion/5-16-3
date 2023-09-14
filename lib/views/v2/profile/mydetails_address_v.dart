@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
+import 'icences_upload_v.dart';
+import 'my_details_license_reupload_v.dart';
 
 class V2ProfileMyDetailsAddressView extends StatefulWidget {
   const V2ProfileMyDetailsAddressView({Key? key}) : super(key: key);
@@ -37,7 +39,8 @@ class _V2ProfileMyDetailsSubDetailsViewState
           Container(
             child: abV2PrimaryButton(
               'v2_button_text_re_upload'.tr,
-              onTap: () => {},
+              onTap: () =>
+                  {Get.to(() => V2ProfilemydetailsLicencesUploadView())},
               fullWidth: true,
             ),
           ),

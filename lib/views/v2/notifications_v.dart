@@ -15,17 +15,20 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
   List<bool> _isVisibleList = [
     true,
     true,
+    true,
     true
   ]; // Example list of Boolean values
   List<String> _titleList = [
-    'Time off Approved/Rejected Lorem Ipsum Sit dolor para cambres on',
-    'Sent to email',
-    'Availability was updated to lorem ipsum sit '
+    'Your requested time off has been approved. Enjoy your well-deserved break.',
+    'Your updated availability has been successfully recorded. You"re now set to work 4 days a week.',
+    'Your requested P45 document has been successfully sent to your email. Please check your inbox for further instructions.',
+    'Your password has been successfully updated.'
   ]; // Example list of titles
   List<String> _subtitleList = [
-    '2 minutes ago',
-    '5 minutes ago',
-    '13 minutes ago'
+    '2 min ago',
+    '24 hours ago',
+    '24 hours ago',
+    '24 hours ago'
   ]; // Example list of subtitles
 
   void _onItemTapped(int index) {
@@ -92,12 +95,12 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 226,
-                        height: 68,
+                        width: 310,
+                        height: 78,
                         child: Text(
                           _titleList[i], // Use the title from the list
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             color: Color(0xff00458D),
                             //fontWeight: FontWeight.bold,
                           ),
@@ -119,7 +122,9 @@ class _V2NotificationsViewState extends State<V2NotificationsView> {
                     ],
                   ),
                   subtitle: Container(
-                    margin: EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(
+                      top: 12,
+                    ),
                     child: Text(
                       _subtitleList[i],
                       style: TextStyle(fontSize: 13, color: Color(0xff888A8C)),

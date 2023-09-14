@@ -130,7 +130,8 @@ class NewInfoView extends StatelessWidget {
                         throw 'Could not launch $url';
                       }
                     },
-                    child: Text('www.extrastaff.com'),
+                    child: Text('www.extrastaff.com',
+                        style: TextStyle(color: MyColors.darkBlue)),
                   ),
               ],
             ),
@@ -183,7 +184,8 @@ class NewInfoView extends StatelessWidget {
                         TextButton(
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
-                            textStyle: MyFonts.semiBold(17),
+                            textStyle:
+                                MyFonts.semiBold(17, color: MyColors.darkBlue),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           onPressed: () async {
@@ -192,7 +194,8 @@ class NewInfoView extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text('www.extrastaff.com'),
+                          child: Text('www.extrastaff.com',
+                              style: TextStyle(color: MyColors.darkBlue)),
                         ),
                       abRoundButtonWithFixedWidth(
                         'next'.tr,

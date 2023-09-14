@@ -1134,6 +1134,17 @@ class Services extends GetConnect {
         headers: headers,
       ).then((value) => safeDecode(value));
 
+  Future<BaseApiResponse> tempECSExpiryInfo(String date) async => await post(
+        baseApiUrl + 'tempECSExpiryInfo',
+        {
+          'user_id': '$userId',
+          'ecs_expiry_date': date,
+          'completed': completed,
+          'digest': generateMd5(staticDigestKey + '$userId'),
+        },
+        headers: headers,
+      ).then((value) => safeDecode(value));
+
   Future<BaseApiResponse> verifyUserFromEmailPwd(
           String email, String password) async =>
       await post(

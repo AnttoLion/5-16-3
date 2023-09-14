@@ -1,5 +1,7 @@
 import 'package:extra_staff/utils/ab.dart';
 import 'package:extra_staff/utils/constants.dart';
+import 'package:extra_staff/views/v2/profile/validate_account_in_v.dart';
+import 'package:extra_staff/views/v2/profile/validate_account_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -99,7 +101,8 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileNIView> {
                   width: 0.5,
                   child: abV2PrimaryButton(
                     'v2_button_text_re_upload'.tr,
-                    onTap: () => {},
+                    onTap: () =>
+                        {Get.to(() => V2ProfileValidateAccountViewIN())},
                     fullWidth: true,
                   ),
                 ),

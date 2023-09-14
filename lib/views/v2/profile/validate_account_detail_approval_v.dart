@@ -6,16 +6,17 @@ import 'package:get/get.dart';
 import '../../../utils/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class V2ProfileValidateAccountView extends StatefulWidget {
-  const V2ProfileValidateAccountView({Key? key}) : super(key: key);
+class V2ProfileValidateAccountViewdetailApproval extends StatefulWidget {
+  const V2ProfileValidateAccountViewdetailApproval({Key? key})
+      : super(key: key);
 
   @override
-  _V2ProfileValidateAccountViewState createState() =>
-      _V2ProfileValidateAccountViewState();
+  _V2ProfileValidateAccountViewdetailApprovalState createState() =>
+      _V2ProfileValidateAccountViewdetailApprovalState();
 }
 
-class _V2ProfileValidateAccountViewState
-    extends State<V2ProfileValidateAccountView> {
+class _V2ProfileValidateAccountViewdetailApprovalState
+    extends State<V2ProfileValidateAccountViewdetailApproval> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -172,7 +173,7 @@ class _V2ProfileValidateAccountViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

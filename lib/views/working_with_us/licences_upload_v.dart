@@ -169,6 +169,17 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
               initialDate: controller.passDate ?? now,
               firstDate: DateTime(now.year - 10),
               lastDate: now,
+              builder: (BuildContext context, Widget? child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    colorScheme: ColorScheme.light().copyWith(
+                      primary: MyColors
+                          .darkBlue, // Customize the selected color here
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
             );
             setState(() {
               controller.passDate = picked;
@@ -189,6 +200,17 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
             initialDate: controller.expDate ?? now,
             firstDate: now,
             lastDate: DateTime(now.year + 10),
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary:
+                        MyColors.darkBlue, // Customize the selected color here
+                  ),
+                ),
+                child: child!,
+              );
+            },
           );
           setState(() {
             controller.expDate = picked;
@@ -296,7 +318,8 @@ class _LicencesUploadViewState extends State<LicencesUploadView> {
     setState(() {});
     if (controller.allFinished) {
       await Resume.shared.setDone(name: 'LicencesUploadView');
-      await Services.shared.sendProgress('LicencesUploadView'); // screen_id == 14
+      await Services.shared
+          .sendProgress('LicencesUploadView'); // screen_id == 14
       Get.to(() => Availability2(), arguments: allData);
     }
   }

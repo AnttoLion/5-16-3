@@ -52,8 +52,11 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
   void authProcess(String passcode) async {
     setState(() => isLoading = true);
     final message3 = await Services.shared.getTempProgressInfo();
-    if (message3.result['screen_id'] == 0 &&
-        message3.result['completed'] == "No") {
+    print("++++++++++++++++message3");
+    print(message3.result);
+    if (message3.result.isEmpty ||
+        (message3.result['screen_id'] == 0 &&
+            message3.result['completed'] == "No")) {
       //new start or re-reg
 
       final tempTid = localStorage?.getInt('tid') ?? -1;
@@ -126,8 +129,10 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
     }
 
     // setState(() => isLoading = false);
-    await Resume.shared.completedProgress(message3.result['screen_id']);
-    await localStorage?.setString('completed', message3.result['completed']);
+    if (message3.result.isNotEmpty) {
+      await Resume.shared.completedProgress(message3.result['screen_id']);
+      await localStorage?.setString('completed', message3.result['completed']);
+    }
     await Services.shared.setData();
     if (Services.shared.completed == "Yes") {
       Get.offAll(() => RegistrationComplete());
@@ -169,7 +174,8 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
             onPressed: () {
               Get.to(() => LoginView(), arguments: true);
             },
-            child: Text('Forgot Password'.toUpperCase()),
+            child: Text('Forgot Password'.toUpperCase(),
+                style: TextStyle(color: MyColors.darkBlue)),
           ),
         )
       ]);
@@ -200,7 +206,8 @@ class _EnterConfrimCodeState extends State<EnterConfrimCode> {
                       onPressed: () {
                         Get.to(() => LoginView(), arguments: true);
                       },
-                      child: Text('Forgot Password'.toUpperCase()),
+                      child: Text('Forgot Password'.toUpperCase(),
+                          style: TextStyle(color: MyColors.darkBlue)),
                     ),
                   ),
                 ],

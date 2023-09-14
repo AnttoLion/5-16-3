@@ -56,6 +56,7 @@ class _MedicalHistory2State extends State<MedicalHistory2> {
                         CheckboxListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
+                          activeColor: MyColors.darkBlue,
                           value: value[position],
                           enabled: !isReviewing,
                           onChanged: (v) => setState(() {

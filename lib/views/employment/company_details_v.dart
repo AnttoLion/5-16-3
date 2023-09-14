@@ -47,6 +47,16 @@ class _CompanyDetailsState extends State<CompanyDetails> {
           : date,
       firstDate: index == 1 ? dob : minEnd,
       lastDate: index == 1 ? lastStart : DateTime(now.year, now.month, now.day),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light().copyWith(
+              primary: MyColors.darkBlue, // Customize the selected color here
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null && picked != date) {
       setState(() {
@@ -218,6 +228,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     if (isWebApp) {
       return LoadingOverlay(
         isLoading: isLoading,
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(MyColors
+              .darkBlue), // set the background color of the loading circle
+        ),
         child: Scaffold(
           body: Form(
             key: controller.formKey,
@@ -263,6 +277,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     } else {
       return LoadingOverlay(
         isLoading: isLoading,
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(MyColors
+              .darkBlue), // set the background color of the loading circle
+        ),
         child: Scaffold(
           body: Form(
             key: controller.formKey,

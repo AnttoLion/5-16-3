@@ -6,16 +6,18 @@ import 'package:get/get.dart';
 import '../../../utils/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class V2ProfileValidateAccountView extends StatefulWidget {
-  const V2ProfileValidateAccountView({Key? key}) : super(key: key);
+import 'mydetails_rtw_v.dart';
+
+class V2ProfileValidateAccountViewRTW extends StatefulWidget {
+  const V2ProfileValidateAccountViewRTW({Key? key}) : super(key: key);
 
   @override
-  _V2ProfileValidateAccountViewState createState() =>
-      _V2ProfileValidateAccountViewState();
+  _V2ProfileValidateAccountViewRTWState createState() =>
+      _V2ProfileValidateAccountViewRTWState();
 }
 
-class _V2ProfileValidateAccountViewState
-    extends State<V2ProfileValidateAccountView> {
+class _V2ProfileValidateAccountViewRTWState
+    extends State<V2ProfileValidateAccountViewRTW> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -108,71 +110,67 @@ class _V2ProfileValidateAccountViewState
               SizedBox(width: 10),
               Expanded(
                   child: abV2PrimaryButton('v2_button_text_authorize'.tr,
-                      onTap: () => {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  child: Container(
-                                    color: Color(0xffFFFFFF),
-                                    width: 393.0,
-                                    height: 393.0,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Image.asset(
-                                                  'lib/images/v2/Group 3195.png',
-                                                  height: 17,
-                                                  width: 17,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 129,
-                                        ),
-                                        Container(
-                                          width: 322,
-                                          padding: const EdgeInsets.only(
-                                              left: 30, right: 30),
-                                          child: Text(
-                                            'Thank you for submitting your document image. We have successfully received it and it is currently being reviewed.',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xff00458D)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                      onTap: () {
+                Get.back(canPop: false);
+                Get.dialog(
+                  Dialog(
+                    child: Container(
+                      color: Color(0xffFFFFFF),
+                      width: 393.0,
+                      height: 393.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.back(canPop: false);
+                                    Get.off(
+                                      () => V2ProfileRTWView(),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'lib/images/v2/Group 3195.png',
+                                    height: 17,
+                                    width: 17,
                                   ),
-                                );
-                              },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 129,
+                          ),
+                          Container(
+                            width: 322,
+                            padding: const EdgeInsets.only(left: 30, right: 30),
+                            child: Text(
+                              'Thank you for submitting your document image. We have successfully received it and it is currently being reviewed.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'Roboto',
+                                color: Color(0xff00458D),
+                              ),
                             ),
-                          },
-                      fullWidth: true,
-                      success: true)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }, fullWidth: true, success: true)),
             ])
           ],
         ));
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

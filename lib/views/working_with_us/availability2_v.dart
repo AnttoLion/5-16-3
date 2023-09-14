@@ -197,6 +197,7 @@ class _Availability2State extends State<Availability2> {
         CheckboxListTile(
           title: abTitle('dbs'.tr),
           contentPadding: EdgeInsets.zero,
+          activeColor: MyColors.darkBlue,
           value: controller.data.dbsCheck == '1',
           enabled: !isReviewing,
           onChanged: (newValue) {
@@ -218,6 +219,17 @@ class _Availability2State extends State<Availability2> {
               initialDate: controller.dbsDate ?? now,
               firstDate: now,
               lastDate: DateTime(now.year + 10),
+              builder: (BuildContext context, Widget? child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    colorScheme: ColorScheme.light().copyWith(
+                      primary: MyColors
+                          .darkBlue, // Customize the selected color here
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
             );
             if (picked != null) {
               setState(() {
@@ -304,11 +316,12 @@ class _Availability2State extends State<Availability2> {
             abShowMessage(message);
             return;
           }
-          await Services.shared.sendProgress('Availability2'); // screen_id == 15
+          await Services.shared
+              .sendProgress('Availability2'); // screen_id == 15
         }
 
         await Resume.shared.setDone(name: 'Availability2');
-        
+
         if (isDriver && !controller.isOnly35T) {
           Get.to(() => DrivingTestView());
         } else if (isQuizTest && !is35T) {

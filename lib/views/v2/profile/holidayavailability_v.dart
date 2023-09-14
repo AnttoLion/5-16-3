@@ -85,11 +85,11 @@ class _V2ProfileHolidayAvailabilityViewState
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Text(
-        //   'Profile/Holiday Availability',
-        //   style: MyFonts.regular(20, color: _myThemeColors.primary),
-        //   textAlign: TextAlign.center,
-        // ),
+        Text(
+          'Profile/Holiday Availability',
+          style: MyFonts.regular(20, color: _myThemeColors.primary),
+          textAlign: TextAlign.center,
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: getContent23(),

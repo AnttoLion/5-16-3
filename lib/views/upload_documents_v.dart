@@ -225,6 +225,10 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
     if (isWebApp) {
       return LoadingOverlay(
         isLoading: isLoading,
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(MyColors
+              .darkBlue), // set the background color of the loading circle
+        ),
         child: Scaffold(
           appBar: appBar,
           body: Column(
@@ -258,6 +262,10 @@ class _UploadDocumentsViewState extends State<UploadDocumentsView> {
     } else {
       return LoadingOverlay(
         isLoading: isLoading,
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(MyColors
+              .darkBlue), // set the background color of the loading circle
+        ),
         child: Scaffold(
           appBar: appBar,
           body: Column(

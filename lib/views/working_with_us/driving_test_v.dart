@@ -96,6 +96,17 @@ class _DrivingTestViewState extends State<DrivingTestView> {
             initialDate: stringToDate(controller.licenseDateApp, true) ?? now,
             firstDate: now,
             lastDate: DateTime(now.year + 10),
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary:
+                        MyColors.darkBlue, // Customize the selected color here
+                  ),
+                ),
+                child: child!,
+              );
+            },
           );
           if (picked != null) {
             setState(() {
@@ -465,7 +476,8 @@ class _DrivingTestViewState extends State<DrivingTestView> {
           setState(() => isLoading = false);
           if (success) {
             await Resume.shared.setDone(name: 'DrivingTestView');
-            await Services.shared.sendProgress('DrivingTestView'); // screen_id == 16
+            await Services.shared
+                .sendProgress('DrivingTestView'); // screen_id == 16
             if (isQuizTest && !is35T) {
               Get.bottomSheet(
                 NewInfoView(7, () async {

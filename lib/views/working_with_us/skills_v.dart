@@ -56,6 +56,7 @@ class _SkillsViewState extends State<SkillsView> {
                 CheckboxListTile(
                   dense: true,
                   contentPadding: EdgeInsets.zero,
+                  activeColor: MyColors.darkBlue,
                   value: controller.isSelected(position),
                   enabled: !isReviewing,
                   onChanged: (v) => setState(() {

@@ -6,16 +6,19 @@ import 'package:get/get.dart';
 import '../../../utils/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class V2ProfileValidateAccountView extends StatefulWidget {
-  const V2ProfileValidateAccountView({Key? key}) : super(key: key);
+import 'my_details_license_reupload_v.dart';
+import 'mydetails_rtw_v.dart';
+
+class V2ProfileValidateAccountViewLicense extends StatefulWidget {
+  const V2ProfileValidateAccountViewLicense({Key? key}) : super(key: key);
 
   @override
-  _V2ProfileValidateAccountViewState createState() =>
-      _V2ProfileValidateAccountViewState();
+  _V2ProfileValidateAccountViewLicenseState createState() =>
+      _V2ProfileValidateAccountViewLicenseState();
 }
 
-class _V2ProfileValidateAccountViewState
-    extends State<V2ProfileValidateAccountView> {
+class _V2ProfileValidateAccountViewLicenseState
+    extends State<V2ProfileValidateAccountViewLicense> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -109,6 +112,7 @@ class _V2ProfileValidateAccountViewState
               Expanded(
                   child: abV2PrimaryButton('v2_button_text_authorize'.tr,
                       onTap: () => {
+                            Get.back(canPop: false),
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -130,7 +134,11 @@ class _V2ProfileValidateAccountViewState
                                                   const EdgeInsets.all(8.0),
                                               child: InkWell(
                                                 onTap: () {
-                                                  Navigator.of(context).pop();
+                                                  Get.back(canPop: false);
+                                                  Get.off(
+                                                    () =>
+                                                        V2ProfilemydetailsLicencesUploadView(),
+                                                  );
                                                 },
                                                 child: Image.asset(
                                                   'lib/images/v2/Group 3195.png',
@@ -172,7 +180,7 @@ class _V2ProfileValidateAccountViewState
   }
 
   PreferredSizeWidget getAppBar() {
-    return abV2AppBar(context, '');
+    return abV2AppBar(context, '', showBack: true);
   }
 
   @override

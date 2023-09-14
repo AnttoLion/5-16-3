@@ -105,6 +105,17 @@ class _AvailabilityState extends State<Availability> {
             initialDate: controller.selectedDob ?? maxDate,
             firstDate: minDate,
             lastDate: maxDate,
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary:
+                        MyColors.darkBlue, // Customize the selected color here
+                  ),
+                ),
+                child: child!,
+              );
+            },
           );
           if (picked != null && picked != controller.selectedDob) {
             setState(() {

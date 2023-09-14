@@ -1511,6 +1511,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Form(
@@ -1545,6 +1549,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldFormScrollView(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Form(
@@ -1570,6 +1578,10 @@ Widget abMainWidgetWithLoadingOverlayScaffoldScrollView(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: abHeaderNew(context, 'Verification'.tr, showHome: false),
         body: SingleChildScrollView(
@@ -1594,6 +1606,10 @@ Widget abMainWidgetWithLoadingOverlayScaffoldScrollView(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: SingleChildScrollView(padding: gHPadding, child: content),
@@ -1608,6 +1624,10 @@ Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Container(
@@ -1632,6 +1652,10 @@ Widget abMainWidgetWithLoadingOverlayScaffoldContainer(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Container(padding: gHPadding, child: content),
@@ -1697,6 +1721,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1728,6 +1756,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldContainer(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1751,6 +1783,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1782,6 +1818,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldScrollView(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1805,6 +1845,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffold(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1833,6 +1877,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffold(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1902,6 +1950,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -1931,6 +1983,10 @@ Widget abMainWidgetWithBottomBarLoadingOverlayScaffoldBottomTitle(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
         appBar: appBar,
         body: Column(
@@ -2213,6 +2269,10 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
   if (isWebApp) {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
           appBar: appBar,
           body: Container(
@@ -2245,6 +2305,10 @@ Widget abV2MainWidgetWithLoadingOverlayScaffoldScrollView(
   } else {
     return LoadingOverlay(
       isLoading: isLoading,
+      progressIndicator: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(MyColors
+            .darkBlue), // set the background color of the loading circle
+      ),
       child: Scaffold(
           appBar: appBar,
           body: Container(

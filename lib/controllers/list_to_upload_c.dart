@@ -12,6 +12,7 @@ class ListToUploadController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   XFile? image;
   DateTime? passportExpDate;
+  DateTime? ECSExpDate;
   String shareCode = "";
   bool isCV = false;
   bool isCVUploaded = false;
@@ -44,9 +45,19 @@ class ListToUploadController extends GetxController {
     return 'lib/images/$name.mp4';
   }
 
-  bool get showExpiryDate {
+  bool get showPassportExpiryDate {
     if (data.isNotEmpty) {
       return isPassport(data[0].selected.value) ||
+          data[0].selected.value == 'visaBrp'.tr ||
+          data[0].selected.value == 'Current Immigration Status Document';
+    } else {
+      return false;
+    }
+  }
+
+  bool get showECSExpiryDate {
+    if (data.isNotEmpty) {
+      return isECS(data[0].selected.value) ||
           data[0].selected.value == 'visaBrp'.tr ||
           data[0].selected.value == 'Current Immigration Status Document';
     } else {
@@ -90,6 +101,7 @@ class ListToUploadController extends GetxController {
   ];
 
   bool isPassport(String str) => str.toLowerCase().contains('passport');
+  bool isECS(String str) => str.toLowerCase().contains('ecs');
 
   Future getUploadDocDropdownInfo() async {
     final apiData = await Services.shared.getUploadDocDropdownInfo();
@@ -175,6 +187,8 @@ class ListToUploadController extends GetxController {
 
   Future getTempCompDocInfo() async {
     final result = await Services.shared.getTempCompDocInfo();
+    print("---------------result");
+    print(result.result);
     if (result.result is Map) {
       Map<String, dynamic> expDate = {};
       (result.result as Map).forEach((key, value) async {
@@ -208,6 +222,14 @@ class ListToUploadController extends GetxController {
         } else {
           passportExpDate = stringToDate(expDate['immi_expiry'], true);
         }
+
+        if (isECS(data[0].selected.value) &&
+            expDate != null &&
+            expDate['ecs_expiry'] != null) {
+          ECSExpDate = stringToDate(expDate['ecs_expiry'], true);
+        } else {
+          ECSExpDate = stringToDate(expDate['immi_expiry'], true);
+        }
       });
     }
     if (notHaveNi && data.length > 1) {
@@ -219,9 +241,26 @@ class ListToUploadController extends GetxController {
     }
   }
 
-  Future updateTempComplianceDocExpiry() async {
+  Future updatePassportTempComplianceDocExpiry() async {
     final date = dateToString(passportExpDate, true);
     final isPassport = data[0].selected.value == 'passport'.tr;
+    final result = await Services.shared.updateTempComplianceDocExpiry(
+      isPassport ? date : null,
+      !isPassport ? date : null,
+      showShareCode ? shareCode : "",
+      notHaveNi,
+      reasonForNotHaveNi,
+    );
+    if (result.errorMessage.isNotEmpty) {
+      abShowMessage(result.errorMessage);
+    } else {
+      await localStorage?.setBool('isNiUploaded', !notHaveNi);
+    }
+  }
+
+  Future updateECSTempComplianceDocExpiry() async {
+    final date = dateToString(ECSExpDate, true);
+    bool isPassport = data[0].selected.value == 'passport'.tr;
     final result = await Services.shared.updateTempComplianceDocExpiry(
       isPassport ? date : null,
       !isPassport ? date : null,
@@ -261,6 +300,14 @@ class ListToUploadController extends GetxController {
   Future tempPassportExpiryInfo() async {
     final date = dateToString(passportExpDate, true) ?? '';
     final result = await Services.shared.tempPassportExpiryInfo(date);
+    if (result.errorMessage.isNotEmpty) {
+      abShowMessage(result.errorMessage);
+    }
+  }
+
+  Future tempECSExpiryInfo() async {
+    final date = dateToString(ECSExpDate, true) ?? '';
+    final result = await Services.shared.tempECSExpiryInfo(date);
     if (result.errorMessage.isNotEmpty) {
       abShowMessage(result.errorMessage);
     }

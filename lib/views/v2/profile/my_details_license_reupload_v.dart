@@ -1,20 +1,21 @@
 import 'package:extra_staff/utils/ab.dart';
-import 'package:extra_staff/views/v2/profile/validate_account_rtw_v.dart';
-import 'package:extra_staff/views/v2/profile/validate_account_v.dart';
+import 'package:extra_staff/views/v2/profile/validate_account_license_v.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/theme.dart';
 
-class V2ProfileRTWView extends StatefulWidget {
-  const V2ProfileRTWView({Key? key}) : super(key: key);
+class V2ProfilemydetailsLicencesUploadView extends StatefulWidget {
+  const V2ProfilemydetailsLicencesUploadView({Key? key}) : super(key: key);
 
   @override
-  _V2ProfileMyDetailsViewState createState() => _V2ProfileMyDetailsViewState();
+  _V2ProfilemydetailsLicencesUploadViewState createState() =>
+      _V2ProfilemydetailsLicencesUploadViewState();
 }
 
-class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
+class _V2ProfilemydetailsLicencesUploadViewState
+    extends State<V2ProfilemydetailsLicencesUploadView> {
   MyThemeColors get _myThemeColors =>
       Theme.of(context).extension<MyThemeColors>()!;
   bool _isLoading = false;
@@ -33,16 +34,16 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
-            'RTW',
+            'License',
             style: TextStyle(
               fontFamily: 'Roboto',
               fontSize: 20,
               color: Color(0xFF00458D),
             ),
           ),
-          SizedBox(height: 28),
+          SizedBox(height: 20),
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -53,11 +54,15 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
               ),
             ),
           ),
-          SizedBox(height: 21),
+          SizedBox(height: 10),
           Row(
             children: [
+              SizedBox(
+                width: 5,
+              ),
               Expanded(
                 child: Container(
+                  margin: const EdgeInsets.all(10),
                   width: 0.5,
                   child: abV2PrimaryButton(
                     'v2_button_text_cancel'.tr,
@@ -66,17 +71,14 @@ class _V2ProfileMyDetailsViewState extends State<V2ProfileRTWView> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
               Expanded(
                 child: Container(
+                  margin: const EdgeInsets.all(10),
                   width: 0.5,
                   child: abV2PrimaryButton(
                     'v2_button_text_re_upload'.tr,
-                    onTap: () => {
-                      Get.to(() => V2ProfileValidateAccountViewRTW()),
-                    },
+                    onTap: () =>
+                        {Get.to(() => V2ProfileValidateAccountViewLicense())},
                     fullWidth: true,
                   ),
                 ),

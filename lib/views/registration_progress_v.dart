@@ -31,7 +31,8 @@ class _RegistrationProgressState extends State<RegistrationProgress> {
     setState(() => isLoading = true);
     await getTempDeskInfo();
     final message3 = await Services.shared.getTempProgressInfo();
-    int screenId = message3.result['screen_id'];
+    int screenId = 0;
+    if (message3.result.isNotEmpty) screenId = message3.result['screen_id'];
     await Resume.shared.completedProgress(screenId);
     setState(() {
       progress = Resume.shared.getProgressFromScreenId(screenId);

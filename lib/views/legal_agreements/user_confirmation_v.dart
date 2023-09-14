@@ -56,6 +56,7 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
     return CheckboxListTile(
       title: Text(data[index].keys.first),
       contentPadding: EdgeInsets.zero,
+      activeColor: MyColors.darkBlue,
       value: data[index].values.first,
       enabled: !isReviewing,
       onChanged: (newValue) {
@@ -133,7 +134,8 @@ class _UserConfirmationViewState extends State<UserConfirmationView> {
           return;
         }
         await Resume.shared.setDone(name: 'UserConfirmationView');
-        await Services.shared.sendProgress('UserConfirmationView'); // screen_id == 23
+        await Services.shared
+            .sendProgress('UserConfirmationView'); // screen_id == 23
         Get.bottomSheet(
           NewInfoView(8, () {
             Get.to(() => Interview());

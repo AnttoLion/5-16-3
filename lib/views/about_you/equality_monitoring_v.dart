@@ -147,6 +147,17 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
             initialDate: controller.selectedAge,
             firstDate: minDate,
             lastDate: maxDate,
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary:
+                        MyColors.darkBlue, // Customize the selected color here
+                  ),
+                ),
+                child: child!,
+              );
+            },
           );
           if (picked != null && picked != controller.selectedAge) {
             setState(() {
@@ -178,7 +189,8 @@ class _EqualityMonitoringState extends State<EqualityMonitoring> {
       if (message.isEmpty) {
         await localStorage?.setBool('isAboutYouCompleted', true);
         await Resume.shared.setDone(name: 'EqualityMonitoring');
-        await Services.shared.sendProgress('EqualityMonitoring'); // screen_id == 8
+        await Services.shared
+            .sendProgress('EqualityMonitoring'); // screen_id == 8
         Get.off(() => RegistrationView());
       } else {
         abShowMessage(message);

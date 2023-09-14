@@ -36,14 +36,14 @@ class _V2SettingsViewState extends State<V2SettingsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Accounts',
+                'Account',
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 20,
                   color: Color(0xFF00458D),
                 ),
               ),
-              SizedBox(height: 8.0),
+              SizedBox(height: 17.0),
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Column(
@@ -65,26 +65,40 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                           color: Color(0xFFA6BCD0),
                         ),
                       ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Phone Number',
-                        style: TextStyle(
-                          fontFamily: 'Be Vietnam Pro',
-                          fontSize: 16,
-                          color: Color(0xFF748A9D),
-                        ),
-                      ),
-                      Text(
-                        '+123456789',
-                        style: TextStyle(
-                          fontFamily: 'Be Vietnam Pro',
-                          fontSize: 16,
-                          color: Color(0xFFA6BCD0),
-                        ),
+                      SizedBox(height: 21.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: TextStyle(
+                                  fontFamily: 'Be Vietnam Pro',
+                                  fontSize: 16,
+                                  color: Color(0xFF748A9D),
+                                ),
+                              ),
+                              Text(
+                                '+123456789',
+                                style: TextStyle(
+                                  fontFamily: 'Be Vietnam Pro',
+                                  fontSize: 16,
+                                  color: Color(0xFFA6BCD0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Image.asset(
+                            'lib/images/v2/Group 3181.png',
+                            height: 28,
+                            width: 28,
+                          ),
+                        ],
                       ),
                     ],
                   )),
-              SizedBox(height: 10.0),
+              SizedBox(height: 39.0),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
                   'Device Settings',
@@ -94,7 +108,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                     color: Color(0xFF00458D),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                SizedBox(height: 17.0),
                 Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Column(
@@ -126,7 +140,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                 ),
                               ),
                               Transform.scale(
-                                scale: 0.7,
+                                scale: 0.9,
                                 child: Switch(
                                   value: _isLocationEnabled,
                                   onChanged: (bool value) {
@@ -141,7 +155,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                               )
                             ],
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
@@ -167,16 +181,14 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                   ],
                                 ),
                               ),
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  // Add your logic for handling the password edit here
-                                },
-                                color: Color(0xFF748A9D),
+                              Image.asset(
+                                'lib/images/v2/Group 3181.png',
+                                height: 28,
+                                width: 28,
                               ),
                             ],
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(height: 20.0),
                           Row(
                             children: [
                               Expanded(
@@ -190,7 +202,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                                 ),
                               ),
                               Transform.scale(
-                                scale: 0.7,
+                                scale: 0.9,
                                 child: Switch(
                                   value: _isFacialRecognitionEnabled,
                                   onChanged: (bool value) {
@@ -207,7 +219,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                           ),
                         ])),
               ]),
-              SizedBox(height: 26),
+              SizedBox(height: 56),
               Container(
                 width: 156,
                 height: 40,
@@ -242,7 +254,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 42.0),
               TextButton(
                 onPressed: () {
                   // Add your logic for deleting the account here
@@ -252,7 +264,7 @@ class _V2SettingsViewState extends State<V2SettingsView> {
                   style: TextStyle(
                     fontFamily: 'Be Vietnam Pro',
                     fontSize: 16,
-                    color: Color(0xFF748A9D),
+                    color: Color(0xFFA6BCD0),
                   ),
                 ),
                 //style: TextButton.styleFrom(primary: Colors.red),
